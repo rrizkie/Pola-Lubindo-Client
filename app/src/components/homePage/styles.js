@@ -4,7 +4,7 @@ export const useStyles = makeStyles({
   root: {
     display: "flex",
     justifyContent: "start",
-    marginLeft: "1rem",
+    margin:"1rem 0 0 0.5rem"
   },
   brandBox:{
       margin:"0 0.3rem",
@@ -20,7 +20,8 @@ export const useStyles = makeStyles({
   brandText:{
       fontSize:"0.8rem",
       color:"grey",
-      alignItems:"center"
+      alignItems:"center",
+      marginTop:"0.3rem"
 
   },
   produkCard:{
@@ -28,5 +29,21 @@ export const useStyles = makeStyles({
       flexWrap:"wrap",
       justifyContent:"center",
       marginTop:"1rem"
-  }
+  },
+  Fab:{
+    border:"none",
+    boxShadow:"none",
+    backgroundColor:"#f4e8e9"
+  },
+  // ['@media (min-width:780px)']:{
+  //   topRoot:{
+  //     display:"flex",
+  //     justifyContent:"center",
+  //     flexDirection:"column",
+  //   },root: {
+  //     display: "flex",
+  //     justifyContent: "center",
+  //     margin:"1rem 0 0 0.5rem"
+  //   }
+  // }
 });

@@ -1,22 +1,38 @@
 import React from "react";
-import { Toolbar, Typography, Paper, InputBase, Button } from "@material-ui/core";
+import {
+  Toolbar,
+  Typography,
+  Paper,
+  InputBase,
+  Button,
+} from "@material-ui/core";
 import { SearchRounded } from "@material-ui/icons";
 import { useStyles } from "./styles";
 import { useHistory } from "react-router";
-import logo from '../../assets/lubindo.png'
+import logo from "../../assets/lubindo.png";
 
 export const Navbar = () => {
   const classes = useStyles();
-  const history = useHistory()
+  const history = useHistory();
   return (
+    <div className={classes.topRoot}>
     <Paper className={classes.navbar}>
       <Toolbar className={classes.navContent}>
-        <img
-          src={logo}
-          alt="Lubindo"
-        />
+        <img src={logo} alt="Lubindo" />
         <Typography variant="h6" className={classes.text}>
-          <Button className={classes.button} onClick={()=>history.push('/login')}>Log in</Button>/<Button className={classes.button}>Daftar</Button>
+          <Button
+            className={classes.button}
+            onClick={() => history.push("/login")}
+          >
+            Log in
+          </Button>
+          /
+          <Button
+            className={classes.button}
+            onClick={() => history.push("/register")}
+          >
+            Daftar
+          </Button>
         </Typography>
       </Toolbar>
       <form
@@ -35,5 +51,6 @@ export const Navbar = () => {
         </Paper>
       </form>
     </Paper>
+    </div>
   );
 };

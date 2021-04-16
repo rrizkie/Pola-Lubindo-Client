@@ -6,18 +6,24 @@ import {Loading } from './components/loading'
 // const Loading = lazy(()=> import('./components/loading'))
 const LoginPage = lazy(() => import("./components/loginPage"));
 const HomePage = lazy(() => import("./components/homePage"));
+const RegisterPage = lazy(()=> import('./components/registerPage'))
+const CartPage = lazy(()=> import ('./components/cartPage'))
+const AlamatPengiriman = lazy(()=> import('./components/alamatPengiriman'))
 
 function App() {
   
   return (
     <ContextProvider>
       <Router>
-        <Switch>
           <Suspense fallback={<Loading />}>
+        <Switch>
+            <Route path='/register' component={RegisterPage} />
             <Route path="/login" component={LoginPage} />
+            <Route path="/cart" component={CartPage} />
+            <Route path='/shipping' component={AlamatPengiriman} />
             <Route path="/" component={HomePage} />
-          </Suspense>
         </Switch>
+          </Suspense>
       </Router>
     </ContextProvider>
   );

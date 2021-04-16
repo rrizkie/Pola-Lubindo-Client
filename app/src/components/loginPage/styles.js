@@ -24,7 +24,8 @@ export const useStyles = makeStyles(() => ({
     margin: "0 0.3rem",
     fontSize: "1rem",
     fontWeight: "bold",
-    color:"red"
+    color:"red",
+    cursor:"pointer"
   },
   formRoot:{
       margin:"2rem 1rem",
