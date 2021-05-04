@@ -14,7 +14,7 @@ export const Loading = () => {
     });
   }, []);
   return (
-    <div style={{display:"flex",justifyContent:"center"}}>
+    <div style={{display:"flex",justifyContent:"center",height: "75vh"}}>
       <div
         className="container"
         ref={container}

@@ -80,9 +80,9 @@ export const useStyles = makeStyles({
     alignItems: "center",
   },
   btn: {
-    backgroundColor: "grey",
+    backgroundColor: "green",
     textAlign: "center",
-    margin: "8.5rem 1rem 0 1rem",
+    margin: "0.5rem 1rem 0 1rem",
     borderRadius: "8px",
     fontWeight: "bold",
     color: "#fff",
@@ -93,8 +93,7 @@ export const useStyles = makeStyles({
     textAlign: "left",
     backgroundColor: "#f4e8e9",
     borderRadius: "8px",
-    border:"none"
-
+    border: "none",
   },
   option: {
     marginLeft: "0.3rem",

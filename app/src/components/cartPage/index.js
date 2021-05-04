@@ -1,20 +1,21 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   Paper,
   Typography,
   InputBase,
   Checkbox,
   Button,
-  Select,
   RadioGroup,
   FormControlLabel,
+  Radio,
+  FormControl,
 } from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { useStyles } from "./styles";
 import { useHistory } from "react-router";
 import CartItem from "../cartItem";
+import { ServiceCard } from "../serviceCard";
 import { Context } from "../../context/globalState";
 
 const CartPage = () => {
@@ -24,17 +25,21 @@ const CartPage = () => {
     carts,
     address,
     addAddress,
-    changeCourier,
     getOngkir,
-    courier,
     services,
+    totalPrice,
+    fetchProduct,
+    checkoutCart,
+    ongkosKirim,
+    setOngkir,
   } = useContext(Context);
   const [check, setCheck] = useState(true);
   const [nama, setNama] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [courierPicked, setCourierPicked] = useState("");
-  console.log(services, "<<<");
+  const [selectedRadio, setSelectedRadio] = useState(ongkosKirim);
+  console.log(selectedRadio, "<<<< radio value");
 
   function back() {
     history.push("/");
@@ -42,7 +47,6 @@ const CartPage = () => {
   }
 
   function selected(e) {
-    console.log(e.target.value);
     setCourierPicked(e.target.value);
     getOngkir({
       destination: address.kabupaten,
@@ -51,9 +55,45 @@ const CartPage = () => {
     });
   }
 
-  // useEffect(()=>{
-  //   getOngkir({destination:address.kabupaten , courier , weight:1000})
-  // },[courier])
+  const handleChangeRadio = (e) => {
+    setSelectedRadio(e.target.value);
+    setOngkir(e.target.value);
+  };
+
+  const checkout = () => {
+    let data = {
+      transaksiData: {
+        invoice: "INV/300421/01",
+        totalHarga: totalPrice,
+        ongkosKirim: ongkosKirim,
+        namaPenerima: nama,
+        alamatPengiriman: `${address?.jalan},${address?.kecamatan},${address?.kabupaten},
+        ${address?.detail}`,
+      },
+      value: [],
+    };
+    if (!localStorage.getItem("access_token")) {
+      data.userData = {
+        email,
+        phone,
+        nama,
+      };
+    } else {
+      data.access_token = localStorage.getItem("access_token");
+    }
+    console.log(data, "<<< data checkout");
+    const chekedItem = carts.filter((item) => item.checked);
+    chekedItem.map((item) => {
+      item.product.stock -= item.qty;
+      data.value.push({ produk: item.product, ProdukId: item.product.id });
+    });
+    // checkoutCart(data);
+    // history.push("/pembayaran");
+  };
+
+  useEffect(() => {
+    fetchProduct();
+  }, []);
 
   return (
     <div
@@ -148,11 +188,19 @@ const CartPage = () => {
           <option className={classes.option}>jne</option>
         </select>
         <div>
-          <ul>
-          { services && services.map((service) => (
-            <li>{service.service} - Rp.{service.cost[0].value} - ({service.cost[0].etd}day)</li>
-          ))}
-          </ul>
+          <FormControl className="fieldset">
+            <RadioGroup value={selectedRadio} onChange={handleChangeRadio}>
+              {services &&
+                services.map((service) => (
+                  <ServiceCard
+                    key={service.service}
+                    service={service.service}
+                    price={service.cost[0].value}
+                    etd={service.cost[0].etd}
+                  />
+                ))}
+            </RadioGroup>
+          </FormControl>
         </div>
       </Paper>
       <Paper className={classes.box2} elevation={3}>
@@ -178,8 +226,26 @@ const CartPage = () => {
             key={cart.product.id}
           />
         ))}
+        <div
+          style={{
+            borderTop: "2px solid grey",
+            margin: "0.3rem",
+            display: "flex",
+            justifyContent: "space-between",
+            padding: "0.4rem",
+          }}
+        >
+          <Typography style={{ fontSize: "0.6rem", fontWeight: "bold" }}>
+            Total Belanja
+          </Typography>
+          <Typography style={{ fontSize: "0.6rem", fontWeight: "bold" }}>
+            Rp {new Number(totalPrice).toLocaleString("id-ID")}
+          </Typography>
+        </div>
       </Paper>
-      <Button className={classes.btn}>Bayar</Button>
+      <Button className={classes.btn} onClick={checkout}>
+        Bayar
+      </Button>
     </div>
   );
 };

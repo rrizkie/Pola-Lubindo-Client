@@ -14,15 +14,16 @@ import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 
 export const CardProduct = ({ product }) => {
   const classes = useStyles();
-  const { addTocart, carts } = useContext(Context);
+  const { addTocart, carts, editTotalprice } = useContext(Context);
   const [count, setCount] = useState(0);
 
   function addCart(product) {
-    const filtered = carts.filter((cart)=> cart.product.id === product.id)
-    if (filtered.length > 0){
-      filtered[0].qty+= 1
-    }else{
-      addTocart({product,qty:1});
+    const filtered = carts.filter((cart) => cart.product.id === product.id);
+    editTotalprice({ status: "increment", price: product.price });
+    if (filtered.length > 0) {
+      filtered[0].qty += 1;
+    } else {
+      addTocart({ product, qty: 1, checked: true });
     }
   }
 

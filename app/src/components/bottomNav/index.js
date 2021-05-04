@@ -9,27 +9,33 @@ import { useStyles } from "./styles";
 import HomeIcon from "@material-ui/icons/Home";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import HelpIcon from "@material-ui/icons/Help";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import { Context } from "../../context/globalState";
 
 export const BottomNav = () => {
   const classes = useStyles();
   const history = useHistory();
+  const location = useLocation();
   const { carts, totalPrice } = useContext(Context);
   return (
     <div className={classes.topRoot}>
-      {carts.length > 0 && (
+      {location.pathname !== "/pembayaran" && carts.length > 0 && (
         <div className={classes.carts}>
           <div style={{ marginTop: "0.5rem" }}>
             <Typography style={{ fontSize: "0.8rem" }}>
               Total Belanja({carts.length})
             </Typography>
             <Typography style={{ fontSize: "0.7rem", fontWeight: "bold" }}>
-              Rp {totalPrice}
+              Rp {new Number(totalPrice).toLocaleString("id-ID")}
             </Typography>
           </div>
           <div>
-            <Button className={classes.btn} onClick={()=> history.push('/cart')}>Lanjut</Button>
+            <Button
+              className={classes.btn}
+              onClick={() => history.push("/cart")}
+            >
+              Lanjut
+            </Button>
           </div>
         </div>
       )}
