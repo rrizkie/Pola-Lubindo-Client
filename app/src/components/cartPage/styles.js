@@ -99,4 +99,21 @@ export const useStyles = makeStyles({
     marginLeft: "0.3rem",
     marginTop: "0.2rem",
   },
+  checkbox: {
+    display: "flex",
+    justifyContent: "start",
+    alignItems: "center",
+    marginTop: "0.5rem",
+  },
+  content: {
+    width: "100%",
+    alignItems: "left",
+    alignItems: "center",
+  },
+  label: {
+    display: "flex",
+    justifyContent: "space-around",
+    width: "100vw",
+    alignItems: "center",
+  },
 });

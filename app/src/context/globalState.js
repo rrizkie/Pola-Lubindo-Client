@@ -94,7 +94,25 @@ export const ContextProvider = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        localStorage.setItem("access_token", data.access_token);
+        if (data.access_token) {
+          localStorage.setItem("access_token", data.access_token);
+        }
+        localStorage.setItem("transaksi id", data.transaksiId);
+        localStorage.removeItem("carts");
+        localStorage.removeItem("totalPrice");
+      });
+  };
+
+  const confirmPayment = (data, transaksiId, access_token) => {
+    fetch(`http://localhost:3000/cart/${transaksiId}`, {
+      method: "POST",
+      headers: { access_token, "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        localStorage.removeItem("transaksi id");
+        localStorage.removeItem("transaksi");
         localStorage.removeItem("carts");
         localStorage.removeItem("totalPrice");
       });
@@ -108,7 +126,6 @@ export const ContextProvider = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         localStorage.setItem("access_token", data.access_token);
         dispatch({ type: "LOGIN", payload: true });
       });
@@ -143,6 +160,7 @@ export const ContextProvider = (props) => {
         setOngkir,
         editCart,
         checkoutCart,
+        confirmPayment,
         changeCourier,
         deleteCart,
         addAddress,

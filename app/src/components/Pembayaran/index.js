@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button, Paper, Typography } from "@material-ui/core";
 import { useStyles } from "./styles";
 import { BottomNav } from "../bottomNav";
 import bca from "../../assets/logo-bca.png";
 import bni from "../../assets/logo-BNI.png";
 import { useHistory } from "react-router";
+import { Context } from "../../context/globalState";
 
 const Pembayaran = () => {
   const classes = useStyles();
   const history = useHistory();
+  const { totalPrice, ongkosKirim } = useContext(Context);
   return (
     <div>
       <Paper className={classes.box} elevation={3}>
@@ -35,7 +37,7 @@ const Pembayaran = () => {
           <Typography
             style={{ fontWeight: "bold", fontSize: "2rem", color: "#ff6701" }}
           >
-            Rp.150.000
+            Rp.{totalPrice + ongkosKirim}
           </Typography>
           <Typography>Bayar Sebelum</Typography>
           <Typography>23/03/2021</Typography>
@@ -73,7 +75,6 @@ const Pembayaran = () => {
           Kembali Ke Produk
         </Button>
       </div>
-      <BottomNav />
     </div>
   );
 };

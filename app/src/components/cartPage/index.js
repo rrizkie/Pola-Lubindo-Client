@@ -5,17 +5,12 @@ import {
   InputBase,
   Checkbox,
   Button,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  FormControl,
 } from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import { useStyles } from "./styles";
 import { useHistory } from "react-router";
 import CartItem from "../cartItem";
-import { ServiceCard } from "../serviceCard";
 import { Context } from "../../context/globalState";
 
 const CartPage = () => {
@@ -38,8 +33,7 @@ const CartPage = () => {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [courierPicked, setCourierPicked] = useState("");
-  const [selectedRadio, setSelectedRadio] = useState(ongkosKirim);
-  console.log(selectedRadio, "<<<< radio value");
+  const [checked, setCheked] = useState(ongkosKirim);
 
   function back() {
     history.push("/");
@@ -55,16 +49,16 @@ const CartPage = () => {
     });
   }
 
-  const handleChangeRadio = (e) => {
-    setSelectedRadio(e.target.value);
-    setOngkir(e.target.value);
+  const handleChecked = (price) => {
+    setCheked(price);
+    setOngkir(price);
   };
 
   const checkout = () => {
     let data = {
       transaksiData: {
         invoice: "INV/300421/01",
-        totalHarga: totalPrice,
+        totalHarga: totalPrice+ongkosKirim,
         ongkosKirim: ongkosKirim,
         namaPenerima: nama,
         alamatPengiriman: `${address?.jalan},${address?.kecamatan},${address?.kabupaten},
@@ -81,14 +75,14 @@ const CartPage = () => {
     } else {
       data.access_token = localStorage.getItem("access_token");
     }
-    console.log(data, "<<< data checkout");
     const chekedItem = carts.filter((item) => item.checked);
     chekedItem.map((item) => {
       item.product.stock -= item.qty;
       data.value.push({ produk: item.product, ProdukId: item.product.id });
     });
-    // checkoutCart(data);
-    // history.push("/pembayaran");
+    localStorage.setItem("transaksi", JSON.stringify(data.transaksiData));
+    checkoutCart(data);
+    history.push("/pembayaran");
   };
 
   useEffect(() => {
@@ -188,19 +182,34 @@ const CartPage = () => {
           <option className={classes.option}>jne</option>
         </select>
         <div>
-          <FormControl className="fieldset">
-            <RadioGroup value={selectedRadio} onChange={handleChangeRadio}>
-              {services &&
-                services.map((service) => (
-                  <ServiceCard
-                    key={service.service}
-                    service={service.service}
-                    price={service.cost[0].value}
-                    etd={service.cost[0].etd}
-                  />
-                ))}
-            </RadioGroup>
-          </FormControl>
+          {services &&
+            services.map((service) => (
+              <div className={classes.checkbox}>
+                <Checkbox
+                  checked={checked === service.cost[0].value ? true : false}
+                  onChange={() => handleChecked(service.cost[0].value)}
+                />
+                <div className={classes.label}>
+                  <div className={classes.content}>
+                    <Typography
+                      style={{ fontWeight: "bold", fontSize: "0.7rem" }}
+                    >
+                      {service.service}
+                    </Typography>
+                    <Typography style={{ fontSize: "0.6rem" }}>
+                      {service.cost[0].etd} Day
+                    </Typography>
+                  </div>
+                  <div className={classes.content}>
+                    <Typography
+                      style={{ fontWeight: "bold", fontSize: "0.7rem" }}
+                    >
+                      Rp {service.cost[0].value}
+                    </Typography>
+                  </div>
+                </div>
+              </div>
+            ))}
         </div>
       </Paper>
       <Paper className={classes.box2} elevation={3}>

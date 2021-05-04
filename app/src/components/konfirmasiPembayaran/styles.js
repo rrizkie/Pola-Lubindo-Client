@@ -46,4 +46,7 @@ export const useStyle = makeStyles((theme) => ({
     fontWeight: "bold",
     color: "#fff",
   },
+  "select-width" :{
+    padding:"0 0.3rem"
+  }
 }));
