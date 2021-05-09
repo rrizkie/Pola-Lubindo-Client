@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useReducer } from "react";
 import appReducers from "./appReducers";
+import { useHistory } from "react-router-dom";
 
 const initialState = {
   isLogin: false,
@@ -17,7 +18,9 @@ const initialState = {
     : [],
 };
 export const Context = createContext(initialState);
+
 export const ContextProvider = (props) => {
+  const history = useHistory();
   const [state, dispatch] = useReducer(appReducers, initialState);
   console.log(state, "global state");
 
@@ -69,7 +72,6 @@ export const ContextProvider = (props) => {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data, "<<<<<<");
         dispatch({ type: "SERVICES", payload: data });
       });
   };
@@ -94,12 +96,11 @@ export const ContextProvider = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.access_token) {
-          localStorage.setItem("access_token", data.access_token);
-        }
+        localStorage.setItem("access_token", data.access_token);
         localStorage.setItem("transaksi id", data.transaksiId);
         localStorage.removeItem("carts");
         localStorage.removeItem("totalPrice");
+        history.push("/pembayaran");
       });
   };
 
@@ -113,8 +114,7 @@ export const ContextProvider = (props) => {
       .then((data) => {
         localStorage.removeItem("transaksi id");
         localStorage.removeItem("transaksi");
-        localStorage.removeItem("carts");
-        localStorage.removeItem("totalPrice");
+        history.push("/");
       });
   };
 

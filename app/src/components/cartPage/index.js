@@ -82,7 +82,7 @@ const CartPage = () => {
     });
     localStorage.setItem("transaksi", JSON.stringify(data.transaksiData));
     checkoutCart(data);
-    history.push("/pembayaran");
+    
   };
 
   useEffect(() => {

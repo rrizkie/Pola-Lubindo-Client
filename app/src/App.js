@@ -13,6 +13,7 @@ const Pembayaran = lazy(() => import("./components/Pembayaran"));
 const KonfirmasiPembayaran = lazy(() =>
   import("./components/konfirmasiPembayaran")
 );
+const Transaksi = lazy(() => import("./components/transaksi"));
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <Router>
         <Suspense fallback={<Loading />}>
           <Switch>
+            <Route path="/transaksi" component={Transaksi} />
             <Route
               path="/konfirmasi-pembayaran"
               component={KonfirmasiPembayaran}

@@ -4,7 +4,7 @@ export const useStyles = makeStyles({
   root: {
     width: "100%",
     // position: "fixed",
-    marginBottom: "3rem",
+    // marginBottom: "3rem",
   },
   carts: {
     width: "95%",

@@ -72,7 +72,7 @@ const RegisterPage = () => {
         <div className={classes.formBox}>
           <Typography className={classes.formText}>Password</Typography>
           <InputBase
-            type="passwod"
+            type="password"
             className={classes.form}
             name="password"
             value={password}
@@ -84,7 +84,7 @@ const RegisterPage = () => {
             Konfirmasi Password
           </Typography>
           <InputBase
-            type="passwod"
+            type="password"
             className={classes.form}
             name="konfirmasi password"
             value={konfirmasiPassword}

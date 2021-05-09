@@ -22,12 +22,9 @@ export const useStyle = makeStyles((theme) => ({
     fontWeight: "bold",
   },
   box: {
-    display: "flex",
-    justifyContent: "center",
-    flexDirection: "column",
     margin: "2.5rem 1rem 1rem 1rem",
     padding: "0.5rem",
-    borderRadius: "10px",
+    backgroundColor: "#f6f7fb",
   },
   innerBox: {
     display: "flex",
@@ -46,7 +43,4 @@ export const useStyle = makeStyles((theme) => ({
     fontWeight: "bold",
     color: "#fff",
   },
-  "select-width" :{
-    padding:"0 0.3rem"
-  }
 }));

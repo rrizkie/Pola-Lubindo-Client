@@ -6,9 +6,12 @@ import {
   Button,
 } from "@material-ui/core";
 import { useStyles } from "./styles";
+
 import HomeIcon from "@material-ui/icons/Home";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
+import LocalMallIcon from "@material-ui/icons/LocalMall";
 import HelpIcon from "@material-ui/icons/Help";
+
 import { useHistory, useLocation } from "react-router";
 import { Context } from "../../context/globalState";
 
@@ -17,6 +20,34 @@ export const BottomNav = () => {
   const history = useHistory();
   const location = useLocation();
   const { carts, totalPrice } = useContext(Context);
+
+  const allBottomActions = [
+    {
+      value: 0,
+      label: "Produk",
+      icon: <HomeIcon />,
+      onClick: () => history.push("/"),
+    },
+    {
+      value: 1,
+      label: "Keranjang",
+      icon: <ShoppingBasketIcon />,
+      onClick: () => history.push("/cart"),
+    },
+    {
+      value: 2,
+      label: "Pesanan",
+      icon: <LocalMallIcon />,
+      onClick: () => history.push("/transaksi"),
+    },
+    {
+      value: 3,
+      label: "Bantuan",
+      icon: <HelpIcon />,
+      onClick: null,
+    },
+  ];
+  const [value, setValue] = React.useState(0);
   return (
     <div className={classes.topRoot}>
       {location.pathname !== "/pembayaran" && carts.length > 0 && (
@@ -39,19 +70,25 @@ export const BottomNav = () => {
           </div>
         </div>
       )}
-      <BottomNavigation className={classes.root}>
-        <BottomNavigationAction
-          label="Produk"
-          icon={<HomeIcon />}
-          onClick={() => history.push("/")}
-        />
-        <BottomNavigationAction
-          label="Keranjang"
-          icon={<ShoppingBasketIcon />}
-          onClick={() => history.push("/cart")}
-        />
-        <BottomNavigationAction label="Pesanan" icon={<ShoppingBasketIcon />} />
-        <BottomNavigationAction label="Bantuan" icon={<HelpIcon />} />
+      <BottomNavigation
+        value={value}
+        onChange={(event, newValue) => {
+          setValue(newValue);
+        }}
+        className={classes.root}
+        showLabels
+      >
+        {allBottomActions.map((item) => (
+          <BottomNavigationAction
+            key={item.id}
+            label={item.label}
+            icon={item.icon}
+            onClick={item.onClick}
+            style={{
+              color: item.value === value && item.onClick ? "red" : null,
+            }}
+          />
+        ))}
       </BottomNavigation>
     </div>
   );

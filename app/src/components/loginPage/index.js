@@ -59,6 +59,7 @@ const LoginPage = () => {
             <InputBase
               className={classes.form}
               name="password"
+              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
