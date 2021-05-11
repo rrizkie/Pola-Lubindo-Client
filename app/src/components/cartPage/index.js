@@ -28,6 +28,7 @@ const CartPage = () => {
     checkoutCart,
     ongkosKirim,
     setOngkir,
+    refCode,
   } = useContext(Context);
   const [check, setCheck] = useState(true);
   const [nama, setNama] = useState("");
@@ -54,7 +55,7 @@ const CartPage = () => {
     setOngkir(price);
   };
 
-  const checkout = () => {
+  const checkout = async () => {
     let data = {
       transaksiData: {
         invoice: "INV/300421/01",
@@ -81,8 +82,9 @@ const CartPage = () => {
       data.value.push({ produk: item.product, ProdukId: item.product.id });
     });
     localStorage.setItem("transaksi", JSON.stringify(data.transaksiData));
-    checkoutCart(data);
-    history.push("/pembayaran");
+    const response = await checkoutCart(data);
+    if (response.message === "Success")
+      history.push(!refCode ? "/pembayaran" : `/pembayaran?ref=${refCode}`);
   };
 
   useEffect(() => {
@@ -158,7 +160,11 @@ const CartPage = () => {
             </Typography>
             <Paper
               className={classes.innerBox}
-              onClick={() => history.push("/shipping")}
+              onClick={() =>
+                history.push(
+                  !refCode ? "/shipping" : `/shipping?ref=${refCode}`
+                )
+              }
             >
               <Typography className={classes.innerBoxText}>
                 Tetapkan Alamat Pengiriman

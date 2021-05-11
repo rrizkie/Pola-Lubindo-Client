@@ -26,20 +26,20 @@ export const BottomNav = () => {
       value: 0,
       label: "Produk",
       icon: <HomeIcon />,
-      onClick: () => history.push(refCode ? "/" : `/?ref=${refCode}`),
+      onClick: () => history.push(!refCode ? "/" : `/?ref=${refCode}`),
     },
     {
       value: 1,
       label: "Keranjang",
       icon: <ShoppingBasketIcon />,
-      onClick: () => history.push(refCode ? "/cart" : `/cart?ref=${refCode}`),
+      onClick: () => history.push(!refCode ? "/cart" : `/cart?ref=${refCode}`),
     },
     {
       value: 2,
       label: "Pesanan",
       icon: <LocalMallIcon />,
       onClick: () =>
-        history.push(refCode ? "/transaksi" : `/transaksi?ref=${refCode}`),
+        history.push(!refCode ? "/transaksi" : `/transaksi?ref=${refCode}`),
     },
     {
       value: 3,
@@ -65,7 +65,7 @@ export const BottomNav = () => {
             <Button
               className={classes.btn}
               onClick={() =>
-                history.push(refCode ? "/cart" : `/cart?ref=${refCode}`)
+                history.push(!refCode ? "/cart" : `/cart?ref=${refCode}`)
               }
             >
               Lanjut

@@ -15,7 +15,7 @@ import { Context } from "../../context/globalState";
 const AlamatPengiriman = () => {
   const classes = useStyles();
   const history = useHistory();
-  const { addAddress, cityLists } = useContext(Context);
+  const { addAddress, cityLists, refCode } = useContext(Context);
   const [kabupaten, setKabupaten] = useState("");
   const [kecamatan, setKecamatan] = useState("");
   const [jalan, setJalan] = useState("");
@@ -24,7 +24,7 @@ const AlamatPengiriman = () => {
   function onSubmit(e) {
     e.preventDefault();
     addAddress({ kabupaten, kecamatan, jalan, detail });
-    history.push("/cart");
+    history.push(!refCode ? "/cart" : `/cart?ref=${refCode}`);
   }
 
   return (

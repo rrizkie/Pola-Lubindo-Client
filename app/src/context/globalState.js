@@ -5,7 +5,7 @@ import appReducers from "./appReducers";
 
 const initialState = {
   isLogin: false,
-  refCode: "",
+  refCode: null,
   cityLists: [],
   brands: [],
   products: [],
@@ -101,58 +101,56 @@ export const ContextProvider = (props) => {
     dispatch({ type: "CHECKED_ITEM", payload: data });
   };
 
-  // const checkoutCart = (data) => {
-  //   fetch(`http://localhost:3000/checkout`, {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(data),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       localStorage.setItem("access_token", data.access_token);
-  //       localStorage.setItem("transaksi id", data.transaksiId);
-  //       localStorage.removeItem("carts");
-  //       localStorage.removeItem("totalPrice");
-  //     });
-  // };
   const checkoutCart = async (itemData) => {
-    let data = await fetch(`http://localhost:3000/checkout`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(itemData),
-    });
-    data = await data.json();
-    localStorage.setItem("access_token", data.access_token);
-    localStorage.setItem("transaksi id", data.transaksiId);
-    localStorage.removeItem("carts");
-    localStorage.removeItem("totalPrice");
+    try {
+      let data = await fetch(`http://localhost:3000/checkout`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(itemData),
+      });
+      data = await data.json();
+      console.log(data);
+      if (data.errMessage) {
+        throw data;
+      } else {
+        localStorage.setItem("access_token", data.access_token);
+        localStorage.setItem("transaksi id", data.transaksiId);
+        localStorage.removeItem("carts");
+        localStorage.removeItem("totalPrice");
+        return { message: "Success" };
+      }
+    } catch (error) {
+      Swal.fire({
+        title: `${error.errMessage}`,
+        icon: "error",
+      });
+      return { message: "Failed" };
+    }
   };
 
-  // const confirmPayment = (data, transaksiId, access_token) => {
-  //   fetch(`http://localhost:3000/cart/${transaksiId}`, {
-  //     method: "POST",
-  //     headers: { access_token, "Content-Type": "application/json" },
-  //     body: JSON.stringify(data),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       localStorage.removeItem("transaksi id");
-  //       localStorage.removeItem("transaksi");
-  //     });
-  // };
-  const confirmPayment = async (data, transaksiId, access_token) => {
-    let responseData = await fetch(
-      `http://localhost:3000/cart/${transaksiId}`,
-      {
+  const confirmPayment = async (data, transaksiId, access_token, refferal) => {
+    try {
+      let url = refferal
+        ? `http://localhost:3000/cart/${transaksiId}?ref=${refferal}`
+        : `http://localhost:3000/cart/${transaksiId}`;
+      let responseData = await fetch(url, {
         method: "POST",
         headers: { access_token, "Content-Type": "application/json" },
         body: JSON.stringify(data),
+      });
+      responseData = await responseData.json();
+      if (responseData.errMessage) {
+        throw responseData;
+      } else {
+        localStorage.removeItem("transaksi id");
+        localStorage.removeItem("transaksi");
+        dispatch({ type: "RESET_CARTS&PRICE", payload: null });
+        return { message: "Success" };
       }
-    );
-    responseData = await responseData.json();
-    localStorage.removeItem("transaksi id");
-    localStorage.removeItem("transaksi");
-    dispatch({ type: "RESET_CARTS&PRICE", payload: null });
+    } catch (error) {
+      console.log(error);
+      return { message: "Failed" };
+    }
   };
 
   const login = async (inputData) => {

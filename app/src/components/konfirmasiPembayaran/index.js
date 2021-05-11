@@ -21,7 +21,7 @@ import { Context } from "../../context/globalState";
 const KonfirmasiPembayaran = () => {
   const classes = useStyle();
   const history = useHistory();
-  const { confirmPayment } = useContext(Context);
+  const { confirmPayment, refCode } = useContext(Context);
   const [tanggal, setTanggal] = useState("");
   const [namaRek, setNamaRek] = useState("");
   const [total, setTotal] = useState(0);
@@ -51,7 +51,7 @@ const KonfirmasiPembayaran = () => {
     setBankTujuan(event.target.value);
   };
 
-  const handleKonfirm = () => {
+  const handleKonfirm = async () => {
     transaksiData.statusPembayaran = "sudah transfer";
     transaksiData.metodePembayaran = "transfer";
     transaksiData.namaRekening = namaRek;
@@ -59,12 +59,13 @@ const KonfirmasiPembayaran = () => {
     transaksiData.bankAsal = bankAsal;
     transaksiData.bankTujuan = bankTujuan;
     console.log(transaksiData, "<<<<");
-    confirmPayment(
+    const response = await confirmPayment(
       transaksiData,
       localStorage.getItem("transaksi id"),
-      localStorage.getItem("access_token")
+      localStorage.getItem("access_token"),
+      refCode ? refCode : null
     );
-    history.push("/");
+    if (response.message === "Success") history.push("/");
   };
   return (
     <div>
