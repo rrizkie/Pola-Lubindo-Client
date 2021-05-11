@@ -88,6 +88,12 @@ export default (state, action) => {
         ...state,
         isLogin: action.payload,
       };
+    case "RESET_CARTS&PRICE":
+      return {
+        ...state,
+        carts: [],
+        totalPrice: 0,
+      };
     default:
       return state;
   }

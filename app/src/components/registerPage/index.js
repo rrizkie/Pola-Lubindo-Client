@@ -15,11 +15,12 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [konfirmasiPassword, setKonfirmasiPassword] = useState("");
 
-  function submitForm(e) {
+  const submitForm = async (e) => {
     e.preventDefault();
     if (password === konfirmasiPassword) {
-      register({ email, phone, nama, password });
-      history.push("/login");
+      const response = await register({ email, phone, nama, password });
+      console.log(response);
+      if (response.message === "Success") history.push("/login");
     } else {
       setEmail("");
       setPhone("");
@@ -27,7 +28,7 @@ const RegisterPage = () => {
       setPassword("");
       setKonfirmasiPassword("");
     }
-  }
+  };
   return (
     <div>
       <Paper className={classes.root}>
@@ -91,7 +92,9 @@ const RegisterPage = () => {
             onChange={(e) => setKonfirmasiPassword(e.target.value)}
           />
         </div>
-        <Button className={classes.button} onClick={submitForm}>Selanjutnya</Button>
+        <Button className={classes.button} onClick={submitForm}>
+          Selanjutnya
+        </Button>
       </form>
     </div>
   );

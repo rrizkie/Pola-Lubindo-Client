@@ -1,4 +1,6 @@
 import React, { createContext, useEffect, useReducer } from "react";
+import { useHistory, useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
 import appReducers from "./appReducers";
 
 const initialState = {
@@ -8,7 +10,7 @@ const initialState = {
   brands: [],
   products: [],
   address: {},
-  services: [],
+  services: null,
   courier: "",
   ongkosKirim: 0,
   totalPrice: localStorage.getItem("totalPrice")
@@ -19,7 +21,6 @@ const initialState = {
     : [],
 };
 export const Context = createContext(initialState);
-
 export const ContextProvider = (props) => {
   const [state, dispatch] = useReducer(appReducers, initialState);
   console.log(state, "global state");
@@ -100,55 +101,105 @@ export const ContextProvider = (props) => {
     dispatch({ type: "CHECKED_ITEM", payload: data });
   };
 
-  const checkoutCart = (data) => {
-    fetch(`http://localhost:3000/checkout`, {
+  // const checkoutCart = (data) => {
+  //   fetch(`http://localhost:3000/checkout`, {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify(data),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       localStorage.setItem("access_token", data.access_token);
+  //       localStorage.setItem("transaksi id", data.transaksiId);
+  //       localStorage.removeItem("carts");
+  //       localStorage.removeItem("totalPrice");
+  //     });
+  // };
+  const checkoutCart = async (itemData) => {
+    let data = await fetch(`http://localhost:3000/checkout`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        localStorage.setItem("access_token", data.access_token);
-        localStorage.setItem("transaksi id", data.transaksiId);
-        localStorage.removeItem("carts");
-        localStorage.removeItem("totalPrice");
-      });
+      body: JSON.stringify(itemData),
+    });
+    data = await data.json();
+    localStorage.setItem("access_token", data.access_token);
+    localStorage.setItem("transaksi id", data.transaksiId);
+    localStorage.removeItem("carts");
+    localStorage.removeItem("totalPrice");
   };
 
-  const confirmPayment = (data, transaksiId, access_token) => {
-    fetch(`http://localhost:3000/cart/${transaksiId}`, {
-      method: "POST",
-      headers: { access_token, "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        localStorage.removeItem("transaksi id");
-        localStorage.removeItem("transaksi");
-      });
+  // const confirmPayment = (data, transaksiId, access_token) => {
+  //   fetch(`http://localhost:3000/cart/${transaksiId}`, {
+  //     method: "POST",
+  //     headers: { access_token, "Content-Type": "application/json" },
+  //     body: JSON.stringify(data),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       localStorage.removeItem("transaksi id");
+  //       localStorage.removeItem("transaksi");
+  //     });
+  // };
+  const confirmPayment = async (data, transaksiId, access_token) => {
+    let responseData = await fetch(
+      `http://localhost:3000/cart/${transaksiId}`,
+      {
+        method: "POST",
+        headers: { access_token, "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      }
+    );
+    responseData = await responseData.json();
+    localStorage.removeItem("transaksi id");
+    localStorage.removeItem("transaksi");
+    dispatch({ type: "RESET_CARTS&PRICE", payload: null });
   };
 
-  const login = (data) => {
-    fetch(`http://localhost:3000/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((data) => {
+  const login = async (inputData) => {
+    try {
+      let data = await fetch(`http://localhost:3000/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(inputData),
+      });
+      data = await data.json();
+      console.log(data);
+      if (!data.access_token) {
+        throw data;
+      } else {
         localStorage.setItem("access_token", data.access_token);
         dispatch({ type: "LOGIN", payload: true });
+        return { message: "success" };
+      }
+    } catch (error) {
+      Swal.fire({
+        title: `${error.message}`,
+        icon: "error",
       });
+      return { message: "Failed" };
+    }
   };
 
-  const register = (data) => {
-    fetch(`http://localhost:3000/register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((data) => {});
+  const register = async (inputData) => {
+    try {
+      let data = await fetch(`http://localhost:3000/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(inputData),
+      });
+      data = await data.json();
+      if (data.errMessage) {
+        throw data;
+      } else {
+        return { message: "Success" };
+      }
+    } catch (error) {
+      Swal.fire({
+        title: `${error.errMessage}`,
+        icon: "error",
+      });
+      return { message: "Failed" };
+    }
   };
 
   return (

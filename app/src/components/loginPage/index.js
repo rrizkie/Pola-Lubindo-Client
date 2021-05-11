@@ -9,14 +9,19 @@ const LoginPage = () => {
   const classes = useStyles();
   const history = useHistory();
   const { login } = useContext(Context);
-  const [email, setEmail] = useState("");
+  const [input, setInput] = useState("");
   const [password, setPassword] = useState("");
 
-  function submitForm(e) {
+  const submitForm = async (e) => {
     e.preventDefault();
-    login({ email, password });
-    history.push("/");
-  }
+    const response =
+      input.indexOf("@") > -1
+        ? await login({ email: input, password })
+        : await login({ phone: input, password });
+    if (response.message === "success") {
+      history.push("/");
+    }
+  };
 
   return (
     <div>
@@ -50,8 +55,8 @@ const LoginPage = () => {
             <InputBase
               className={classes.form}
               name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
             />
           </div>
           <div className={classes.formBox}>

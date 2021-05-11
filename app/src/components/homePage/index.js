@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useStyles } from "./styles";
 import { Navbar } from "../navbar";
 import { CardProduct } from "../card";
@@ -14,6 +14,7 @@ const useQuery = () => {
 };
 
 const HomePage = () => {
+  const [selectedBrand, setSelectedBrand] = useState(null);
   const query = useQuery();
   const classes = useStyles();
   const {
@@ -41,14 +42,17 @@ const HomePage = () => {
       <div className={classes.topRoot}>
         <div className={classes.root}>
           <div className={classes.brandBox}>
-            <Fab className={classes.Fab}>
+            <Fab className={classes.Fab} onClick={() => setSelectedBrand("")}>
               <img src={allBrand} />
             </Fab>
             <Typography className={classes.brandText}>Semua Produk</Typography>
           </div>
           {brands.map((el) => (
             <div className={classes.brandBox} key={el.id}>
-              <Fab className={classes.Fab}>
+              <Fab
+                className={classes.Fab}
+                onClick={() => setSelectedBrand(el.namaBrand)}
+              >
                 <img src={brandLogo} />
               </Fab>
               <Typography className={classes.brandText}>
@@ -58,9 +62,15 @@ const HomePage = () => {
           ))}
         </div>
         <div className={classes.produkCard}>
-          {products.map((product) => (
-            <CardProduct product={product} key={product.id} />
-          ))}
+          {!selectedBrand
+            ? products.map((product) => (
+                <CardProduct product={product} key={product.id} />
+              ))
+            : products
+                .filter((prod) => prod.Brand.namaBrand === selectedBrand)
+                .map((product) => (
+                  <CardProduct product={product} key={product.id} />
+                ))}
         </div>
       </div>
       <BottomNav />

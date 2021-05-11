@@ -20,7 +20,6 @@ export const BottomNav = () => {
   const history = useHistory();
   const location = useLocation();
   const { carts, totalPrice, refCode } = useContext(Context);
-  console.log(refCode, "<<< refcode bottom nav");
 
   const allBottomActions = [
     {
@@ -84,7 +83,7 @@ export const BottomNav = () => {
       >
         {allBottomActions.map((item) => (
           <BottomNavigationAction
-            key={item.id}
+            key={item.value}
             label={item.label}
             icon={item.icon}
             onClick={item.onClick}

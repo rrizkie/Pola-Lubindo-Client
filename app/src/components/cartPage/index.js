@@ -5,6 +5,7 @@ import {
   InputBase,
   Checkbox,
   Button,
+  CircularProgress,
 } from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
@@ -34,20 +35,19 @@ const CartPage = () => {
   const [email, setEmail] = useState("");
   const [courierPicked, setCourierPicked] = useState("");
   const [checked, setCheked] = useState(ongkosKirim);
-
   function back() {
     history.push("/");
     addAddress("");
   }
 
-  function selected(e) {
+  const selected = (e) => {
     setCourierPicked(e.target.value);
     getOngkir({
       destination: address.kabupaten,
       courier: e.target.value,
       weight: 1000,
     });
-  }
+  };
 
   const handleChecked = (price) => {
     setCheked(price);
