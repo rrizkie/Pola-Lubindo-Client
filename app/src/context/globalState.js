@@ -1,9 +1,10 @@
 import React, { createContext, useEffect, useReducer } from "react";
 import appReducers from "./appReducers";
-import { useHistory } from "react-router-dom";
 
 const initialState = {
   isLogin: false,
+  refCode: "",
+  cityLists: [],
   brands: [],
   products: [],
   address: {},
@@ -20,7 +21,6 @@ const initialState = {
 export const Context = createContext(initialState);
 
 export const ContextProvider = (props) => {
-  const history = useHistory();
   const [state, dispatch] = useReducer(appReducers, initialState);
   console.log(state, "global state");
 
@@ -44,6 +44,18 @@ export const ContextProvider = (props) => {
       .then((data) => {
         dispatch({ type: "FETCH_PRODUCT", payload: data });
       });
+  };
+
+  const fetchCityListAPI = () => {
+    fetch(`http://localhost:3000/city`)
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: "FETCH_CITY", payload: data });
+      });
+  };
+
+  const setRefCode = (refcode) => {
+    dispatch({ type: "SET_REFCODE", payload: refcode });
   };
 
   const addTocart = (product) => {
@@ -100,7 +112,6 @@ export const ContextProvider = (props) => {
         localStorage.setItem("transaksi id", data.transaksiId);
         localStorage.removeItem("carts");
         localStorage.removeItem("totalPrice");
-        history.push("/pembayaran");
       });
   };
 
@@ -114,7 +125,6 @@ export const ContextProvider = (props) => {
       .then((data) => {
         localStorage.removeItem("transaksi id");
         localStorage.removeItem("transaksi");
-        history.push("/");
       });
   };
 
@@ -144,8 +154,10 @@ export const ContextProvider = (props) => {
   return (
     <Context.Provider
       value={{
+        refCode: state.refCode,
         brands: state.brands,
         products: state.products,
+        cityLists: state.cityLists,
         carts: state.carts,
         isLogin: state.isLogin,
         address: state.address,
@@ -154,6 +166,8 @@ export const ContextProvider = (props) => {
         ongkosKirim: state.ongkosKirim,
         fetchBrands,
         fetchProduct,
+        fetchCityListAPI,
+        setRefCode,
         addTocart,
         editTotalprice,
         checkedItem,

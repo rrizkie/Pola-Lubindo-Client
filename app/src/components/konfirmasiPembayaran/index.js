@@ -29,7 +29,7 @@ const KonfirmasiPembayaran = () => {
   const [bankAsal, setBankAsal] = useState("Bank Asal");
   const [bankTujuan, setBankTujuan] = useState("Bank Tujuan");
   const transaksiData = JSON.parse(localStorage.getItem("transaksi"));
-  
+
   const back = () => {
     history.push("/pembayaran");
   };
@@ -58,12 +58,13 @@ const KonfirmasiPembayaran = () => {
     transaksiData.jumlahBayar = total;
     transaksiData.bankAsal = bankAsal;
     transaksiData.bankTujuan = bankTujuan;
-    console.log(transaksiData,'<<<<')
+    console.log(transaksiData, "<<<<");
     confirmPayment(
       transaksiData,
       localStorage.getItem("transaksi id"),
       localStorage.getItem("access_token")
     );
+    history.push("/");
   };
   return (
     <div>

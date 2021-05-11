@@ -10,6 +10,17 @@ export default (state, action) => {
         ...state,
         products: action.payload,
       };
+
+    case "FETCH_CITY":
+      return {
+        ...state,
+        cityLists: action.payload,
+      };
+    case "SET_REFCODE":
+      return {
+        ...state,
+        refCode: action.payload,
+      };
     case "ADD_TO_CART":
       return {
         ...state,
@@ -41,7 +52,7 @@ export default (state, action) => {
         courier: action.payload,
       };
     case "SET_ONGKIR":
-      console.log(action.payload,'payload')
+      console.log(action.payload, "payload");
       return {
         ...state,
         ongkosKirim: action.payload,

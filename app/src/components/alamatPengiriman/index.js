@@ -1,6 +1,13 @@
 import React, { useContext, useState } from "react";
 import { useStyles } from "./styles";
-import { Paper, Typography, InputBase, Button } from "@material-ui/core";
+import {
+  Paper,
+  Typography,
+  InputBase,
+  Button,
+  TextField,
+} from "@material-ui/core";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { useHistory } from "react-router";
 import { Context } from "../../context/globalState";
@@ -8,7 +15,7 @@ import { Context } from "../../context/globalState";
 const AlamatPengiriman = () => {
   const classes = useStyles();
   const history = useHistory();
-  const { addAddress } = useContext(Context);
+  const { addAddress, cityLists } = useContext(Context);
   const [kabupaten, setKabupaten] = useState("");
   const [kecamatan, setKecamatan] = useState("");
   const [jalan, setJalan] = useState("");
@@ -45,11 +52,17 @@ const AlamatPengiriman = () => {
         <Typography className={classes.boxText}>Informasi Pembeli</Typography>
         <div className={classes.formBox}>
           <Typography className={classes.formText}>Kota / Kabupaten</Typography>
-          <InputBase
-            className={classes.form}
-            name="kabupaten"
-            value={kabupaten}
-            onChange={(e) => setKabupaten(e.target.value)}
+          <Autocomplete
+            options={cityLists}
+            getOptionLabel={(option) => option.city_name}
+            onChange={(event, newValue) => setKabupaten(newValue?.city_name)}
+            renderInput={(params) => (
+              <TextField
+                variant="outlined"
+                style={{ borderRadius: "20px" }}
+                {...params}
+              />
+            )}
           />
         </div>
         <div className={classes.formBox}>

@@ -7,13 +7,32 @@ import { Typography, Fab } from "@material-ui/core";
 import { Context } from "../../context/globalState";
 import brandLogo from "../../assets/brand1.png";
 import allBrand from "../../assets/allBrand.png";
+import { useParams, useLocation } from "react-router-dom";
+
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
 
 const HomePage = () => {
+  const query = useQuery();
   const classes = useStyles();
-  const { fetchBrands, fetchProduct, brands, products } = useContext(Context);
+  const {
+    fetchBrands,
+    fetchProduct,
+    fetchCityListAPI,
+    brands,
+    products,
+    setRefCode,
+  } = useContext(Context);
+
   useEffect(() => {
     fetchBrands();
     fetchProduct();
+    fetchCityListAPI();
+    const queryParams = query.get("ref");
+    if (queryParams !== null) {
+      setRefCode(queryParams);
+    }
   }, []);
 
   return (

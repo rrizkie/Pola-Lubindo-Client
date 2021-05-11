@@ -58,7 +58,7 @@ const CartPage = () => {
     let data = {
       transaksiData: {
         invoice: "INV/300421/01",
-        totalHarga: totalPrice+ongkosKirim,
+        totalHarga: totalPrice + ongkosKirim,
         ongkosKirim: ongkosKirim,
         namaPenerima: nama,
         alamatPengiriman: `${address?.jalan},${address?.kecamatan},${address?.kabupaten},
@@ -82,7 +82,7 @@ const CartPage = () => {
     });
     localStorage.setItem("transaksi", JSON.stringify(data.transaksiData));
     checkoutCart(data);
-    
+    history.push("/pembayaran");
   };
 
   useEffect(() => {
@@ -184,7 +184,7 @@ const CartPage = () => {
         <div>
           {services &&
             services.map((service) => (
-              <div className={classes.checkbox}>
+              <div className={classes.checkbox} key={service.service}>
                 <Checkbox
                   checked={checked === service.cost[0].value ? true : false}
                   onChange={() => handleChecked(service.cost[0].value)}
