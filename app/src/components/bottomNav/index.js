@@ -19,26 +19,27 @@ export const BottomNav = () => {
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
-  const { carts, totalPrice } = useContext(Context);
+  const { carts, totalPrice, refCode } = useContext(Context);
 
   const allBottomActions = [
     {
       value: 0,
       label: "Produk",
       icon: <HomeIcon />,
-      onClick: () => history.push("/"),
+      onClick: () => history.push(refCode ? `/?ref=${refCode}` : `/`),
     },
     {
       value: 1,
       label: "Keranjang",
       icon: <ShoppingBasketIcon />,
-      onClick: () => history.push("/cart"),
+      onClick: () => history.push(refCode ? `/cart?ref=${refCode}` : "/cart"),
     },
     {
       value: 2,
       label: "Pesanan",
       icon: <LocalMallIcon />,
-      onClick: () => history.push("/transaksi"),
+      onClick: () =>
+        history.push(refCode ? `/transaksi?ref=${refCode}` : "/transaksi"),
     },
     {
       value: 3,
@@ -63,7 +64,9 @@ export const BottomNav = () => {
           <div>
             <Button
               className={classes.btn}
-              onClick={() => history.push("/cart")}
+              onClick={() =>
+                history.push(refCode ? `/cart?ref=${refCode}` : "/cart")
+              }
             >
               Lanjut
             </Button>

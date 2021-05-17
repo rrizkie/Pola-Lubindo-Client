@@ -200,6 +200,14 @@ export const ContextProvider = (props) => {
     }
   };
 
+  const getRefcode = async () => {
+    let data = await fetch(
+      `http://localhost:3000/refcode/${localStorage.getItem("access_token")}`
+    );
+    data = await data.json();
+    return data;
+  };
+
   return (
     <Context.Provider
       value={{
@@ -224,6 +232,7 @@ export const ContextProvider = (props) => {
         editCart,
         checkoutCart,
         confirmPayment,
+        getRefcode,
         changeCourier,
         deleteCart,
         addAddress,

@@ -9,6 +9,7 @@ export const useStyles = makeStyles(() => ({
     margin: "-0.5rem -1rem",
     padding:"0.7rem 1.7rem",
     backgroundColor:"#f4e8e9",
+    maxWidth: "500px"
   },
   left: {
     display: "flex",
@@ -45,7 +46,7 @@ export const useStyles = makeStyles(() => ({
     padding: "2px 4px",
     display: "flex",
     alignItems: "center",
-    width: "85vw",
+    width: "100%",
     border: "1px solid black",
     justifyContent: "space-between",
     boxShadow: "none",
@@ -59,7 +60,7 @@ export const useStyles = makeStyles(() => ({
   button:{
       backgroundColor:"red",
       borderRadius:"10px",
-      width:"85vw",
+      width:"100%",
       color:"#fff",
       fontWeight:"bold"
   },

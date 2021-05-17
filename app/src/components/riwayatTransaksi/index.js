@@ -13,7 +13,7 @@ export default function CenteredGrid() {
 
   const history = useHistory();
   const back = () => {
-    history.push("/pembayaran");
+    history.push("/profile");
   };
   return (
     <>

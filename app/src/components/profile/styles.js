@@ -51,6 +51,11 @@ export const useStyle = makeStyles((theme) => ({
     textAlign: "center",
     color: theme.palette.text.secondary,
   },
+  logoutBtn: {
+    display: "flex",
+    justifyContent: "center",
+    marginTop:"2rem"
+  },
 }));
 
 export default useStyle;

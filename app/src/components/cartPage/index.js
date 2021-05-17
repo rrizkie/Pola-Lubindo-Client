@@ -57,6 +57,11 @@ const CartPage = () => {
 
   const checkout = async () => {
     let data = {
+      userData: {
+        email,
+        phone,
+        nama,
+      },
       transaksiData: {
         invoice: "INV/300421/01",
         totalHarga: totalPrice + ongkosKirim,
@@ -67,13 +72,7 @@ const CartPage = () => {
       },
       value: [],
     };
-    if (!localStorage.getItem("access_token")) {
-      data.userData = {
-        email,
-        phone,
-        nama,
-      };
-    } else {
+    if (localStorage.getItem("access_token")) {
       data.access_token = localStorage.getItem("access_token");
     }
     const chekedItem = carts.filter((item) => item.checked);
@@ -85,6 +84,8 @@ const CartPage = () => {
     const response = await checkoutCart(data);
     if (response.message === "Success")
       history.push(!refCode ? "/pembayaran" : `/pembayaran?ref=${refCode}`);
+    setCourierPicked("");
+    setCheked(ongkosKirim);
   };
 
   useEffect(() => {

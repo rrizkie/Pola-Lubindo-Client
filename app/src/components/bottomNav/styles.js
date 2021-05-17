@@ -10,7 +10,7 @@ export const useStyles = makeStyles({
     maxWidth: "500px",
   },
   carts: {
-    width: "50%",
+    width: "90%",
     backgroundColor: "#fff",
     display: "flex",
     justifyContent: "space-between",

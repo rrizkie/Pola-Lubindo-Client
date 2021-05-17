@@ -7,13 +7,20 @@ import { Typography } from "@material-ui/core";
 import { ArrowBack } from "@material-ui/icons";
 import { useHistory } from "react-router";
 import useStyles from "./styles";
+import komisiLogo from "./asset/komisi.png";
 
 export default function CenteredGrid() {
   const classes = useStyles();
 
   const history = useHistory();
   const back = () => {
-    history.push("/pembayaran");
+    history.push("/");
+  };
+  const logout = () => {
+    history.push("/login");
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("carts");
+    localStorage.removeItem("totalPrice");
   };
   return (
     <>
@@ -44,7 +51,7 @@ export default function CenteredGrid() {
                 style={{ color: "#000" }}
               >
                 <Grid item xs={2}>
-                  <img src="/komisi.png" alt="Komisi" />
+                  <img src={komisiLogo} alt="Komisi" />
                 </Grid>
                 <Grid item xs={6}>
                   Total Komisi
@@ -58,6 +65,7 @@ export default function CenteredGrid() {
                 variant="outlined"
                 fullWidth
                 style={{ borderColor: "green", color: "green" }}
+                onClick={() => history.push("/riwayat-transaksi")}
               >
                 Lihat Riwayat Transaksi
               </Button>
@@ -125,6 +133,15 @@ export default function CenteredGrid() {
             ubah
           </Grid>
         </Grid>
+        <div className={classes.logoutBtn}>
+          <Button
+            fullWidth
+            style={{ backgroundColor: "green", color: "#fff" }}
+            onClick={logout}
+          >
+            Log Out
+          </Button>
+        </div>
       </div>
     </>
   );

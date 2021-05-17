@@ -38,4 +38,10 @@ export const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
   },
+  share: {
+    display: "flex",
+    justifyContent: "space-between",
+    background: "red",
+    color: "#fff",
+  },
 });

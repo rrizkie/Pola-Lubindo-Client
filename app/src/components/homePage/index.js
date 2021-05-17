@@ -3,11 +3,12 @@ import { useStyles } from "./styles";
 import { Navbar } from "../navbar";
 import { CardProduct } from "../card";
 import { BottomNav } from "../bottomNav";
-import { Typography, Fab } from "@material-ui/core";
+import { Typography, Fab, Button } from "@material-ui/core";
 import { Context } from "../../context/globalState";
 import brandLogo from "../../assets/brand1.png";
 import allBrand from "../../assets/allBrand.png";
 import { useParams, useLocation } from "react-router-dom";
+import ShareIcon from "@material-ui/icons/Share";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -24,7 +25,13 @@ const HomePage = () => {
     brands,
     products,
     setRefCode,
+    getRefcode,
   } = useContext(Context);
+
+  const handleCopy = async () => {
+    const refCode = await getRefcode();
+    navigator.clipboard.writeText(`localhost:3001/?ref=${refCode}`);
+  };
 
   useEffect(() => {
     fetchBrands();
@@ -61,6 +68,14 @@ const HomePage = () => {
             </div>
           ))}
         </div>
+        {localStorage.getItem("access_token") ? (
+          <div className={classes.share}>
+            <Typography>
+              Bagi Link untuk dapat komisi <ShareIcon />
+            </Typography>
+            <Button onClick={handleCopy}>SALIN</Button>
+          </div>
+        ) : null}
         <div className={classes.produkCard}>
           {!selectedBrand
             ? products.map((product) => (

@@ -40,7 +40,9 @@ const AlamatPengiriman = () => {
           <Typography className={classes.leftContent}>
             <ArrowBackIcon
               style={{ cursor: "pointer" }}
-              onClick={() => history.push("/cart")}
+              onClick={() =>
+                history.push(refCode ? `/cart?=ref=${refCode}` : "/cart")
+              }
             />
           </Typography>
           <Typography className={classes.leftContent}>

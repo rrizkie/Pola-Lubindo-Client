@@ -93,7 +93,9 @@ export default (state, action) => {
         ...state,
         carts: [],
         totalPrice: 0,
-        refCode: null,
+        address: {},
+        courier: "",
+        ongkosKirim: 0,
       };
     default:
       return state;

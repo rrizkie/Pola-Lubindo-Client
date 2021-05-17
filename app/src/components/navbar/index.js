@@ -15,12 +15,7 @@ export const Navbar = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  const logout = () => {
-    history.push("/login");
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("carts")
-    localStorage.removeItem("totalPrice")
-  };
+  
   return (
     <div className={classes.topRoot}>
       <Paper className={classes.navbar}>
@@ -44,8 +39,8 @@ export const Navbar = () => {
             </Typography>
           ) : (
             <Typography variant="h6" className={classes.text}>
-              <Button className={classes.button} onClick={logout}>
-                Log Out
+              <Button className={classes.button} onClick={()=>history.push("/profile")}> 
+                Profile
               </Button>
             </Typography>
           )}
