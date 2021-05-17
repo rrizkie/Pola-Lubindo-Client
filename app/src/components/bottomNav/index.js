@@ -19,27 +19,26 @@ export const BottomNav = () => {
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
-  const { carts, totalPrice, refCode } = useContext(Context);
+  const { carts, totalPrice } = useContext(Context);
 
   const allBottomActions = [
     {
       value: 0,
       label: "Produk",
       icon: <HomeIcon />,
-      onClick: () => history.push(!refCode ? "/" : `/?ref=${refCode}`),
+      onClick: () => history.push("/"),
     },
     {
       value: 1,
       label: "Keranjang",
       icon: <ShoppingBasketIcon />,
-      onClick: () => history.push(!refCode ? "/cart" : `/cart?ref=${refCode}`),
+      onClick: () => history.push("/cart"),
     },
     {
       value: 2,
       label: "Pesanan",
       icon: <LocalMallIcon />,
-      onClick: () =>
-        history.push(!refCode ? "/transaksi" : `/transaksi?ref=${refCode}`),
+      onClick: () => history.push("/transaksi"),
     },
     {
       value: 3,
@@ -50,7 +49,7 @@ export const BottomNav = () => {
   ];
   const [value, setValue] = React.useState(0);
   return (
-    <div className={classes.topRoot}>
+    <>
       {location.pathname !== "/pembayaran" && carts.length > 0 && (
         <div className={classes.carts}>
           <div style={{ marginTop: "0.5rem" }}>
@@ -64,9 +63,7 @@ export const BottomNav = () => {
           <div>
             <Button
               className={classes.btn}
-              onClick={() =>
-                history.push(!refCode ? "/cart" : `/cart?ref=${refCode}`)
-              }
+              onClick={() => history.push("/cart")}
             >
               Lanjut
             </Button>
@@ -83,7 +80,7 @@ export const BottomNav = () => {
       >
         {allBottomActions.map((item) => (
           <BottomNavigationAction
-            key={item.value}
+            key={item.id}
             label={item.label}
             icon={item.icon}
             onClick={item.onClick}
@@ -93,6 +90,6 @@ export const BottomNav = () => {
           />
         ))}
       </BottomNavigation>
-    </div>
+    </>
   );
 };

@@ -1,9 +1,10 @@
 import { makeStyles } from "@material-ui/core";
 
 export const useStyle = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    maxWidth: 500,
+  transaksiPage: {
+    display: "flex",
+    flexDirection: "column",
+    margin: "1rem 1rem 1rem 1rem",
   },
 
   paper: {
@@ -13,5 +14,5 @@ export const useStyle = makeStyles((theme) => ({
 
   optColor: { color: "red" },
 
-  optAlign: { textAlign: "right" },
+  optAlign: { textAlign: "center" },
 }));

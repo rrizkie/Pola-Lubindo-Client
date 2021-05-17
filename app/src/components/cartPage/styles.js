@@ -1,12 +1,16 @@
 import { makeStyles } from "@material-ui/core";
 
 export const useStyles = makeStyles({
+  cartPage: {
+    display: "flex",
+    flexDirection: "column",
+  },
   nav: {
     border: "none",
     boxShadow: "none",
     display: "flex",
     justifyContent: "space-between",
-    margin: "-0.5rem -1rem",
+
     padding: "0.3rem 1.7rem",
     backgroundColor: "#f4e8e9",
   },
@@ -54,7 +58,7 @@ export const useStyles = makeStyles({
     padding: "0.1rem 0.2rem",
     display: "flex",
     alignItems: "center",
-    width: "80vw",
+
     border: "1px solid grey",
     justifyContent: "space-between",
     boxShadow: "none",
@@ -98,22 +102,5 @@ export const useStyles = makeStyles({
   option: {
     marginLeft: "0.3rem",
     marginTop: "0.2rem",
-  },
-  checkbox: {
-    display: "flex",
-    justifyContent: "start",
-    alignItems: "center",
-    marginTop: "0.5rem",
-  },
-  content: {
-    width: "100%",
-    alignItems: "left",
-    alignItems: "center",
-  },
-  label: {
-    display: "flex",
-    justifyContent: "space-around",
-    width: "100vw",
-    alignItems: "center",
   },
 });

@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 
-export const useStyles = makeStyles({
+export const useStyle = makeStyles((theme) => ({
   nav: {
     border: "none",
     boxShadow: "none",
@@ -21,44 +21,36 @@ export const useStyles = makeStyles({
     fontSize: "1rem",
     fontWeight: "bold",
   },
-  box1: {
+  box: {
+    margin: "2.5rem 1rem 1rem 1rem",
+    padding: "0.5rem",
+    backgroundColor: "#f6f7fb",
+  },
+  innerBox: {
     display: "flex",
-    justifyContent: "center",
-    flexDirection: "column",
-    margin: "2rem 1rem 1rem 1rem",
-    padding: "1rem 0.5rem",
-    borderRadius: "10px",
-  },
-  boxText: {
-    fontSize: "0.8rem",
-    fontWeight: "bold",
-    color: "black",
-  },
-  formBox: {
-    margin: "0 0.3rem",
-  },
-  formText: {
-    fontSize: "0.5rem",
-    color: "grey",
-    margin: "0.3rem 0 0.3rem 0.5rem",
-  },
-  form: {
-    padding: "0.1rem 0.2rem",
-    display: "flex",
+    justifyContent: "space-evenly",
     alignItems: "center",
-
-    border: "1px solid grey",
-    justifyContent: "space-between",
-    boxShadow: "none",
-    borderRadius: "10px",
+    margin: "0.5rem 0",
+  },
+  inputBase: {
+    borderBottom: "1px black solid",
   },
   btn: {
     backgroundColor: "green",
     textAlign: "center",
-    margin: "0 1rem",
+    margin: "0.5rem 1rem 0 1rem",
     borderRadius: "8px",
     fontWeight: "bold",
     color: "#fff",
-    bottom:"-20rem"
   },
-});
+  root: {
+    padding: "20px 14px",
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+  },
+}));
+
+export default useStyle;
