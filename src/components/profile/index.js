@@ -1,5 +1,4 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useEffect } from "react";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -8,9 +7,13 @@ import { ArrowBack } from "@material-ui/icons";
 import { useHistory } from "react-router";
 import useStyles from "./styles";
 import komisiLogo from "./asset/komisi.png";
+import { useContext } from "react";
+import { Context } from "../../context/globalState";
 
 export default function CenteredGrid() {
   const classes = useStyles();
+  const { fetchKomisiData, fetchUserData, komisi, userData } =
+    useContext(Context);
 
   const history = useHistory();
   const back = () => {
@@ -22,6 +25,11 @@ export default function CenteredGrid() {
     localStorage.removeItem("carts");
     localStorage.removeItem("totalPrice");
   };
+
+  useEffect(() => {
+    fetchKomisiData();
+    fetchUserData();
+  }, []);
   return (
     <>
       <Paper className={classes.nav}>
@@ -56,9 +64,11 @@ export default function CenteredGrid() {
                 <Grid item xs={6}>
                   Total Komisi
                 </Grid>
-                <Grid item xs={4}>
-                  Rp. 200.000,-
-                </Grid>
+                {komisi && (
+                  <Grid item xs={4}>
+                    Rp. {new Number(komisi.sisaKomisi).toLocaleString("id-ID")}
+                  </Grid>
+                )}
               </Grid>
 
               <Button
@@ -82,56 +92,56 @@ export default function CenteredGrid() {
               </Button>
             </Paper>
           </Grid>
-
-          <Grid item xs={4}>
-            Nama
-          </Grid>
-          <Grid item xs={5}>
-            Nama
-          </Grid>
-          <Grid item xs={3}>
-            ubah
-          </Grid>
-
-          <Grid item xs={4}>
-            Email
-          </Grid>
-          <Grid item xs={5}>
-            Email
-          </Grid>
-          <Grid item xs={3}>
-            ubah
-          </Grid>
-
-          <Grid item xs={4}>
-            Nomor Tel.
-          </Grid>
-          <Grid item xs={5}>
-            Nomor Tel.
-          </Grid>
-          <Grid item xs={3}>
-            ubah
-          </Grid>
-
-          <Grid item xs={4}>
-            No. Rekening
-          </Grid>
-          <Grid item xs={5}>
-            No. Rekening
-          </Grid>
-          <Grid item xs={3}>
-            ubah
-          </Grid>
-
-          <Grid item xs={4}>
-            Alamat
-          </Grid>
-          <Grid item xs={5}>
-            Alamat
-          </Grid>
-          <Grid item xs={3}>
-            ubah
-          </Grid>
+          {userData && (
+            <>
+              {" "}
+              <Grid item xs={4}>
+                Nama
+              </Grid>
+              <Grid item xs={5}>
+                {userData.nama}
+              </Grid>
+              <Grid item xs={3}>
+                ubah
+              </Grid>
+              <Grid item xs={4}>
+                Email
+              </Grid>
+              <Grid item xs={5}>
+                {userData.email}
+              </Grid>
+              <Grid item xs={3}>
+                ubah
+              </Grid>
+              <Grid item xs={4}>
+                Nomor Tel.
+              </Grid>
+              <Grid item xs={5}>
+                {userData.phone}
+              </Grid>
+              <Grid item xs={3}>
+                ubah
+              </Grid>
+              <Grid item xs={4}>
+                No. Rekening
+              </Grid>
+              <Grid item xs={5}>
+                {userData.noRek}
+              </Grid>
+              <Grid item xs={3}>
+                ubah
+              </Grid>
+              <Grid item xs={4}>
+                Alamat
+              </Grid>
+              <Grid item xs={5}>
+                Alamat
+              </Grid>
+              <Grid item xs={3}>
+                ubah
+              </Grid>
+            </>
+          )}
         </Grid>
         <div className={classes.logoutBtn}>
           <Button

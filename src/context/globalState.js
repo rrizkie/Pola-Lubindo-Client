@@ -11,6 +11,8 @@ const initialState = {
   transaksiBeforePayment: [],
   transaksiAfterPayment: [],
   products: [],
+  komisi: null,
+  userData: null,
   address: {},
   services: null,
   courier: "",
@@ -230,6 +232,25 @@ export const ContextProvider = (props) => {
     dispatch({ type: "FETCH_TRANSAKSI_AFTER_PAYMENT", payload: data });
   };
 
+  const fetchKomisiData = async () => {
+    const access_token = localStorage.getItem("access_token");
+    let data = await fetch(`http://localhost:3000/komisi`, {
+      method: "GET",
+      headers: { access_token, "Content-Type": "application/json" },
+    });
+    data = await data.json();
+    dispatch({ type: "FETCH_KOMISI", payload: data });
+  };
+
+  const fetchUserData = async () => {
+    const access_token = localStorage.getItem("access_token");
+    let data = await fetch(`http://localhost:3000/customerData`, {
+      method: "GET",
+      headers: { access_token, "Content-Type": "application/json" },
+    });
+    data = await data.json();
+    dispatch({ type: "FECTH_USER_DATA", payload: data });
+  };
   return (
     <Context.Provider
       value={{
@@ -244,12 +265,16 @@ export const ContextProvider = (props) => {
         services: state.services,
         ongkosKirim: state.ongkosKirim,
         transaksiBeforePayment: state.transaksiBeforePayment,
-        transaksiAfterPayment:state.transaksiAfterPayment,
+        transaksiAfterPayment: state.transaksiAfterPayment,
+        komisi: state.komisi,
+        userData: state.userData,
         fetchBrands,
         fetchProduct,
         fetchCityListAPI,
         fetchTransaksiBeforePayment,
         fetchTransaksiAfterPayment,
+        fetchKomisiData,
+        fetchUserData,
         setRefCode,
         addTocart,
         editTotalprice,

@@ -26,6 +26,16 @@ export default (state, action) => {
         ...state,
         transaksiAfterPayment: action.payload,
       };
+    case "FETCH_KOMISI":
+      return {
+        ...state,
+        komisi: action.payload,
+      };
+      case "FECTH_USER_DATA":
+        return {
+          ...state,
+          userData: action.payload,
+        };
     case "SET_REFCODE":
       return {
         ...state,
