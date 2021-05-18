@@ -8,7 +8,7 @@ const initialState = {
   refCode: null,
   cityLists: [],
   brands: [],
-  cartItem:[],
+  cartItem: [],
   products: [],
   address: {},
   services: null,
@@ -211,12 +211,12 @@ export const ContextProvider = (props) => {
 
   const fetchCart = async () => {
     const access_token = localStorage.getItem("access_token");
-    let data = await fetch(`localhost:3000/cart`, {
+    let data = await fetch(`http://localhost:3000/cart`, {
       method: "GET",
       headers: { access_token, "Content-Type": "application/json" },
     });
-    data = await data.json()
-    
+    data = await data.json();
+    dispatch({ type: "FETCH_CART", payload: data });
   };
 
   return (
@@ -232,9 +232,11 @@ export const ContextProvider = (props) => {
         totalPrice: state.totalPrice,
         services: state.services,
         ongkosKirim: state.ongkosKirim,
+        cartItem: state.cartItem,
         fetchBrands,
         fetchProduct,
         fetchCityListAPI,
+        fetchCart,
         setRefCode,
         addTocart,
         editTotalprice,

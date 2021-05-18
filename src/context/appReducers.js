@@ -16,6 +16,11 @@ export default (state, action) => {
         ...state,
         cityLists: action.payload,
       };
+    case "FETCH_CART":
+      return {
+        ...state,
+        cartItem: action.payload,
+      };
     case "SET_REFCODE":
       return {
         ...state,
