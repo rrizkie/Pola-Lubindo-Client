@@ -93,13 +93,7 @@ const CartPage = () => {
   }, []);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        flexDirection: "column",
-      }}
-    >
+    <>
       <Paper className={classes.nav}>
         <div className={classes.left}>
           <Typography className={classes.leftContent}>
@@ -262,7 +256,7 @@ const CartPage = () => {
       <Button className={classes.btn} onClick={checkout}>
         Bayar
       </Button>
-    </div>
+    </>
   );
 };
 
