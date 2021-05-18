@@ -8,7 +8,8 @@ const initialState = {
   refCode: null,
   cityLists: [],
   brands: [],
-  cartItem: [],
+  transaksiBeforePayment: [],
+  transaksiAfterPayment: [],
   products: [],
   address: {},
   services: null,
@@ -209,14 +210,24 @@ export const ContextProvider = (props) => {
     return data;
   };
 
-  const fetchCart = async () => {
+  const fetchTransaksiBeforePayment = async () => {
     const access_token = localStorage.getItem("access_token");
-    let data = await fetch(`http://localhost:3000/cart`, {
+    let data = await fetch(`http://localhost:3000/transaksiBeforePayment`, {
       method: "GET",
       headers: { access_token, "Content-Type": "application/json" },
     });
     data = await data.json();
-    dispatch({ type: "FETCH_CART", payload: data });
+    dispatch({ type: "FETCH_TRANSAKSI_BEFORE_PAYMENT", payload: data });
+  };
+
+  const fetchTransaksiAfterPayment = async () => {
+    const access_token = localStorage.getItem("access_token");
+    let data = await fetch(`http://localhost:3000/transaksiAfterPayment`, {
+      method: "GET",
+      headers: { access_token, "Content-Type": "application/json" },
+    });
+    data = await data.json();
+    dispatch({ type: "FETCH_TRANSAKSI_AFTER_PAYMENT", payload: data });
   };
 
   return (
@@ -232,11 +243,13 @@ export const ContextProvider = (props) => {
         totalPrice: state.totalPrice,
         services: state.services,
         ongkosKirim: state.ongkosKirim,
-        cartItem: state.cartItem,
+        transaksiBeforePayment: state.transaksiBeforePayment,
+        transaksiAfterPayment:state.transaksiAfterPayment,
         fetchBrands,
         fetchProduct,
         fetchCityListAPI,
-        fetchCart,
+        fetchTransaksiBeforePayment,
+        fetchTransaksiAfterPayment,
         setRefCode,
         addTocart,
         editTotalprice,

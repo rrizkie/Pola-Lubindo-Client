@@ -70,7 +70,7 @@ const Pembayaran = () => {
         </Button>
         <Button
           onClick={() =>
-            history.push(!refCode ? "/cart" : `/cart?ref=${refCode}`)
+            history.push(!refCode ? "/" : `/?ref=${refCode}`)
           }
           style={{
             border: "2px solid green",
