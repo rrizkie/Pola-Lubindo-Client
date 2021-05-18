@@ -4,7 +4,7 @@ export const useStyles = makeStyles({
   root: {
     display: "flex",
     justifyContent: "start",
-    margin: "1rem 0 0 0.5rem",
+    margin: "1rem 0.5rem",
   },
   brandBox: {
     margin: "0 0.3rem",
@@ -43,5 +43,6 @@ export const useStyles = makeStyles({
     justifyContent: "space-between",
     background: "red",
     color: "#fff",
+    margin: "1rem 0.5rem",
   },
 });

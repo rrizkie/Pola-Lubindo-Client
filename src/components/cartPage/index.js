@@ -81,11 +81,11 @@ const CartPage = () => {
       data.value.push({ produk: item.product, ProdukId: item.product.id });
     });
     localStorage.setItem("transaksi", JSON.stringify(data.transaksiData));
+    setCourierPicked("");
+    setCheked(ongkosKirim);
     const response = await checkoutCart(data);
     if (response.message === "Success")
       history.push(!refCode ? "/pembayaran" : `/pembayaran?ref=${refCode}`);
-    setCourierPicked("");
-    setCheked(ongkosKirim);
   };
 
   useEffect(() => {

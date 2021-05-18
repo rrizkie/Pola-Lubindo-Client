@@ -25,7 +25,7 @@ export const useStyles = makeStyles((theme) => ({
     padding: "2px 4px",
     display: "flex",
     alignItems: "center",
-    width: "90vw",
+    width: "90%",
     border: "1px solid black",
     justifyContent: "space-between",
     boxShadow: "none",

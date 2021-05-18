@@ -21,11 +21,11 @@ export default (state, action) => {
         ...state,
         transaksiBeforePayment: action.payload,
       };
-      case "FETCH_TRANSAKSI_AFTER_PAYMENT":
-        return {
-          ...state,
-          transaksiAfterPayment: action.payload,
-        };
+    case "FETCH_TRANSAKSI_AFTER_PAYMENT":
+      return {
+        ...state,
+        transaksiAfterPayment: action.payload,
+      };
     case "SET_REFCODE":
       return {
         ...state,
@@ -106,6 +106,7 @@ export default (state, action) => {
         address: {},
         courier: "",
         ongkosKirim: 0,
+        services: null,
       };
     default:
       return state;

@@ -10,6 +10,7 @@ import { SearchRounded } from "@material-ui/icons";
 import { useStyles } from "./styles";
 import { useHistory } from "react-router";
 import logo from "../../assets/lubindo.png";
+import Carousel from "../carousel"
 
 export const Navbar = () => {
   const classes = useStyles();
@@ -60,6 +61,7 @@ export const Navbar = () => {
             <SearchRounded className={classes.searchContent} />
           </Paper>
         </form>
+        <Carousel />
       </Paper>
     </div>
   );

@@ -7,7 +7,7 @@ import { Typography, Fab, Button } from "@material-ui/core";
 import { Context } from "../../context/globalState";
 import brandLogo from "../../assets/brand1.png";
 import allBrand from "../../assets/allBrand.png";
-import { useParams, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import ShareIcon from "@material-ui/icons/Share";
 
 const useQuery = () => {
@@ -69,7 +69,7 @@ const HomePage = () => {
           ))}
         </div>
         {localStorage.getItem("access_token") ? (
-          <div className={classes.share}>
+          <div className={classes.share} style={{ verticalAlign: "middle" }}>
             <Typography>
               Bagi Link untuk dapat komisi <ShareIcon />
             </Typography>
