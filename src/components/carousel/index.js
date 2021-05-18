@@ -18,19 +18,19 @@ export default function SimpleSlider() {
       <Slider {...settings} arrows={false}>
         <div style={{ margin: 15 }}>
           <img
-            src="https://cms.sehatq.com/cdn-cgi/image/f=auto,width=480,fit=pad,background=white,quality=100/public/img/article_img/carrier-oil-teman-setia-minyak-atsiri-untuk-kesehatan-kulit-1615191167.jpg"
+            src="https://s3-ap-southeast-1.amazonaws.com/assets.segari.id/banners/Web-Banner_Sehat-Bersama-Segari.png"
             className={classes.img}
           />
         </div>
         <div>
           <img
-            src="https://cms.sehatq.com/cdn-cgi/image/f=auto,width=480,fit=pad,background=white,quality=100/public/img/article_img/carrier-oil-teman-setia-minyak-atsiri-untuk-kesehatan-kulit-1615191167.jpg"
+            src="https://s3-ap-southeast-1.amazonaws.com/assets.segari.id/banners/Web-Banner_Sehat-Bersama-Segari.png"
             className={classes.img}
           />
         </div>
         <div>
           <img
-            src="https://cms.sehatq.com/cdn-cgi/image/f=auto,width=480,fit=pad,background=white,quality=100/public/img/article_img/carrier-oil-teman-setia-minyak-atsiri-untuk-kesehatan-kulit-1615191167.jpg"
+            src="https://s3-ap-southeast-1.amazonaws.com/assets.segari.id/banners/Web-Banner_Sehat-Bersama-Segari.png"
             className={classes.img}
           />
         </div>

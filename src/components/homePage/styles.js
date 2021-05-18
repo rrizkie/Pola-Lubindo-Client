@@ -45,7 +45,5 @@ export const useStyles = makeStyles({
     background: "red",
     color: "#fff",
     margin: "1rem 0.5rem",
-    alignItems: "center",
-    padding: "0.6rem",
   },
 });

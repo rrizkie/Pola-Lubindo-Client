@@ -49,9 +49,7 @@ export const Navbar = () => {
             <Typography variant="h6" className={classes.text}>
               <Button
                 className={classes.button}
-                onClick={() =>
-                  history.push(refCode ? `/profile?ref=${refCode}` : "/profile")
-                }
+                onClick={() => history.push("/profile")}
               >
                 Profile
               </Button>

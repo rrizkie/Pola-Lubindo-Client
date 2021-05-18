@@ -10,7 +10,7 @@ import allBrand from "../../assets/allBrand.png";
 import { useLocation } from "react-router-dom";
 import ShareIcon from "@material-ui/icons/Share";
 
-import PremierModal from "../premierModal";
+import Carousel from "../carousel";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -51,6 +51,7 @@ const HomePage = () => {
   return (
     <>
       <Navbar />
+      <Carousel />
       <div className={classes.root}>
         <div className={classes.brandBox}>
           <Fab className={classes.Fab} onClick={() => setSelectedBrand("")}>
@@ -58,73 +59,38 @@ const HomePage = () => {
           </Fab>
           <Typography className={classes.brandText}>Semua Produk</Typography>
         </div>
-        {localStorage.getItem("access_token") &&
-        userData?.totalPembelian > premier &&
-        userData?.statusPremier === null ? (
-          <div className={classes.share} style={{ verticalAlign: "middle" }}>
-            <Typography style={{ fontSize: 12, fontWeight: "bold" }}>
-              Dapatkan komisi tambahan
-            </Typography>
-            <Button
-              style={{
-                color: "#fff",
-                border: "2px solid #fff",
-                fontSize: 10,
-                fontWeight: "bold",
-              }}
-              onClick={() => setVisible(!visible)}
+        {brands.map((el) => (
+          <div className={classes.brandBox} key={el.id}>
+            <Fab
+              className={classes.Fab}
+              onClick={() => setSelectedBrand(el.namaBrand)}
             >
-              upgrade premiere
-            </Button>
-          </div>
-        ) : userData?.statusPremier === "menunggu approval" ? (
-          <div className={classes.share} style={{ verticalAlign: "middle" }}>
-            <Typography style={{ fontSize: 12, fontWeight: "bold" }}>
-              Status: Menunggu Proses persetujuan premiere
+              <img src={brandLogo} alt={brandLogo} />
+            </Fab>
+            <Typography className={classes.brandText}>
+              {el.namaBrand}
             </Typography>
           </div>
-        ) : userData?.statusPremier === "aktif" ? (
-          <div className={classes.share} style={{ verticalAlign: "middle" }}>
-            <Typography style={{ fontSize: 12, fontWeight: "bold" }}>
-              Bagikan link untuk komisi
-            </Typography>
-            <div style={{ display: "flex", justifyContent: "space-around" }}>
-              <div style={{ marginRight: "0.5rem", marginTop: "0.2rem" }}>
-                <ShareIcon />
-              </div>
-              <div>
-                <Button
-                  style={{
-                    color: "#fff",
-                    border: "2px solid #fff",
-                    fontSize: 10,
-                    fontWeight: "bold",
-                  }}
-                  onClick={handleCopy}
-                >
-                  bagikan
-                </Button>
-              </div>
-            </div>
-          </div>
-        ) : (
-          ""
-        )}
-        <PremierModal
-          visible={visible}
-          handleClose={() => setVisible(!visible)}
-        />
-        <div className={classes.produkCard}>
-          {!selectedBrand
-            ? products.map((product) => (
-                <CardProduct product={product} key={product.id} />
-              ))
-            : products
-                .filter((prod) => prod.Brand.namaBrand === selectedBrand)
-                .map((product) => (
-                  <CardProduct product={product} key={product.id} />
-                ))}
+        ))}
+      </div>
+      {localStorage.getItem("access_token") ? (
+        <div className={classes.share} style={{ verticalAlign: "middle" }}>
+          <Typography>
+            Bagi Link untuk dapat komisi <ShareIcon />
+          </Typography>
+          <Button onClick={handleCopy}>SALIN</Button>
         </div>
+      ) : null}
+      <div className={classes.produkCard}>
+        {!selectedBrand
+          ? products.map((product) => (
+              <CardProduct product={product} key={product.id} />
+            ))
+          : products
+              .filter((prod) => prod.Brand.namaBrand === selectedBrand)
+              .map((product) => (
+                <CardProduct product={product} key={product.id} />
+              ))}
       </div>
       {localStorage.getItem("access_token") ? (
         <div className={classes.share} style={{ verticalAlign: "middle" }}>
