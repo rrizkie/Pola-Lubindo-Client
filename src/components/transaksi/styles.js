@@ -2,8 +2,6 @@ import { makeStyles } from "@material-ui/core";
 
 export const useStyle = makeStyles((theme) => ({
   transaksiPage: {
-    display: "flex",
-    flexDirection: "column",
     margin: "1rem 1rem 1rem 1rem",
   },
 

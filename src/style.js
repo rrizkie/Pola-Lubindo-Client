@@ -5,6 +5,8 @@ const useStyles = makeStyles({
     height: "100%",
     margin: "auto",
     maxWidth: "500px",
+    display: "flex",
+    flexDirection: "column",
   },
 });
 

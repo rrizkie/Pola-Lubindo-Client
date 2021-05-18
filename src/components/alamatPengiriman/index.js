@@ -31,7 +31,6 @@ const AlamatPengiriman = () => {
     <div
       style={{
         display: "flex",
-        justifyContent: "center",
         flexDirection: "column",
       }}
     >

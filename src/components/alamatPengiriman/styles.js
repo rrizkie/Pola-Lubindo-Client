@@ -6,7 +6,7 @@ export const useStyles = makeStyles({
     boxShadow: "none",
     display: "flex",
     justifyContent: "space-between",
-    margin: "-0.5rem -1rem",
+
     padding: "0.3rem 1.7rem",
     backgroundColor: "#f4e8e9",
   },
@@ -59,6 +59,6 @@ export const useStyles = makeStyles({
     borderRadius: "8px",
     fontWeight: "bold",
     color: "#fff",
-    bottom:"-20rem"
+    bottom: "-20rem",
   },
 });
