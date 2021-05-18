@@ -51,7 +51,7 @@ export const BottomNav = () => {
   const [value, setValue] = React.useState(0);
   return (
     <>
-      {location.pathname !== "/pembayaran" && carts.length > 0 && (
+      {location.pathname === "/pembayaran" && carts.length > 0 && (
         <div className={classes.carts}>
           <div style={{ marginTop: "0.5rem" }}>
             <Typography style={{ fontSize: "0.8rem" }}>

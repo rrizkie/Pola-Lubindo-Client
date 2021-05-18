@@ -5,6 +5,9 @@ import { ContextProvider } from "./context/globalState";
 import { Loading } from "./components/loading";
 import useStyles from "./style";
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 // const Loading = lazy(()=> import('./components/loading'))
 const LoginPage = lazy(() => import("./components/loginPage"));
 const HomePage = lazy(() => import("./components/homePage"));

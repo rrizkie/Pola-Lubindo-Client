@@ -15,9 +15,8 @@ export const Navbar = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  
   return (
-    <div className={classes.topRoot}>
+    <>
       <Paper className={classes.navbar}>
         <Toolbar className={classes.navContent}>
           <img src={logo} alt="Lubindo" />
@@ -39,7 +38,10 @@ export const Navbar = () => {
             </Typography>
           ) : (
             <Typography variant="h6" className={classes.text}>
-              <Button className={classes.button} onClick={()=>history.push("/profile")}> 
+              <Button
+                className={classes.button}
+                onClick={() => history.push("/profile")}
+              >
                 Profile
               </Button>
             </Typography>
@@ -61,6 +63,6 @@ export const Navbar = () => {
           </Paper>
         </form>
       </Paper>
-    </div>
+    </>
   );
 };

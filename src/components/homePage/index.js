@@ -10,6 +10,8 @@ import allBrand from "../../assets/allBrand.png";
 import { useParams, useLocation } from "react-router-dom";
 import ShareIcon from "@material-ui/icons/Share";
 
+import Carousel from "../carousel";
+
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
 };
@@ -44,52 +46,51 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div>
+    <>
       <Navbar />
-      <div className={classes.topRoot}>
-        <div className={classes.root}>
-          <div className={classes.brandBox}>
-            <Fab className={classes.Fab} onClick={() => setSelectedBrand("")}>
-              <img src={allBrand} />
+      <Carousel />
+      <div className={classes.root}>
+        <div className={classes.brandBox}>
+          <Fab className={classes.Fab} onClick={() => setSelectedBrand("")}>
+            <img src={allBrand} alt={allBrand} />
+          </Fab>
+          <Typography className={classes.brandText}>Semua Produk</Typography>
+        </div>
+        {brands.map((el) => (
+          <div className={classes.brandBox} key={el.id}>
+            <Fab
+              className={classes.Fab}
+              onClick={() => setSelectedBrand(el.namaBrand)}
+            >
+              <img src={brandLogo} alt={brandLogo} />
             </Fab>
-            <Typography className={classes.brandText}>Semua Produk</Typography>
-          </div>
-          {brands.map((el) => (
-            <div className={classes.brandBox} key={el.id}>
-              <Fab
-                className={classes.Fab}
-                onClick={() => setSelectedBrand(el.namaBrand)}
-              >
-                <img src={brandLogo} />
-              </Fab>
-              <Typography className={classes.brandText}>
-                {el.namaBrand}
-              </Typography>
-            </div>
-          ))}
-        </div>
-        {localStorage.getItem("access_token") ? (
-          <div className={classes.share}>
-            <Typography>
-              Bagi Link untuk dapat komisi <ShareIcon />
+            <Typography className={classes.brandText}>
+              {el.namaBrand}
             </Typography>
-            <Button onClick={handleCopy}>SALIN</Button>
           </div>
-        ) : null}
-        <div className={classes.produkCard}>
-          {!selectedBrand
-            ? products.map((product) => (
-                <CardProduct product={product} key={product.id} />
-              ))
-            : products
-                .filter((prod) => prod.Brand.namaBrand === selectedBrand)
-                .map((product) => (
-                  <CardProduct product={product} key={product.id} />
-                ))}
+        ))}
+      </div>
+      {localStorage.getItem("access_token") ? (
+        <div className={classes.share} style={{ verticalAlign: "middle" }}>
+          <Typography>
+            Bagi Link untuk dapat komisi <ShareIcon />
+          </Typography>
+          <Button onClick={handleCopy}>SALIN</Button>
         </div>
+      ) : null}
+      <div className={classes.produkCard}>
+        {!selectedBrand
+          ? products.map((product) => (
+              <CardProduct product={product} key={product.id} />
+            ))
+          : products
+              .filter((prod) => prod.Brand.namaBrand === selectedBrand)
+              .map((product) => (
+                <CardProduct product={product} key={product.id} />
+              ))}
       </div>
       <BottomNav />
-    </div>
+    </>
   );
 };
 
