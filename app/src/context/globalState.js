@@ -8,6 +8,7 @@ const initialState = {
   refCode: null,
   cityLists: [],
   brands: [],
+  cartItem:[],
   products: [],
   address: {},
   services: null,
@@ -206,6 +207,16 @@ export const ContextProvider = (props) => {
     );
     data = await data.json();
     return data;
+  };
+
+  const fetchCart = async () => {
+    const access_token = localStorage.getItem("access_token");
+    let data = await fetch(`localhost:3000/cart`, {
+      method: "GET",
+      headers: { access_token, "Content-Type": "application/json" },
+    });
+    data = await data.json()
+    
   };
 
   return (
