@@ -6,6 +6,9 @@ import {
   Checkbox,
   Button,
   CircularProgress,
+  FormControlLabel,
+  FormGroup,
+  Grid,
 } from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
@@ -171,6 +174,7 @@ const CartPage = () => {
           </>
         )}
       </Paper>
+
       <Paper className={classes.box2} elevation={3}>
         <Typography className={classes.boxText}>Pengiriman</Typography>
         <select
@@ -182,37 +186,37 @@ const CartPage = () => {
           <option className={classes.option}>tiki</option>
           <option className={classes.option}>jne</option>
         </select>
-        <div>
+        <Grid container alignItems="center">
           {services &&
             services.map((service) => (
-              <div className={classes.checkbox} key={service.service}>
-                <Checkbox
-                  checked={checked === service.cost[0].value ? true : false}
-                  onChange={() => handleChecked(service.cost[0].value)}
-                />
-                <div className={classes.label}>
-                  <div className={classes.content}>
-                    <Typography
-                      style={{ fontWeight: "bold", fontSize: "0.7rem" }}
-                    >
-                      {service.service}
-                    </Typography>
-                    <Typography style={{ fontSize: "0.6rem" }}>
-                      {service.cost[0].etd} Day
-                    </Typography>
-                  </div>
-                  <div className={classes.content}>
-                    <Typography
-                      style={{ fontWeight: "bold", fontSize: "0.7rem" }}
-                    >
-                      Rp {service.cost[0].value}
-                    </Typography>
-                  </div>
-                </div>
-              </div>
+              <>
+                <Grid item xs={9}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={
+                          checked === service.cost[0].value ? true : false
+                        }
+                        onChange={() => handleChecked(service.cost[0].value)}
+                        key={service.service}
+                      />
+                    }
+                    label={
+                      <>
+                        {service.service} | {service.cost[0].etd} Day
+                      </>
+                    }
+                  />
+                </Grid>
+
+                <Grid item xs={3}>
+                  Rp. {service.cost[0].value}
+                </Grid>
+              </>
             ))}
-        </div>
+        </Grid>
       </Paper>
+
       <Paper className={classes.box2} elevation={3}>
         <Typography className={classes.boxText}>Ringkasan Belanja</Typography>
         <div className={classes.box}>

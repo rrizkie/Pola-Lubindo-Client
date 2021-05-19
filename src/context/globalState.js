@@ -8,7 +8,7 @@ const initialState = {
   refCode: null,
   cityLists: [],
   brands: [],
-  cartItem:[],
+  cartItem: [],
   products: [],
   address: {},
   services: null,
@@ -126,6 +126,7 @@ export const ContextProvider = (props) => {
         icon: "error",
       });
       return { message: "Failed" };
+      console.log(error);
     }
   };
 
@@ -215,8 +216,7 @@ export const ContextProvider = (props) => {
       method: "GET",
       headers: { access_token, "Content-Type": "application/json" },
     });
-    data = await data.json()
-    
+    data = await data.json();
   };
 
   return (
