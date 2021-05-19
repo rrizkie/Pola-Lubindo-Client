@@ -31,11 +31,16 @@ export default (state, action) => {
         ...state,
         komisi: action.payload,
       };
-      case "FECTH_USER_DATA":
-        return {
-          ...state,
-          userData: action.payload,
-        };
+    case "FETCH_TRANSAKSI_KOMISI":
+      return {
+        ...state,
+        transaksiKomisi: action.payload,
+      };
+    case "FECTH_USER_DATA":
+      return {
+        ...state,
+        userData: action.payload,
+      };
     case "SET_REFCODE":
       return {
         ...state,

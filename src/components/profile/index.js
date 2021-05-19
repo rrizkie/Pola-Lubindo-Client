@@ -37,7 +37,7 @@ export default function CenteredGrid() {
           <Typography className={classes.leftContent}>
             <ArrowBack style={{ cursor: "pointer" }} onClick={back} />
           </Typography>
-          <Typography className={classes.leftContent}>Profil</Typography>
+          <Typography className={classes.leftContent}>Profile</Typography>
         </div>
       </Paper>
       <div className={classes.root}>
