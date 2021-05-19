@@ -106,6 +106,10 @@ export const ContextProvider = (props) => {
     dispatch({ type: "CHECKED_ITEM", payload: data });
   };
 
+  const resetLocal = () => {
+    dispatch({ type: "RESET" });
+  };
+
   const checkoutCart = async (itemData) => {
     try {
       let data = await fetch(`http://localhost:3000/checkout`, {
@@ -122,6 +126,7 @@ export const ContextProvider = (props) => {
         localStorage.setItem("transaksi id", data.transaksiId);
         localStorage.removeItem("carts");
         localStorage.removeItem("totalPrice");
+        // dispatch({ type: "RESET" });
         return { message: "Success" };
       }
     } catch (error) {
@@ -149,7 +154,7 @@ export const ContextProvider = (props) => {
       } else {
         localStorage.removeItem("transaksi id");
         localStorage.removeItem("transaksi");
-        dispatch({ type: "RESET_CARTS&PRICE", payload: null });
+        dispatch({ type: "RESET", payload: null });
         return { message: "Success" };
       }
     } catch (error) {
@@ -279,7 +284,7 @@ export const ContextProvider = (props) => {
         transaksiAfterPayment: state.transaksiAfterPayment,
         komisi: state.komisi,
         userData: state.userData,
-        transaksiKomisi:state.transaksiKomisi,
+        transaksiKomisi: state.transaksiKomisi,
         fetchBrands,
         fetchProduct,
         fetchCityListAPI,
@@ -303,6 +308,7 @@ export const ContextProvider = (props) => {
         getOngkir,
         login,
         register,
+        resetLocal,
       }}
     >
       {props.children}

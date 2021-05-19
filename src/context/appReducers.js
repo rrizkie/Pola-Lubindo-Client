@@ -113,7 +113,7 @@ export default (state, action) => {
         ...state,
         isLogin: action.payload,
       };
-    case "RESET_CARTS&PRICE":
+    case "RESET":
       return {
         ...state,
         carts: [],

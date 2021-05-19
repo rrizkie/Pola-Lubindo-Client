@@ -31,7 +31,7 @@ const KonfirmasiPembayaran = () => {
   const transaksiData = JSON.parse(localStorage.getItem("transaksi"));
 
   const back = () => {
-    history.push("/pembayaran");
+    history.push(refCode ? `/pembayaran?ref=${refCode}` : "/pembayaran");
   };
 
   const allBank = [
@@ -65,7 +65,7 @@ const KonfirmasiPembayaran = () => {
       localStorage.getItem("access_token"),
       refCode ? refCode : null
     );
-    if (response.message === "Success") history.push("/");
+    if (response.message === "Success") history.push(refCode ? `/?ref=${refCode}` : "/");
   };
   return (
     <div>

@@ -8,7 +8,7 @@ import { Context } from "../../context/globalState";
 const LoginPage = () => {
   const classes = useStyles();
   const history = useHistory();
-  const { login } = useContext(Context);
+  const { login, refCode } = useContext(Context);
   const [input, setInput] = useState("");
   const [password, setPassword] = useState("");
 
@@ -19,7 +19,7 @@ const LoginPage = () => {
         ? await login({ email: input, password })
         : await login({ phone: input, password });
     if (response.message === "success") {
-      history.push("/");
+      history.push(refCode ? `/?ref=${refCode}` : "/");
     }
   };
 
@@ -31,7 +31,7 @@ const LoginPage = () => {
             <Typography className={classes.leftContent}>
               <ArrowBackIcon
                 style={{ cursor: "pointer" }}
-                onClick={() => history.push("/")}
+                onClick={() => history.push(refCode ? `/?ref=${refCode}` : "/")}
               />
             </Typography>
             <Typography className={classes.leftContent}>Masuk Akun</Typography>
@@ -39,7 +39,9 @@ const LoginPage = () => {
           <div>
             <Typography
               className={classes.rightContent}
-              onClick={() => history.push("/register")}
+              onClick={() =>
+                history.push(refCode ? `/register?ref=${refCode}` : "/register")
+              }
             >
               Daftar
             </Typography>
@@ -87,7 +89,9 @@ const LoginPage = () => {
                 fontSize: "0.7rem",
                 fontWeight: "bold",
               }}
-              onClick={() => history.push("/register")}
+              onClick={() =>
+                history.push(refCode ? `/register?ref=${refCode}` : "/register")
+              }
             >
               Daftar
             </a>

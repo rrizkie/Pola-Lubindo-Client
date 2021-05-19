@@ -12,18 +12,27 @@ import { Context } from "../../context/globalState";
 
 export default function CenteredGrid() {
   const classes = useStyles();
-  const { fetchKomisiData, fetchUserData, komisi, userData } =
-    useContext(Context);
+  const {
+    fetchKomisiData,
+    fetchUserData,
+    komisi,
+    userData,
+    refCode,
+    resetLocal,
+    setRefCode,
+  } = useContext(Context);
 
   const history = useHistory();
   const back = () => {
-    history.push("/");
+    history.push(refCode ? `/?ref=${refCode}` : "/");
   };
   const logout = () => {
     history.push("/login");
     localStorage.removeItem("access_token");
     localStorage.removeItem("carts");
     localStorage.removeItem("totalPrice");
+    resetLocal();
+    setRefCode(null);
   };
 
   useEffect(() => {
@@ -75,7 +84,13 @@ export default function CenteredGrid() {
                 variant="outlined"
                 fullWidth
                 style={{ borderColor: "green", color: "green" }}
-                onClick={() => history.push("/riwayat-transaksi")}
+                onClick={() =>
+                  history.push(
+                    refCode
+                      ? `/riwayat-transaksi?ref=${refCode}`
+                      : `/riwayat-transaksi`
+                  )
+                }
               >
                 Lihat Riwayat Transaksi
               </Button>
@@ -86,7 +101,6 @@ export default function CenteredGrid() {
                 color="primary"
                 fullWidth
                 style={{ backgroundColor: "green" }}
-                href="/riwayat-transaksi"
               >
                 Transaksi Komisi
               </Button>
@@ -126,7 +140,7 @@ export default function CenteredGrid() {
                 No. Rekening
               </Grid>
               <Grid item xs={5}>
-                {userData.noRek}
+                {userData.noRekening}
               </Grid>
               <Grid item xs={3}>
                 ubah

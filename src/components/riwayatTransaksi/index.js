@@ -10,10 +10,11 @@ import { Context } from "../../context/globalState";
 
 export default function CenteredGrid() {
   const classes = useStyles();
-  const { fetchTransaksiKomisi, transaksiKomisi } = useContext(Context);
+  const { fetchTransaksiKomisi, transaksiKomisi, refCode } =
+    useContext(Context);
   const history = useHistory();
   const back = () => {
-    history.push("/profile");
+    history.push(refCode ? `/profile?ref=${refCode}` : "/profile");
   };
 
   useEffect(() => {
@@ -41,7 +42,8 @@ export default function CenteredGrid() {
                   <Typography variant="subtitle2">
                     <b>Pencairan Komisi</b>
                     <br />
-                    {transaksi.createdAt.split("T")[0]} {transaksi.createdAt.split("T")[1].split(".")[0]} 
+                    {transaksi.createdAt.split("T")[0]}{" "}
+                    {transaksi.createdAt.split("T")[1].split(".")[0]}
                     <p style={{ color: "red", fontSize: "20px" }}>
                       - Rp.{" "}
                       {new Number(transaksi.nominal).toLocaleString("id-ID")}
@@ -53,7 +55,8 @@ export default function CenteredGrid() {
                   <Typography variant="subtitle2">
                     <b>Komisi</b>
                     <br />
-                    {transaksi.createdAt.split("T")[0]} {transaksi.createdAt.split("T")[1].split(".")[0]} 
+                    {transaksi.createdAt.split("T")[0]}{" "}
+                    {transaksi.createdAt.split("T")[1].split(".")[0]}
                     <p style={{ color: "green", fontSize: "20px" }}>
                       + Rp.{" "}
                       {new Number(transaksi.nominal).toLocaleString("id-ID")}

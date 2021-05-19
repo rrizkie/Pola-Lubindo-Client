@@ -212,25 +212,6 @@ const Transaksi = () => {
                         </Grid>
                       </>
                     ))}
-
-                    {/* <Grid item xs={12}>
-                      <Typography variant="body2">
-                        {item.Carts.length > 1 ? (
-                          <>{item.Carts.length} barang lainnya </>
-                        ) : null}
-                        <br />
-                        Total belanja
-                        <br />
-                        Rp. {item.totalHarga}
-                      </Typography>
-                    </Grid> */}
-                    {/* <Grid item xs={6}>
-                      <Button
-                        style={{ backgroundColor: "green", color: "white" }}
-                      >
-                        Cek Resi
-                      </Button>
-                    </Grid> */}
                   </Grid>
                 </Paper>
               ))}
