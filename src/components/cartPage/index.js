@@ -6,8 +6,9 @@ import {
   Checkbox,
   Button,
   CircularProgress,
-  Grid,
   FormControlLabel,
+  FormGroup,
+  Grid,
 } from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
@@ -247,22 +248,17 @@ const CartPage = () => {
           <option className={classes.option}>jne</option>
         </select>
         <Grid container alignItems="center">
-          {services === null && courierPicked !== "" && (
-            <CircularProgress
-              style={{ marginLeft: "40%", marginTop: "1rem" }}
-            />
-          )}
           {services &&
             services.map((service) => (
               <>
-                <Grid item xs={9} key={service.service}>
+                <Grid item xs={9}>
                   <FormControlLabel
                     control={
                       <Checkbox
                         checked={
                           checked === service.cost[0].value ? true : false
                         }
-                        onChange={() => handleChecked(service)}
+                        onChange={() => handleChecked(service.cost[0].value)}
                         key={service.service}
                       />
                     }

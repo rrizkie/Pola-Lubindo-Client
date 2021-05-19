@@ -10,8 +10,7 @@ const initialState = {
   refCode: null,
   cityLists: [],
   brands: [],
-  transaksiBeforePayment: [],
-  transaksiAfterPayment: [],
+  cartItem: [],
   products: [],
   komisi: null,
   transaksiKomisi: null,
@@ -161,24 +160,12 @@ export const ContextProvider = (props) => {
         return { message: "Success" };
       }
     } catch (error) {
+      Swal.fire({
+        title: `${error.errMessage}`,
+        icon: "error",
+      });
+      return { message: "Failed" };
       console.log(error);
-      if (
-        error.errMessage === "email address already in use" ||
-        error.errMessage === "phone number already in use"
-      ) {
-        Swal.fire({
-          title: `${error.errMessage}`,
-          text: "Try to login with your email or phone number",
-          icon: "error",
-        });
-        return { message: "go to login page" };
-      } else {
-        Swal.fire({
-          title: `${error.errMessage}`,
-          icon: "error",
-        });
-        return { message: "Failed" };
-      }
     }
   };
 
@@ -308,7 +295,6 @@ export const ContextProvider = (props) => {
       headers: { access_token, "Content-Type": "application/json" },
     });
     data = await data.json();
-    dispatch({ type: "FETCH_TRANSAKSI_KOMISI", payload: data });
   };
 
   const pesananSelesai = async (newData) => {
