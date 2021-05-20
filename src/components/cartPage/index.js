@@ -186,6 +186,8 @@ const CartPage = () => {
           <option className={classes.option}>tiki</option>
           <option className={classes.option}>jne</option>
         </select>
+
+        {courierPicked ? <CircularProgress /> : null}
         <Grid container alignItems="center">
           {services &&
             services.map((service) => (
@@ -225,7 +227,7 @@ const CartPage = () => {
             onChange={() => setCheck(!check)}
           />
           <div>
-            <Typography style={{ fontSize: "0.4rem", fontWeight: "bold" }}>
+            <Typography style={{ fontSize: 11, fontWeight: "bold" }}>
               Pilih Semua Produk
             </Typography>
           </div>
@@ -249,10 +251,10 @@ const CartPage = () => {
             padding: "0.4rem",
           }}
         >
-          <Typography style={{ fontSize: "0.6rem", fontWeight: "bold" }}>
+          <Typography style={{ fontSize: 10, fontWeight: "bold" }}>
             Total Belanja
           </Typography>
-          <Typography style={{ fontSize: "0.6rem", fontWeight: "bold" }}>
+          <Typography style={{ fontSize: 10, fontWeight: "bold" }}>
             Rp {new Number(totalPrice).toLocaleString("id-ID")}
           </Typography>
         </div>
