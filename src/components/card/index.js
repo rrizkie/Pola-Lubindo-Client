@@ -30,19 +30,19 @@ export const CardProduct = ({ product }) => {
 
   return (
     <>
-      <Grid item xs={5} style={{ margin: "0.2rem" }}>
-        <Card style={{ height: "auto" }}>
+      <Grid item xs={6}>
+        <Card>
           <CardMedia
             className={classes.media}
             image={product.fotoProduk}
-            title={product.namaProduk}
+            title="Contemplative Reptile"
           />
           <CardContent>
             <Typography className={classes.produkTitle} component="h6">
               {product.namaProduk}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              Rp. {product.hargaSatuan.toLocaleString("id-ID")},-
+              Rp. {product.price.toLocaleString("id-ID")},-
             </Typography>
           </CardContent>
           <CardActions disableSpacing>

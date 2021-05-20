@@ -65,32 +65,13 @@ const HomePage = () => {
               className={classes.Fab}
               onClick={() => setSelectedBrand(el.namaBrand)}
             >
-              <img src={brandLogo} alt={brandLogo} />
+              <img src={el.fotoBrand} alt={brandLogo} width="60" height="60" />
             </Fab>
             <Typography className={classes.brandText}>
               {el.namaBrand}
             </Typography>
           </div>
         ))}
-      </div>
-      {localStorage.getItem("access_token") ? (
-        <div className={classes.share} style={{ verticalAlign: "middle" }}>
-          <Typography>
-            Bagi Link untuk dapat komisi <ShareIcon />
-          </Typography>
-          <Button onClick={handleCopy}>SALIN</Button>
-        </div>
-      ) : null}
-      <div className={classes.produkCard}>
-        {!selectedBrand
-          ? products.map((product) => (
-              <CardProduct product={product} key={product.id} />
-            ))
-          : products
-              .filter((prod) => prod.Brand.namaBrand === selectedBrand)
-              .map((product) => (
-                <CardProduct product={product} key={product.id} />
-              ))}
       </div>
       {localStorage.getItem("access_token") ? (
         <div className={classes.share} style={{ verticalAlign: "middle" }}>
