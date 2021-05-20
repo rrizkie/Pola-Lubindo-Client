@@ -76,7 +76,7 @@ const Transaksi = () => {
             <hr />
 
             <Grid container spacing={3} alignItems="center">
-              <Grid item xs={2}>
+              <Grid item xs={3}>
                 <img
                   src="https://media.foxbusiness.com/BrightCove/854081161001/202005/3384/854081161001_6154929188001_6154933434001-vs.jpg"
                   alt="nama_produk"
@@ -84,13 +84,13 @@ const Transaksi = () => {
                   height="50"
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={5}>
                 <Typography variant="body2">
                   <b> Judul Produk</b>
                   <br />1 barang
                 </Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <Typography variant="body2">
                   konfirmasi sebelum <br />
                   22/03/2021 23:00
@@ -140,8 +140,8 @@ const Transaksi = () => {
 
               <hr />
 
-              <Grid container spacing={3} alignItems="center">
-                <Grid item xs={2}>
+              <Grid container spacing={2} alignItems="center">
+                <Grid item xs={3}>
                   <img
                     src="https://media.foxbusiness.com/BrightCove/854081161001/202005/3384/854081161001_6154929188001_6154933434001-vs.jpg"
                     alt="nama_produk"
@@ -149,13 +149,13 @@ const Transaksi = () => {
                     height="50"
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={5}>
                   <Typography variant="body2">
                     <b> Judul Produk</b>
                     <br />1 barang
                   </Typography>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={4}>
                   <Typography variant="body2">
                     konfirmasi sebelum <br />
                     22/03/2021 23:00
@@ -204,8 +204,8 @@ const Transaksi = () => {
 
               <hr />
 
-              <Grid container spacing={3} alignItems="center">
-                <Grid item xs={2}>
+              <Grid container spacing={2} alignItems="center">
+                <Grid item xs={3}>
                   <img
                     src="https://media.foxbusiness.com/BrightCove/854081161001/202005/3384/854081161001_6154929188001_6154933434001-vs.jpg"
                     alt="nama_produk"
@@ -213,13 +213,13 @@ const Transaksi = () => {
                     height="50"
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={5}>
                   <Typography variant="body2">
                     <b> Judul Produk</b>
                     <br />1 barang
                   </Typography>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={4}>
                   <Typography variant="body2">
                     konfirmasi sebelum <br />
                     22/03/2021 23:00
