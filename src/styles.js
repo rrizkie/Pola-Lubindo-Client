@@ -7,6 +7,7 @@ const useStyles = makeStyles({
     maxWidth: "500px",
     display: "flex",
     flexDirection: "column",
+    backgroundColor: "white",
   },
 });
 

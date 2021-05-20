@@ -3,7 +3,7 @@ import { useStyles } from "./styles";
 import { Navbar } from "../navbar";
 import { CardProduct } from "../card";
 import { BottomNav } from "../bottomNav";
-import { Typography, Fab, Button } from "@material-ui/core";
+import { Typography, Fab, Button, Grid } from "@material-ui/core";
 import { Context } from "../../context/globalState";
 import brandLogo from "../../assets/brand1.png";
 import allBrand from "../../assets/allBrand.png";
@@ -62,7 +62,7 @@ const HomePage = () => {
               className={classes.Fab}
               onClick={() => setSelectedBrand(el.namaBrand)}
             >
-              <img src={brandLogo} alt={brandLogo} />
+              <img src={el.fotoBrand} alt={brandLogo} width="60" height="60" />
             </Fab>
             <Typography className={classes.brandText}>
               {el.namaBrand}
@@ -78,7 +78,7 @@ const HomePage = () => {
           <Button onClick={handleCopy}>SALIN</Button>
         </div>
       ) : null}
-      <div className={classes.produkCard}>
+      <Grid container spacing={2} style={{ marginBottom: 75 }}>
         {!selectedBrand
           ? products.map((product) => (
               <CardProduct product={product} key={product.id} />
@@ -88,7 +88,7 @@ const HomePage = () => {
               .map((product) => (
                 <CardProduct product={product} key={product.id} />
               ))}
-      </div>
+      </Grid>
       <BottomNav />
     </>
   );

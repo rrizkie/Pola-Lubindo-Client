@@ -3,7 +3,7 @@ import React, { lazy, Suspense } from "react";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { ContextProvider } from "./context/globalState";
 import { Loading } from "./components/loading";
-import useStyles from "./style";
+import useStyles from "./styles";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
