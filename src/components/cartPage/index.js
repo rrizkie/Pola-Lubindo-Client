@@ -187,7 +187,8 @@ const CartPage = () => {
           <option className={classes.option}>jne</option>
         </select>
 
-        {courierPicked ? <CircularProgress /> : null}
+        {courierPicked && selected === true ? <CircularProgress /> : null}
+
         <Grid container alignItems="center">
           {services &&
             services.map((service) => (
