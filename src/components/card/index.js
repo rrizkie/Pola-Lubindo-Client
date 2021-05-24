@@ -19,7 +19,7 @@ export const CardProduct = ({ product }) => {
 
   function addCart(product) {
     const filtered = carts.filter((cart) => cart.product.id === product.id);
-    editTotalprice({ status: "increment", price: product.price });
+    editTotalprice({ status: "increment", price: +product.hargaSatuan });
     if (filtered.length > 0) {
       filtered[0].qty += 1;
     } else {
@@ -39,23 +39,20 @@ export const CardProduct = ({ product }) => {
           {product.namaProduk}
         </Typography>
         <Typography variant="body2" color="textSecondary" component="p">
-          Rp {new Number(product.price).toLocaleString("id-ID")}
+          Rp {new Number(product.hargaSatuan).toLocaleString("id-ID")}
         </Typography>
       </CardContent>
-      <CardActions style={{ display: "flex", justifyContent: "center" }}>
+      <CardActions
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "1rem",
+        }}
+      >
         <Button className={classes.beli} onClick={() => addCart(product)}>
           Beli
         </Button>
       </CardActions>
-      {/* <CardActions>
-        <Button onClick={() => setCount(count - 1)}>
-          <RemoveCircleIcon />
-        </Button>
-        <Typography>{count}</Typography>
-        <Button onClick={() => setCount(count + 1)}>
-          <AddCircleSharpIcon />
-        </Button>
-      </CardActions> */}
     </Card>
   );
 };

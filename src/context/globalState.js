@@ -118,7 +118,6 @@ export const ContextProvider = (props) => {
         body: JSON.stringify(itemData),
       });
       data = await data.json();
-      console.log(data);
       if (data.errMessage) {
         throw data;
       } else {

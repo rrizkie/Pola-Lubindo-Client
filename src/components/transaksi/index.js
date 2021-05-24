@@ -20,7 +20,6 @@ const Transaksi = () => {
     transaksiAfterPayment,
     refCode,
   } = useContext(Context);
-  console.log(transaksiBeforePayment, "< cart item");
 
   const [transaksiType, setTransaksiType] = useState("Menunggu Pembayaran");
   const allTransaksiType = [

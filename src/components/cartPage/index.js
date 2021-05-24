@@ -71,6 +71,7 @@ const CartPage = () => {
         namaPenerima: nama,
         alamatPengiriman: `${address?.jalan},${address?.kecamatan},${address?.kabupaten},
         ${address?.detail}`,
+        telfonPenerima: phone,
       },
       value: [],
     };
@@ -80,7 +81,11 @@ const CartPage = () => {
     const chekedItem = carts.filter((item) => item.checked);
     chekedItem.map((item) => {
       item.product.stock -= item.qty;
-      data.value.push({ produk: item.product, ProdukId: item.product.id });
+      data.value.push({
+        produk: item.product,
+        ProdukId: item.product.id,
+        qty: item.qty,
+      });
     });
     localStorage.setItem("transaksi", JSON.stringify(data.transaksiData));
     setCourierPicked("");
@@ -232,7 +237,7 @@ const CartPage = () => {
             id={cart.product.id}
             nama={cart.product.namaProduk}
             weight={cart.product.weight}
-            price={cart.product.price}
+            price={cart.product.hargaSatuan}
             qty={cart.qty}
             key={cart.product.id}
           />

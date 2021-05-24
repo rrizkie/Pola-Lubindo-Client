@@ -52,20 +52,22 @@ const KonfirmasiPembayaran = () => {
   };
 
   const handleKonfirm = async () => {
-    transaksiData.statusPembayaran = "success";
+    transaksiData.statusPembayaran = "menunggu konfirmasi";
+    transaksiData.statusPesanan = "menunggu konfirmasi";
+    transaksiData.statusPengiriman = "menunggu konfirmasi";
     transaksiData.metodePembayaran = "transfer";
     transaksiData.namaRekening = namaRek;
     transaksiData.jumlahBayar = total;
     transaksiData.bankAsal = bankAsal;
     transaksiData.bankTujuan = bankTujuan;
-    console.log(transaksiData, "<<<<");
     const response = await confirmPayment(
       transaksiData,
       localStorage.getItem("transaksi id"),
       localStorage.getItem("access_token"),
       refCode ? refCode : null
     );
-    if (response.message === "Success") history.push(refCode ? `/?ref=${refCode}` : "/");
+    if (response.message === "Success")
+      history.push(refCode ? `/?ref=${refCode}` : "/");
   };
   return (
     <div>
