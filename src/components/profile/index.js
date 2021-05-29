@@ -154,6 +154,13 @@ export default function CenteredGrid() {
               <Grid item xs={3}>
                 ubah
               </Grid>
+              <Grid item xs={4}>
+                Total Transaksi
+              </Grid>
+              <Grid item xs={5}></Grid>
+              <Grid item xs={3}>
+                Rp. {userData.totalPembelian}
+              </Grid>
             </>
           )}
         </Grid>

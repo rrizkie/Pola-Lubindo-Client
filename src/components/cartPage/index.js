@@ -68,10 +68,14 @@ const CartPage = () => {
         invoice: "INV/300421/01",
         totalHarga: totalPrice + ongkosKirim,
         ongkosKirim: ongkosKirim,
+        kurir: courierPicked,
         namaPenerima: nama,
         alamatPengiriman: `${address?.jalan},${address?.kecamatan},${address?.kabupaten},
         ${address?.detail}`,
         telfonPenerima: phone,
+        statusPesanan: "menunggu pembayaran",
+        statusPembayaran: "menunggu pembayaran",
+        statusPengiriman: "menunggu pembayaran",
       },
       value: [],
     };
@@ -227,7 +231,7 @@ const CartPage = () => {
             onChange={() => setCheck(!check)}
           />
           <div>
-            <Typography style={{ fontSize: "0.4rem", fontWeight: "bold" }}>
+            <Typography style={{ fontSize: 11, fontWeight: "bold" }}>
               Pilih Semua Produk
             </Typography>
           </div>
@@ -251,10 +255,10 @@ const CartPage = () => {
             padding: "0.4rem",
           }}
         >
-          <Typography style={{ fontSize: "0.6rem", fontWeight: "bold" }}>
+          <Typography style={{ fontSize: 10, fontWeight: "bold" }}>
             Total Belanja
           </Typography>
-          <Typography style={{ fontSize: "0.6rem", fontWeight: "bold" }}>
+          <Typography style={{ fontSize: 10, fontWeight: "bold" }}>
             Rp {new Number(totalPrice).toLocaleString("id-ID")}
           </Typography>
         </div>

@@ -1,22 +1,18 @@
 import { makeStyles } from "@material-ui/core";
 
 export const useStyles = makeStyles({
-  root: {
-    maxWidth: 220,
-    margin: "0.5rem",
-  },
   media: {
-    height: 140,
+    height: 0,
+    paddingTop: "56.25%", // 16:9
   },
   produkTitle: {
     fontWeight: "bold",
-    fontSize: "1rem",
+    fontSize: "0.8rem",
   },
   beli: {
     backgroundColor: "red",
     color: "#fff",
     fontWeight: "bold",
     fontSize: "0.7rem",
-    padding: "0.7vh 15vw",
   },
 });

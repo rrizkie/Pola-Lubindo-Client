@@ -22,11 +22,14 @@ const HomePage = () => {
     fetchBrands,
     fetchProduct,
     fetchCityListAPI,
+    fetchUserData,
     brands,
     products,
     setRefCode,
     getRefcode,
+    userData,
   } = useContext(Context);
+  const premier = 100000;
 
   const handleCopy = async () => {
     const refCode = await getRefcode();
@@ -37,6 +40,7 @@ const HomePage = () => {
     fetchBrands();
     fetchProduct();
     fetchCityListAPI();
+    fetchUserData();
     const queryParams = query.get("ref");
     if (queryParams !== null) {
       setRefCode(queryParams);
@@ -68,14 +72,25 @@ const HomePage = () => {
             </div>
           ))}
         </div>
-        {localStorage.getItem("access_token") ? (
-          <div className={classes.share} style={{ verticalAlign: "middle" }}>
-            <Typography>
-              Bagi Link untuk dapat komisi <ShareIcon />
-            </Typography>
-            <Button onClick={handleCopy}>SALIN</Button>
-          </div>
-        ) : null}
+        {localStorage.getItem("access_token") &&
+          userData?.totalPembelian > premier && (
+            <div className={classes.share} style={{ verticalAlign: "middle" }}>
+              <Typography style={{ fontSize: 15, fontWeight: "bold" }}>
+                Dapatkan komisi tambahan
+              </Typography>
+              <Button
+                style={{
+                  color: "#fff",
+                  border: "2px solid #fff",
+                  fontSize: 12,
+                  fontWeight: "bold",
+                }}
+                onClick={handleCopy}
+              >
+                upgrade premiere
+              </Button>
+            </div>
+          )}
         <div className={classes.produkCard}>
           {!selectedBrand
             ? products.map((product) => (

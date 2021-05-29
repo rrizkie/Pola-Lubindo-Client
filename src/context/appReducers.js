@@ -8,7 +8,7 @@ export default (state, action) => {
     case "FETCH_PRODUCT":
       return {
         ...state,
-        products: action.payload,
+        products: action.payload.filter((el) => el.statusProduk === true),
       };
 
     case "FETCH_CITY":

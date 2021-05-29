@@ -7,14 +7,8 @@ import { Context } from "../../context/globalState";
 
 const CartItem = ({ nama, weight, price, qty, id }) => {
   const classes = useStyles();
-  const {
-    carts,
-    editCart,
-    deleteCart,
-    checkedItem,
-    products,
-    editTotalprice,
-  } = useContext(Context);
+  const { carts, editCart, deleteCart, checkedItem, products, editTotalprice } =
+    useContext(Context);
   const filtered = carts.filter((cart) => cart.product.id === id);
   const filterQty = products.filter((product) => product.id === id);
   const addOne = () => {
@@ -53,9 +47,9 @@ const CartItem = ({ nama, weight, price, qty, id }) => {
           inputProps={{ "aria-label": "primary checkbox" }}
         />
         <div>
-          <Typography style={{ fontSize: "0.4rem" }}>{nama}</Typography>
-          <Typography style={{ fontSize: "0.2rem" }}>{weight}Gr</Typography>
-          <Typography style={{ fontSize: "0.4rem", fontWeight: "bold" }}>
+          <Typography style={{ fontSize: 10 }}>{nama}</Typography>
+          <Typography style={{ fontSize: 9 }}>{weight}Gr</Typography>
+          <Typography style={{ fontSize: 10, fontWeight: "bold" }}>
             Rp {new Number(price).toLocaleString("id-ID")}
           </Typography>
         </div>
@@ -66,7 +60,7 @@ const CartItem = ({ nama, weight, price, qty, id }) => {
             <Button className={classes.btn} onClick={minusOne}>
               <RemoveCircleIcon />
             </Button>
-            <Typography style={{ fontSize: "0.5rem", fontWeight: "bold" }}>
+            <Typography style={{ fontSize: 12, fontWeight: "bold" }}>
               {qty}
             </Typography>
             <Button className={classes.btn} onClick={addOne}>
@@ -78,7 +72,7 @@ const CartItem = ({ nama, weight, price, qty, id }) => {
             <Button className={classes.btn} onClick={minusOne}>
               <RemoveCircleIcon />
             </Button>
-            <Typography style={{ fontSize: "0.5rem", fontWeight: "bold" }}>
+            <Typography style={{ fontSize: 12, fontWeight: "bold" }}>
               {qty}
             </Typography>
             <Button className={classes.btn} onClick={addOne} disabled>
@@ -91,7 +85,7 @@ const CartItem = ({ nama, weight, price, qty, id }) => {
           <Button className={classes.btn} onClick={minusOne}>
             <RemoveCircleIcon />
           </Button>
-          <Typography style={{ fontSize: "0.5rem", fontWeight: "bold" }}>
+          <Typography style={{ fontSize: 12, fontWeight: "bold" }}>
             {qty}
           </Typography>
           <Button className={classes.btn} onClick={addOne}>

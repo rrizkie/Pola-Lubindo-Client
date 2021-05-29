@@ -8,7 +8,6 @@ export const useStyle = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
     color: theme.palette.text.secondary,
-    margin: "0.5rem 0"
   },
 
   optColor: { color: "red" },

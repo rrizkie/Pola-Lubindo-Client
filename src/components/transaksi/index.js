@@ -84,73 +84,73 @@ const Transaksi = () => {
         {transaksiType === "Menunggu Pembayaran" ? (
           <>
             {transaksiBeforePayment.map((item) => (
-              <Paper className={classes.paper}>
-                <Grid container spacing={3} alignItems="center">
-                  <Grid item xs={2} style={{ textAlign: "right" }}>
-                    <LocalMallIcon />
+              <>
+                <Paper className={classes.paper}>
+                  <Grid container spacing={3} alignItems="center">
+                    <Grid item xs={2} style={{ textAlign: "right" }}>
+                      <LocalMallIcon />
+                    </Grid>
+                    <Grid item xs={10}>
+                      <Typography variant="subtitle2">
+                        <b>Belanja</b>
+                        <br />
+                        {item.createdAt.split("T")[0]}
+                      </Typography>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={10}>
-                    <Typography variant="subtitle2">
-                      <b>Belanja</b>
-                      <br />
-                      {item.createdAt.split("T")[0]}
-                    </Typography>
-                  </Grid>
-                </Grid>
 
-                <hr />
-                <Grid container spacing={3} alignItems="center">
-                  {item.Carts.map((produk) => (
-                    <>
-                      <Grid item xs={2}>
-                        <img
-                          src="https://media.foxbusiness.com/BrightCove/854081161001/202005/3384/854081161001_6154929188001_6154933434001-vs.jpg"
-                          alt="nama_produk"
-                          width="50"
-                          height="50"
-                        />
-                      </Grid>
-                      <Grid item xs={4}>
-                        <Typography variant="body2">
-                          <b> {produk.Produk.namaProduk} </b>
-                          <br />
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Typography variant="body2">
-                          konfirmasi sebelum <br />
-                          22/03/2021 23:00
-                        </Typography>
-                      </Grid>
-                    </>
-                  ))}
+                  <hr />
 
-                  <Grid item xs={6}>
-                    <Typography variant="body2">
-                      {item.Carts.length > 1 ? (
-                        <>{item.Carts.length} barang lainnya </>
-                      ) : null}
-                      <br />
-                      Total belanja
-                      <br />
-                      Rp. {item.totalHarga}
-                    </Typography>
+                  <Grid container spacing={3} alignItems="center">
+                    <Grid item xs={3}>
+                      <img
+                        src={item.Carts[0].Produk.fotoProduk}
+                        alt={item.Carts[0].Produk.namaProduk}
+                        width="50"
+                        height="50"
+                      />
+                    </Grid>
+                    <Grid item xs={5}>
+                      <Typography variant="body2">
+                        <b> {item.Carts[0].Produk.namaProduk}</b>
+                        <br />
+                        {item.Carts.length} barang
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Typography variant="body2">
+                        konfirmasi sebelum <br />
+                        22/03/2021 23:00
+                      </Typography>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                      <Typography variant="body2">
+                        {item.Carts.length > 1 ? (
+                          <>{item.Carts.length} barang lainnya </>
+                        ) : null}
+                        <br />
+                        Total belanja
+                        <br />
+                        Rp. {item.totalHarga}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Button
+                        style={{
+                          backgroundColor: "green",
+                          color: "white",
+                          fontSize: "0.7rem",
+                        }}
+                        onClick={() => handleKonfirmasi(item)}
+                      >
+                        Konfirmasi Pembayaran
+                      </Button>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={6}>
-                    <Button
-                      style={{
-                        backgroundColor: "green",
-                        color: "white",
-                        fontSize: "0.7rem",
-                        fontWeight: "bold",
-                      }}
-                      onClick={() => handleKonfirmasi(item)}
-                    >
-                      Konfirmasi Pembayaran
-                    </Button>
-                  </Grid>
-                </Grid>
-              </Paper>
+                </Paper>
+                <br />
+              </>
             ))}
           </>
         ) : (
@@ -170,47 +170,65 @@ const Transaksi = () => {
                       </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                      {/* <Button
+                      <Button
                         variant="contained"
                         disableElevation
-                        style={{ backgroundColor: "#ffbbbe", color: "red" }}
+                        style={{
+                          backgroundColor: "#ffbbbe",
+                          color: "red",
+                          fontSize: "0.7rem",
+                        }}
                       >
-                        Dalam Pengiriman
-                      </Button> */}
+                        {item.statusPengiriman}
+                      </Button>
                     </Grid>
                   </Grid>
 
                   <hr />
 
-                  <Grid container spacing={3} alignItems="center">
-                    {item.Carts.map((produk) => (
-                      <>
-                        <Grid item xs={2}>
-                          <img
-                            src="https://media.foxbusiness.com/BrightCove/854081161001/202005/3384/854081161001_6154929188001_6154933434001-vs.jpg"
-                            alt="nama_produk"
-                            width="50"
-                            height="50"
-                          />
-                        </Grid>
-                        <Grid item xs={4}>
-                          <Typography variant="body2">
-                            <b> {produk.Produk.namaProduk}</b>
-                            <br />
-                            {item.Carts.length > 1 ? (
-                              <>{item.Carts.length} barang lainnya </>
-                            ) : null}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={6}>
-                          <Typography variant="body2">
-                            Total belanja
-                            <br />
-                            Rp. {item.totalHarga}
-                          </Typography>
-                        </Grid>
-                      </>
-                    ))}
+                  <Grid container spacing={2} alignItems="center">
+                    <Grid item xs={3}>
+                      <img
+                        src={item.Carts[0].Produk.fotoProduk}
+                        alt={item.Carts[0].Produk.namaProduk}
+                        width="50"
+                        height="50"
+                      />
+                    </Grid>
+                    <Grid item xs={5}>
+                      <Typography variant="body2">
+                        <b> {item.Carts[0].Produk.namaProduk}</b>
+                        <br />
+                        {item.Carts[0].qty} barang
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Typography variant="body2">
+                        konfirmasi sebelum <br />
+                        22/03/2021 23:00
+                      </Typography>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                      <Typography variant="body2">
+                        +{item.Carts.length} barang lainnya
+                        <br />
+                        Total belanja
+                        <br />
+                        Rp. {item.totalHarga}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Button
+                        style={{
+                          backgroundColor: "green",
+                          color: "white",
+                          fontSize: "0.7rem",
+                        }}
+                      >
+                        Cek Resi
+                      </Button>
+                    </Grid>
                   </Grid>
                 </Paper>
               ))}
