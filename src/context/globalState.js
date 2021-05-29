@@ -8,8 +8,12 @@ const initialState = {
   refCode: null,
   cityLists: [],
   brands: [],
-  cartItem: [],
+  transaksiBeforePayment: [],
+  transaksiAfterPayment: [],
   products: [],
+  komisi: null,
+  transaksiKomisi: null,
+  userData: null,
   address: {},
   services: null,
   courier: "",
@@ -102,6 +106,10 @@ export const ContextProvider = (props) => {
     dispatch({ type: "CHECKED_ITEM", payload: data });
   };
 
+  const resetLocal = () => {
+    dispatch({ type: "RESET" });
+  };
+
   const checkoutCart = async (itemData) => {
     try {
       let data = await fetch(`http://localhost:3000/checkout`, {
@@ -110,7 +118,6 @@ export const ContextProvider = (props) => {
         body: JSON.stringify(itemData),
       });
       data = await data.json();
-      console.log(data);
       if (data.errMessage) {
         throw data;
       } else {
@@ -118,6 +125,7 @@ export const ContextProvider = (props) => {
         localStorage.setItem("transaksi id", data.transaksiId);
         localStorage.removeItem("carts");
         localStorage.removeItem("totalPrice");
+        // dispatch({ type: "RESET" });
         return { message: "Success" };
       }
     } catch (error) {
@@ -146,7 +154,7 @@ export const ContextProvider = (props) => {
       } else {
         localStorage.removeItem("transaksi id");
         localStorage.removeItem("transaksi");
-        dispatch({ type: "RESET_CARTS&PRICE", payload: null });
+        dispatch({ type: "RESET", payload: null });
         return { message: "Success" };
       }
     } catch (error) {
@@ -210,15 +218,55 @@ export const ContextProvider = (props) => {
     return data;
   };
 
-  const fetchCart = async () => {
+  const fetchTransaksiBeforePayment = async () => {
     const access_token = localStorage.getItem("access_token");
-    let data = await fetch(`localhost:3000/cart`, {
+    let data = await fetch(`http://localhost:3000/transaksiBeforePayment`, {
       method: "GET",
       headers: { access_token, "Content-Type": "application/json" },
     });
     data = await data.json();
+    dispatch({ type: "FETCH_TRANSAKSI_BEFORE_PAYMENT", payload: data });
   };
 
+  const fetchTransaksiAfterPayment = async () => {
+    const access_token = localStorage.getItem("access_token");
+    let data = await fetch(`http://localhost:3000/transaksiAfterPayment`, {
+      method: "GET",
+      headers: { access_token, "Content-Type": "application/json" },
+    });
+    data = await data.json();
+    dispatch({ type: "FETCH_TRANSAKSI_AFTER_PAYMENT", payload: data });
+  };
+
+  const fetchKomisiData = async () => {
+    const access_token = localStorage.getItem("access_token");
+    let data = await fetch(`http://localhost:3000/komisi`, {
+      method: "GET",
+      headers: { access_token, "Content-Type": "application/json" },
+    });
+    data = await data.json();
+    dispatch({ type: "FETCH_KOMISI", payload: data });
+  };
+
+  const fetchUserData = async () => {
+    const access_token = localStorage.getItem("access_token");
+    let data = await fetch(`http://localhost:3000/customerData`, {
+      method: "GET",
+      headers: { access_token, "Content-Type": "application/json" },
+    });
+    data = await data.json();
+    dispatch({ type: "FECTH_USER_DATA", payload: data });
+  };
+
+  const fetchTransaksiKomisi = async () => {
+    const access_token = localStorage.getItem("access_token");
+    let data = await fetch(`http://localhost:3000/transaksiKomisi`, {
+      method: "GET",
+      headers: { access_token, "Content-Type": "application/json" },
+    });
+    data = await data.json();
+    dispatch({ type: "FETCH_TRANSAKSI_KOMISI", payload: data });
+  };
   return (
     <Context.Provider
       value={{
@@ -232,9 +280,19 @@ export const ContextProvider = (props) => {
         totalPrice: state.totalPrice,
         services: state.services,
         ongkosKirim: state.ongkosKirim,
+        transaksiBeforePayment: state.transaksiBeforePayment,
+        transaksiAfterPayment: state.transaksiAfterPayment,
+        komisi: state.komisi,
+        userData: state.userData,
+        transaksiKomisi: state.transaksiKomisi,
         fetchBrands,
         fetchProduct,
         fetchCityListAPI,
+        fetchTransaksiBeforePayment,
+        fetchTransaksiAfterPayment,
+        fetchKomisiData,
+        fetchTransaksiKomisi,
+        fetchUserData,
         setRefCode,
         addTocart,
         editTotalprice,
@@ -250,6 +308,7 @@ export const ContextProvider = (props) => {
         getOngkir,
         login,
         register,
+        resetLocal,
       }}
     >
       {props.children}

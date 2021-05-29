@@ -10,7 +10,14 @@ import { Context } from "../../context/globalState";
 const Pembayaran = () => {
   const classes = useStyles();
   const history = useHistory();
-  const { totalPrice, ongkosKirim, refCode } = useContext(Context);
+  const { totalPrice, ongkosKirim, refCode, resetLocal } = useContext(Context);
+
+  const handleBackToHome = () => {
+    history.push(refCode ? `/?ref=${refCode}` : "/");
+    localStorage.removeItem("transaksi");
+    localStorage.removeItem("transaksi id");
+    resetLocal();
+  };
   return (
     <div>
       <Paper className={classes.box} elevation={3}>
@@ -60,18 +67,16 @@ const Pembayaran = () => {
           }}
           onClick={() =>
             history.push(
-              !refCode
-                ? "/konfirmasi-pembayaran"
-                : `/konfirmasi-pembayaran?ref=${refCode}`
+              refCode
+                ? `/konfirmasi-pembayaran?ref=${refCode}`
+                : "/konfirmasi-pembayaran"
             )
           }
         >
           Konfirmasi Pembayaran
         </Button>
         <Button
-          onClick={() =>
-            history.push(!refCode ? "/cart" : `/cart?ref=${refCode}`)
-          }
+          onClick={handleBackToHome}
           style={{
             border: "2px solid green",
             color: "green",

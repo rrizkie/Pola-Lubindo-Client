@@ -8,7 +8,7 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 const RegisterPage = () => {
   const classes = useStyles();
   const history = useHistory();
-  const { register } = useContext(Context);
+  const { register,refCode } = useContext(Context);
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [nama, setNama] = useState("");
@@ -20,7 +20,7 @@ const RegisterPage = () => {
     if (password === konfirmasiPassword) {
       const response = await register({ email, phone, nama, password });
       console.log(response);
-      if (response.message === "Success") history.push("/login");
+      if (response.message === "Success") history.push(refCode ? `/login?ref=${refCode}` :"/login");
     } else {
       setEmail("");
       setPhone("");
@@ -36,7 +36,7 @@ const RegisterPage = () => {
           <Typography className={classes.leftContent}>
             <ArrowBackIcon
               style={{ cursor: "pointer" }}
-              onClick={() => history.push("/")}
+              onClick={() => history.push(refCode ? `/?ref=${refCode}` :"/")}
             />
           </Typography>
           <Typography className={classes.leftContent}>Daftar</Typography>

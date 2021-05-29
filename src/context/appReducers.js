@@ -8,13 +8,38 @@ export default (state, action) => {
     case "FETCH_PRODUCT":
       return {
         ...state,
-        products: action.payload,
+        products: action.payload.filter((el) => el.statusProduk === true),
       };
 
     case "FETCH_CITY":
       return {
         ...state,
         cityLists: action.payload,
+      };
+    case "FETCH_TRANSAKSI_BEFORE_PAYMENT":
+      return {
+        ...state,
+        transaksiBeforePayment: action.payload,
+      };
+    case "FETCH_TRANSAKSI_AFTER_PAYMENT":
+      return {
+        ...state,
+        transaksiAfterPayment: action.payload,
+      };
+    case "FETCH_KOMISI":
+      return {
+        ...state,
+        komisi: action.payload,
+      };
+    case "FETCH_TRANSAKSI_KOMISI":
+      return {
+        ...state,
+        transaksiKomisi: action.payload,
+      };
+    case "FECTH_USER_DATA":
+      return {
+        ...state,
+        userData: action.payload,
       };
     case "SET_REFCODE":
       return {
@@ -88,7 +113,7 @@ export default (state, action) => {
         ...state,
         isLogin: action.payload,
       };
-    case "RESET_CARTS&PRICE":
+    case "RESET":
       return {
         ...state,
         carts: [],
@@ -96,6 +121,7 @@ export default (state, action) => {
         address: {},
         courier: "",
         ongkosKirim: 0,
+        services: null,
       };
     default:
       return state;

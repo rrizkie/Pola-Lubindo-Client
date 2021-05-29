@@ -31,7 +31,7 @@ const KonfirmasiPembayaran = () => {
   const transaksiData = JSON.parse(localStorage.getItem("transaksi"));
 
   const back = () => {
-    history.push("/pembayaran");
+    history.push(refCode ? `/pembayaran?ref=${refCode}` : "/pembayaran");
   };
 
   const allBank = [
@@ -52,20 +52,22 @@ const KonfirmasiPembayaran = () => {
   };
 
   const handleKonfirm = async () => {
-    transaksiData.statusPembayaran = "sudah transfer";
+    transaksiData.statusPembayaran = "menunggu konfirmasi";
+    transaksiData.statusPesanan = "menunggu konfirmasi";
+    transaksiData.statusPengiriman = "menunggu konfirmasi";
     transaksiData.metodePembayaran = "transfer";
     transaksiData.namaRekening = namaRek;
     transaksiData.jumlahBayar = total;
     transaksiData.bankAsal = bankAsal;
     transaksiData.bankTujuan = bankTujuan;
-    console.log(transaksiData, "<<<<");
     const response = await confirmPayment(
       transaksiData,
       localStorage.getItem("transaksi id"),
       localStorage.getItem("access_token"),
       refCode ? refCode : null
     );
-    if (response.message === "Success") history.push("/");
+    if (response.message === "Success")
+      history.push(refCode ? `/?ref=${refCode}` : "/");
   };
   return (
     <div>
@@ -178,33 +180,6 @@ const KonfirmasiPembayaran = () => {
           Konfirmasi
         </Button>
       </div>
-      {/* <Paper className={classes.box}>
-        <div className={classes.innerBox}>
-          <DateRangeIcon />
-          <TextField type="date" />
-        </div>
-        <div className={classes.innerBox}>
-          <PersonIcon />
-          <InputBase
-            placeholder="Nama di Rekening"
-            className={classes.inputBase}
-          />
-        </div>
-        <div className={classes.innerBox}>
-          <AccountBalanceWalletIcon />
-          <InputBase placeholder="Jumlah" className={classes.inputBase} />
-        </div>
-        <div className={classes.innerBox}>
-          <AccountBalanceIcon />
-          <Select label="Bank Asal" />
-          <Select label="Bank Tujuan" />
-        </div>
-        <div className={classes.innerBox}>
-          <InfoIcon />
-          <InputBase placeholder="Keterangan" className={classes.inputBase} />
-        </div>
-      </Paper>
-      <Button className={classes.btn}>Konfirmasi</Button> */}
     </div>
   );
 };

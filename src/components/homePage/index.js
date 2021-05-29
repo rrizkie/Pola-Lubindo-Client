@@ -7,7 +7,7 @@ import { Typography, Fab, Button, Grid } from "@material-ui/core";
 import { Context } from "../../context/globalState";
 import brandLogo from "../../assets/brand1.png";
 import allBrand from "../../assets/allBrand.png";
-import { useParams, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import ShareIcon from "@material-ui/icons/Share";
 
 import Carousel from "../carousel";
@@ -24,11 +24,14 @@ const HomePage = () => {
     fetchBrands,
     fetchProduct,
     fetchCityListAPI,
+    fetchUserData,
     brands,
     products,
     setRefCode,
     getRefcode,
+    userData,
   } = useContext(Context);
+  const premier = 100000;
 
   const handleCopy = async () => {
     const refCode = await getRefcode();
@@ -39,6 +42,7 @@ const HomePage = () => {
     fetchBrands();
     fetchProduct();
     fetchCityListAPI();
+    fetchUserData();
     const queryParams = query.get("ref");
     if (queryParams !== null) {
       setRefCode(queryParams);
@@ -56,19 +60,36 @@ const HomePage = () => {
           </Fab>
           <Typography className={classes.brandText}>Semua Produk</Typography>
         </div>
-        {brands.map((el) => (
-          <div className={classes.brandBox} key={el.id}>
-            <Fab
-              className={classes.Fab}
-              onClick={() => setSelectedBrand(el.namaBrand)}
-            >
-              <img src={el.fotoBrand} alt={brandLogo} width="60" height="60" />
-            </Fab>
-            <Typography className={classes.brandText}>
-              {el.namaBrand}
-            </Typography>
-          </div>
-        ))}
+        {localStorage.getItem("access_token") &&
+          userData?.totalPembelian > premier && (
+            <div className={classes.share} style={{ verticalAlign: "middle" }}>
+              <Typography style={{ fontSize: 15, fontWeight: "bold" }}>
+                Dapatkan komisi tambahan
+              </Typography>
+              <Button
+                style={{
+                  color: "#fff",
+                  border: "2px solid #fff",
+                  fontSize: 12,
+                  fontWeight: "bold",
+                }}
+                onClick={handleCopy}
+              >
+                upgrade premiere
+              </Button>
+            </div>
+          )}
+        <div className={classes.produkCard}>
+          {!selectedBrand
+            ? products.map((product) => (
+                <CardProduct product={product} key={product.id} />
+              ))
+            : products
+                .filter((prod) => prod.Brand.namaBrand === selectedBrand)
+                .map((product) => (
+                  <CardProduct product={product} key={product.id} />
+                ))}
+        </div>
       </div>
       {localStorage.getItem("access_token") ? (
         <div className={classes.share} style={{ verticalAlign: "middle" }}>

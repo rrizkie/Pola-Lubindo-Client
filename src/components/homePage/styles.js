@@ -28,6 +28,7 @@ export const useStyles = makeStyles({
     flexWrap: "wrap",
     justifyContent: "center",
     marginTop: "1rem",
+    marginBottom: "8rem",
   },
   Fab: {
     border: "none",
@@ -44,5 +45,7 @@ export const useStyles = makeStyles({
     background: "red",
     color: "#fff",
     margin: "1rem 0.5rem",
+    alignItems: "center",
+    padding: "0.6rem",
   },
 });

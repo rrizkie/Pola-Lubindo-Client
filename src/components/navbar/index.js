@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Toolbar,
   Typography,
@@ -10,10 +10,13 @@ import { SearchRounded } from "@material-ui/icons";
 import { useStyles } from "./styles";
 import { useHistory } from "react-router";
 import logo from "../../assets/lubindo.png";
+import Carousel from "../carousel";
+import { Context } from "../../context/globalState";
 
 export const Navbar = () => {
   const classes = useStyles();
   const history = useHistory();
+  const { refCode } = useContext(Context);
 
   return (
     <>
@@ -24,14 +27,20 @@ export const Navbar = () => {
             <Typography variant="h6" className={classes.text}>
               <Button
                 className={classes.button}
-                onClick={() => history.push("/login")}
+                onClick={() =>
+                  history.push(refCode ? `/login?ref=${refCode}` : "/login")
+                }
               >
                 Log in
               </Button>
               /
               <Button
                 className={classes.button}
-                onClick={() => history.push("/register")}
+                onClick={() =>
+                  history.push(
+                    refCode ? `/register?ref=${refCode}` : "/register"
+                  )
+                }
               >
                 Daftar
               </Button>
@@ -40,7 +49,9 @@ export const Navbar = () => {
             <Typography variant="h6" className={classes.text}>
               <Button
                 className={classes.button}
-                onClick={() => history.push("/profile")}
+                onClick={() =>
+                  history.push(refCode ? `/profile?ref=${refCode}` : "/profile")
+                }
               >
                 Profile
               </Button>
@@ -62,6 +73,7 @@ export const Navbar = () => {
             <SearchRounded className={classes.searchContent} />
           </Paper>
         </form>
+        <Carousel />
       </Paper>
     </>
   );

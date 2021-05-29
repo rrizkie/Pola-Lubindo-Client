@@ -6,9 +6,8 @@ import {
   Checkbox,
   Button,
   CircularProgress,
-  FormControlLabel,
-  FormGroup,
   Grid,
+  FormControlLabel,
 } from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
@@ -69,9 +68,14 @@ const CartPage = () => {
         invoice: "INV/300421/01",
         totalHarga: totalPrice + ongkosKirim,
         ongkosKirim: ongkosKirim,
+        kurir: courierPicked,
         namaPenerima: nama,
         alamatPengiriman: `${address?.jalan},${address?.kecamatan},${address?.kabupaten},
         ${address?.detail}`,
+        telfonPenerima: phone,
+        statusPesanan: "menunggu pembayaran",
+        statusPembayaran: "menunggu pembayaran",
+        statusPengiriman: "menunggu pembayaran",
       },
       value: [],
     };
@@ -81,14 +85,18 @@ const CartPage = () => {
     const chekedItem = carts.filter((item) => item.checked);
     chekedItem.map((item) => {
       item.product.stock -= item.qty;
-      data.value.push({ produk: item.product, ProdukId: item.product.id });
+      data.value.push({
+        produk: item.product,
+        ProdukId: item.product.id,
+        qty: item.qty,
+      });
     });
     localStorage.setItem("transaksi", JSON.stringify(data.transaksiData));
+    setCourierPicked("");
+    setCheked(ongkosKirim);
     const response = await checkoutCart(data);
     if (response.message === "Success")
       history.push(!refCode ? "/pembayaran" : `/pembayaran?ref=${refCode}`);
-    setCourierPicked("");
-    setCheked(ongkosKirim);
   };
 
   useEffect(() => {
@@ -186,9 +194,6 @@ const CartPage = () => {
           <option className={classes.option}>tiki</option>
           <option className={classes.option}>jne</option>
         </select>
-
-        {courierPicked && selected === true ? <CircularProgress /> : null}
-
         <Grid container alignItems="center">
           {services &&
             services.map((service) => (
@@ -238,7 +243,7 @@ const CartPage = () => {
             id={cart.product.id}
             nama={cart.product.namaProduk}
             weight={cart.product.weight}
-            price={cart.product.price}
+            price={cart.product.hargaSatuan}
             qty={cart.qty}
             key={cart.product.id}
           />

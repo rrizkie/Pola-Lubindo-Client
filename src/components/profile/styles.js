@@ -45,6 +45,7 @@ export const useStyle = makeStyles((theme) => ({
   },
   root: {
     flexGrow: 1,
+    marginTop: "2rem",
   },
   paper: {
     padding: theme.spacing(2),
@@ -54,7 +55,7 @@ export const useStyle = makeStyles((theme) => ({
   logoutBtn: {
     display: "flex",
     justifyContent: "center",
-    marginTop:"2rem"
+    marginTop: "2rem",
   },
 }));
 
