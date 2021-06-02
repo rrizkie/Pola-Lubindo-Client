@@ -58,6 +58,27 @@ const CartPage = () => {
   };
 
   const checkout = async () => {
+    let created = new Date(
+      Date.UTC(
+        2021,
+        new Date().getMonth(),
+        new Date().getDate(),
+        new Date().getHours(),
+        new Date().getMinutes(),
+        new Date().getSeconds()
+      )
+    );
+    let newDate = new Date(
+      Date.UTC(
+        2021,
+        new Date().getMonth(),
+        new Date().getDate() + 1,
+        new Date().getHours(),
+        new Date().getMinutes(),
+        new Date().getSeconds()
+      )
+    );
+
     let data = {
       userData: {
         email,
@@ -76,6 +97,8 @@ const CartPage = () => {
         statusPesanan: "menunggu pembayaran",
         statusPembayaran: "menunggu pembayaran",
         statusPengiriman: "menunggu pembayaran",
+        expiredAt: newDate,
+        createdAt: created,
       },
       value: [],
     };
@@ -91,6 +114,7 @@ const CartPage = () => {
         qty: item.qty,
       });
     });
+    console.log(data.transaksiData.expiredAt, "<<<<");
     localStorage.setItem("transaksi", JSON.stringify(data.transaksiData));
     setCourierPicked("");
     setCheked(ongkosKirim);

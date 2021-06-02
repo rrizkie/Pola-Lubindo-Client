@@ -266,6 +266,17 @@ export const ContextProvider = (props) => {
     data = await data.json();
     dispatch({ type: "FETCH_TRANSAKSI_KOMISI", payload: data });
   };
+
+  const pesananSelesai = async (newData) => {
+    const access_token = localStorage.getItem("access_token");
+    let data = await fetch(`http://localhost:3000/pesanan-selesai`, {
+      method: "POST",
+      headers: { access_token, "Content-Type": "application/json" },
+      body: JSON.stringify(newData),
+    });
+    data = await data.json();
+    fetchTransaksiAfterPayment();
+  };
   return (
     <Context.Provider
       value={{
@@ -308,6 +319,7 @@ export const ContextProvider = (props) => {
         login,
         register,
         resetLocal,
+        pesananSelesai,
       }}
     >
       {props.children}
