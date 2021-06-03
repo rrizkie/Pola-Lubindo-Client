@@ -275,7 +275,7 @@ export const ContextProvider = (props) => {
       body: JSON.stringify(newData),
     });
     data = await data.json();
-    fetchTransaksiAfterPayment();
+    return data;
   };
   return (
     <Context.Provider

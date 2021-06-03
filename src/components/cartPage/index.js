@@ -37,6 +37,7 @@ const CartPage = () => {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [courierPicked, setCourierPicked] = useState("");
+  const [servicePicked, setServicePicked] = useState("");
   const [checked, setCheked] = useState(ongkosKirim);
   function back() {
     history.push("/");
@@ -52,9 +53,10 @@ const CartPage = () => {
     });
   };
 
-  const handleChecked = (price) => {
-    setCheked(price);
-    setOngkir(price);
+  const handleChecked = (kurir) => {
+    setCheked(kurir.cost[0].value);
+    setOngkir(kurir.cost[0].value);
+    setServicePicked(kurir.service);
   };
 
   const checkout = async () => {
@@ -90,6 +92,7 @@ const CartPage = () => {
         totalHarga: totalPrice + ongkosKirim,
         ongkosKirim: ongkosKirim,
         kurir: courierPicked,
+        serviceKurir: servicePicked,
         namaPenerima: nama,
         alamatPengiriman: `${address?.jalan},${address?.kecamatan},${address?.kabupaten},
         ${address?.detail}`,
@@ -228,7 +231,7 @@ const CartPage = () => {
                         checked={
                           checked === service.cost[0].value ? true : false
                         }
-                        onChange={() => handleChecked(service.cost[0].value)}
+                        onChange={() => handleChecked(service)}
                         key={service.service}
                       />
                     }

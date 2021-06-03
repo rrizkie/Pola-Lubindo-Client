@@ -75,14 +75,14 @@ const HomePage = () => {
         {localStorage.getItem("access_token") &&
           userData?.totalPembelian > premier && (
             <div className={classes.share} style={{ verticalAlign: "middle" }}>
-              <Typography style={{ fontSize: 15, fontWeight: "bold" }}>
+              <Typography style={{ fontSize: 12, fontWeight: "bold" }}>
                 Dapatkan komisi tambahan
               </Typography>
               <Button
                 style={{
                   color: "#fff",
                   border: "2px solid #fff",
-                  fontSize: 12,
+                  fontSize: 10,
                   fontWeight: "bold",
                 }}
                 onClick={handleCopy}

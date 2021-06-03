@@ -52,15 +52,18 @@ const Transaksi = () => {
     );
   };
 
-  const handlePesananSampai = (data) => {
+  const handlePesananSampai = async (data) => {
     data.statusPengiriman = "pesanan selesai";
     data.statusPesanan = "pesanan selesai";
     console.log(data);
-    pesananSelesai({
+    const response = await pesananSelesai({
       id: data.id,
       statusPengiriman: data.statusPengiriman,
       statusPesanan: data.statusPesanan,
     });
+    if (response.message) {
+      fetchTransaksiAfterPayment();
+    }
   };
 
   useEffect(() => {
