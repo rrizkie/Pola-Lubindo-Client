@@ -30,8 +30,8 @@ export const CardProduct = ({ product }) => {
 
   return (
     <>
-      <Grid item xs={5} style={{margin: "0.2rem"}}>
-        <Card>
+      <Grid item xs={5} style={{ margin: "0.2rem" }}>
+        <Card style={{ height: "17rem" }}>
           <CardMedia
             className={classes.media}
             image={product.fotoProduk}

@@ -3,6 +3,8 @@ import { useHistory, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import appReducers from "./appReducers";
 
+const baseUrl = "http://localhost:3000";
+
 const initialState = {
   isLogin: false,
   refCode: null,
@@ -82,6 +84,17 @@ export const ContextProvider = (props) => {
 
   const addAddress = (address) => {
     dispatch({ type: "SET_ADDRESS", payload: address });
+  };
+
+  const addKtpAndNPWP = async (newdata) => {
+    const access_token = localStorage.getItem("access_token");
+    let data = await fetch(baseUrl + "/add-ktp-npwp", {
+      method: "POST",
+      headers: { access_token, "Content-Type": "application/json" },
+      body: JSON.stringify(newdata),
+    });
+    data = await data.json();
+    return data;
   };
 
   const getOngkir = (data) => {
@@ -303,6 +316,7 @@ export const ContextProvider = (props) => {
         fetchKomisiData,
         fetchTransaksiKomisi,
         fetchUserData,
+        addKtpAndNPWP,
         setRefCode,
         addTocart,
         editTotalprice,
