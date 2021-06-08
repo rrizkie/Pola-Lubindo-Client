@@ -55,7 +55,6 @@ const Transaksi = () => {
   const handlePesananSampai = async (data) => {
     data.statusPengiriman = "pesanan selesai";
     data.statusPesanan = "pesanan selesai";
-    console.log(data);
     const response = await pesananSelesai({
       id: data.id,
       statusPengiriman: data.statusPengiriman,

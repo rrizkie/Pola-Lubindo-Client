@@ -97,6 +97,15 @@ export const ContextProvider = (props) => {
     return data;
   };
 
+  const addAlamat = async (newdata) => {
+    const access_token = localStorage.getItem("access_token");
+    const data = await fetch(baseUrl + "/add-alamat", {
+      method: "POST",
+      headers: { access_token, "Content-Type": "application/json" },
+      body: JSON.stringify(newdata),
+    });
+  };
+
   const getOngkir = (data) => {
     fetch(
       `http://localhost:3000/cost/${data.destination}/${data.courier}/${data.weight}`
@@ -123,6 +132,14 @@ export const ContextProvider = (props) => {
     dispatch({ type: "RESET" });
   };
 
+  const resetServices = () => {
+    dispatch({ type: "RESET_SERVICES" });
+  };
+
+  const logout = () => {
+    dispatch({ type: "LOGOUT" });
+  };
+
   const checkoutCart = async (itemData) => {
     try {
       let data = await fetch(`http://localhost:3000/checkout`, {
@@ -142,11 +159,24 @@ export const ContextProvider = (props) => {
         return { message: "Success" };
       }
     } catch (error) {
-      Swal.fire({
-        title: `${error.errMessage}`,
-        icon: "error",
-      });
-      return { message: "Failed" };
+      console.log(error);
+      if (
+        error.errMessage === "email address already in use" ||
+        error.errMessage === "phone number already in use"
+      ) {
+        Swal.fire({
+          title: `${error.errMessage}`,
+          text: "Try to login with your email or phone number",
+          icon: "error",
+        });
+        return { message: "go to login page" };
+      } else {
+        Swal.fire({
+          title: `${error.errMessage}`,
+          icon: "error",
+        });
+        return { message: "Failed" };
+      }
     }
   };
 
@@ -183,12 +213,11 @@ export const ContextProvider = (props) => {
         body: JSON.stringify(inputData),
       });
       data = await data.json();
-      console.log(data);
       if (!data.access_token) {
         throw data;
       } else {
         localStorage.setItem("access_token", data.access_token);
-        dispatch({ type: "LOGIN", payload: true });
+        dispatch({ type: "LOGIN", payload: data.data });
         return { message: "success" };
       }
     } catch (error) {
@@ -317,6 +346,7 @@ export const ContextProvider = (props) => {
         fetchTransaksiKomisi,
         fetchUserData,
         addKtpAndNPWP,
+        addAlamat,
         setRefCode,
         addTocart,
         editTotalprice,
@@ -333,6 +363,8 @@ export const ContextProvider = (props) => {
         login,
         register,
         resetLocal,
+        resetServices,
+        logout,
         pesananSelesai,
       }}
     >

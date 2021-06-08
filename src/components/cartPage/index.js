@@ -31,6 +31,7 @@ const CartPage = () => {
     ongkosKirim,
     setOngkir,
     refCode,
+    resetServices,
   } = useContext(Context);
   const [check, setCheck] = useState(true);
   const [nama, setNama] = useState("");
@@ -41,8 +42,14 @@ const CartPage = () => {
   const [checked, setCheked] = useState(ongkosKirim);
   function back() {
     history.push("/");
+    resetServices();
     addAddress("");
   }
+
+  const handleGantiAlamat = () => {
+    history.push(!refCode ? "/shipping" : `/shipping?ref=${refCode}`);
+    resetServices();
+  };
 
   const selected = (e) => {
     setCourierPicked(e.target.value);
@@ -117,13 +124,15 @@ const CartPage = () => {
         qty: item.qty,
       });
     });
-    console.log(data.transaksiData.expiredAt, "<<<<");
     localStorage.setItem("transaksi", JSON.stringify(data.transaksiData));
     setCourierPicked("");
     setCheked(ongkosKirim);
     const response = await checkoutCart(data);
-    if (response.message === "Success")
+    if (response.message === "Success") {
       history.push(!refCode ? "/pembayaran" : `/pembayaran?ref=${refCode}`);
+    } else if (response.message === "go to login page") {
+      history.push(!refCode ? "/login" : `/login?ref=${refCode}`);
+    }
   };
 
   useEffect(() => {
@@ -178,13 +187,25 @@ const CartPage = () => {
             <Typography className={classes.formText}>
               Alamat Pengiriman
             </Typography>
-            <Typography
-              style={{ margin: "0.5rem 0 1rem 0.5rem" }}
-              className={classes.innerBoxText}
-            >
-              {address.jalan},{address.kecamatan},{address.kabupaten},
-              {address.detail}
-            </Typography>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <Typography
+                style={{ margin: "0.5rem 0 1rem 0.5rem" }}
+                className={classes.innerBoxText}
+              >
+                {address.jalan},{address.kecamatan},{address.kabupaten},
+                {address.detail}
+              </Typography>
+              <Button
+                style={{
+                  background: "#f4e8e9",
+                  color: "red",
+                  fontSize: "0.6rem",
+                }}
+                onClick={handleGantiAlamat}
+              >
+                Ubah Alamat Pengiriman
+              </Button>
+            </div>
           </div>
         ) : (
           <>
@@ -221,6 +242,11 @@ const CartPage = () => {
           <option className={classes.option}>jne</option>
         </select>
         <Grid container alignItems="center">
+          {services === null && courierPicked !== "" && (
+            <CircularProgress
+              style={{ marginLeft: "40%", marginTop: "1rem" }}
+            />
+          )}
           {services &&
             services.map((service) => (
               <>

@@ -19,7 +19,6 @@ const RegisterPage = () => {
     e.preventDefault();
     if (password === konfirmasiPassword) {
       const response = await register({ email, phone, nama, password });
-      console.log(response);
       if (response.message === "Success") history.push(refCode ? `/login?ref=${refCode}` :"/login");
     } else {
       setEmail("");

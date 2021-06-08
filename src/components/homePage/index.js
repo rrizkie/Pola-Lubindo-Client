@@ -25,7 +25,6 @@ const HomePage = () => {
     fetchBrands,
     fetchProduct,
     fetchCityListAPI,
-    fetchUserData,
     brands,
     products,
     setRefCode,
@@ -43,7 +42,6 @@ const HomePage = () => {
     fetchBrands();
     fetchProduct();
     fetchCityListAPI();
-    fetchUserData();
     const queryParams = query.get("ref");
     if (queryParams !== null) {
       setRefCode(queryParams);
@@ -100,13 +98,13 @@ const HomePage = () => {
               Status: Menunggu Proses persetujuan premiere
             </Typography>
           </div>
-        ) : (
+        ) : userData?.statusPremier === "aktif" ? (
           <div className={classes.share} style={{ verticalAlign: "middle" }}>
             <Typography style={{ fontSize: 12, fontWeight: "bold" }}>
               Bagikan link untuk komisi
             </Typography>
             <div style={{ display: "flex", justifyContent: "space-around" }}>
-              <div style={{ marginRight: "0.5rem",marginTop: "0.2rem" }}>
+              <div style={{ marginRight: "0.5rem", marginTop: "0.2rem" }}>
                 <ShareIcon />
               </div>
               <div>
@@ -124,6 +122,8 @@ const HomePage = () => {
               </div>
             </div>
           </div>
+        ) : (
+          ""
         )}
         <PremierModal
           visible={visible}

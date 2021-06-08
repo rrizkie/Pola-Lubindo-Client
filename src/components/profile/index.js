@@ -21,18 +21,19 @@ export default function CenteredGrid() {
     refCode,
     resetLocal,
     setRefCode,
+    logout,
   } = useContext(Context);
 
   const history = useHistory();
   const back = () => {
     history.push(refCode ? `/?ref=${refCode}` : "/");
   };
-  const logout = () => {
+  const handleLogout = () => {
     history.push("/login");
     localStorage.removeItem("access_token");
     localStorage.removeItem("carts");
     localStorage.removeItem("totalPrice");
-    resetLocal();
+    logout();
     setRefCode(null);
   };
 
@@ -77,9 +78,7 @@ export default function CenteredGrid() {
                   </Grid>
                   <Grid xs={12} style={{ margin: "2rem 0 " }}>
                     <Grid style={{ fontWeight: "bold" }}>Alamat : </Grid>
-                    <Grid>
-                      jl fatmawati raya no.63,cilandak,jakarta selatan
-                    </Grid>
+                    <Grid>{userData.alamat}</Grid>
                   </Grid>
                 </Grid>
               </Paper>
@@ -167,7 +166,7 @@ export default function CenteredGrid() {
           <Button
             fullWidth
             style={{ backgroundColor: "green", color: "#fff" }}
-            onClick={logout}
+            onClick={handleLogout}
           >
             Log Out
           </Button>
