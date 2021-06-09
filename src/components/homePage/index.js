@@ -10,6 +10,7 @@ import allBrand from "../../assets/allBrand.png";
 import { useLocation } from "react-router-dom";
 import ShareIcon from "@material-ui/icons/Share";
 
+import Carousel from "../carousel";
 import PremierModal from "../premierModal";
 
 const useQuery = () => {
@@ -51,7 +52,7 @@ const HomePage = () => {
   return (
     <>
       <Navbar />
-
+      <Carousel />
       <div className={classes.root}>
         <div className={classes.brandBox}>
           <Fab className={classes.Fab} onClick={() => setSelectedBrand("")}>
