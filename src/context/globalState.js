@@ -39,7 +39,7 @@ export const ContextProvider = (props) => {
 
   // actions
   const fetchBrands = () => {
-    fetch(`http://localhost:3000/brand`)
+    fetch(baseUrl + `/brand`)
       .then((res) => res.json())
       .then((data) => {
         dispatch({ type: "FETCH_BRAND", payload: data });
@@ -47,7 +47,7 @@ export const ContextProvider = (props) => {
   };
 
   const fetchProduct = () => {
-    fetch(`http://localhost:3000/produk`)
+    fetch(baseUrl + `/produk`)
       .then((res) => res.json())
       .then((data) => {
         dispatch({ type: "FETCH_PRODUCT", payload: data });
@@ -55,7 +55,7 @@ export const ContextProvider = (props) => {
   };
 
   const fetchCityListAPI = () => {
-    fetch(`http://localhost:3000/city`)
+    fetch(baseUrl + `/city`)
       .then((res) => res.json())
       .then((data) => {
         dispatch({ type: "FETCH_CITY", payload: data });
@@ -107,9 +107,7 @@ export const ContextProvider = (props) => {
   };
 
   const getOngkir = (data) => {
-    fetch(
-      `http://localhost:3000/cost/${data.destination}/${data.courier}/${data.weight}`
-    )
+    fetch(baseUrl + `/cost/${data.destination}/${data.courier}/${data.weight}`)
       .then((res) => res.json())
       .then((data) => {
         dispatch({ type: "SERVICES", payload: data });
@@ -136,13 +134,17 @@ export const ContextProvider = (props) => {
     dispatch({ type: "RESET_SERVICES" });
   };
 
+  const resetAddress = () => {
+    dispatch({ type: "RESET_ADDRESS" });
+  };
+
   const logout = () => {
     dispatch({ type: "LOGOUT" });
   };
 
   const checkoutCart = async (itemData) => {
     try {
-      let data = await fetch(`http://localhost:3000/checkout`, {
+      let data = await fetch(baseUrl + `/checkout`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(itemData),
@@ -183,8 +185,8 @@ export const ContextProvider = (props) => {
   const confirmPayment = async (data, transaksiId, access_token, refferal) => {
     try {
       let url = refferal
-        ? `http://localhost:3000/cart/${transaksiId}?ref=${refferal}`
-        : `http://localhost:3000/cart/${transaksiId}`;
+        ? baseUrl + `/cart/${transaksiId}?ref=${refferal}`
+        : baseUrl + `/cart/${transaksiId}`;
       let responseData = await fetch(url, {
         method: "POST",
         headers: { access_token, "Content-Type": "application/json" },
@@ -207,7 +209,7 @@ export const ContextProvider = (props) => {
 
   const login = async (inputData) => {
     try {
-      let data = await fetch(`http://localhost:3000/login`, {
+      let data = await fetch(baseUrl + `/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(inputData),
@@ -231,7 +233,7 @@ export const ContextProvider = (props) => {
 
   const register = async (inputData) => {
     try {
-      let data = await fetch(`http://localhost:3000/register`, {
+      let data = await fetch(baseUrl + `/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(inputData),
@@ -253,7 +255,7 @@ export const ContextProvider = (props) => {
 
   const getRefcode = async () => {
     let data = await fetch(
-      `http://localhost:3000/refcode/${localStorage.getItem("access_token")}`
+      baseUrl + `/refcode/${localStorage.getItem("access_token")}`
     );
     data = await data.json();
     return data;
@@ -261,7 +263,7 @@ export const ContextProvider = (props) => {
 
   const fetchTransaksiBeforePayment = async () => {
     const access_token = localStorage.getItem("access_token");
-    let data = await fetch(`http://localhost:3000/transaksiBeforePayment`, {
+    let data = await fetch(baseUrl + `/transaksiBeforePayment`, {
       method: "GET",
       headers: { access_token, "Content-Type": "application/json" },
     });
@@ -271,7 +273,7 @@ export const ContextProvider = (props) => {
 
   const fetchTransaksiAfterPayment = async () => {
     const access_token = localStorage.getItem("access_token");
-    let data = await fetch(`http://localhost:3000/transaksiAfterPayment`, {
+    let data = await fetch(baseUrl + `/transaksiAfterPayment`, {
       method: "GET",
       headers: { access_token, "Content-Type": "application/json" },
     });
@@ -281,7 +283,7 @@ export const ContextProvider = (props) => {
 
   const fetchKomisiData = async () => {
     const access_token = localStorage.getItem("access_token");
-    let data = await fetch(`http://localhost:3000/komisi`, {
+    let data = await fetch(baseUrl + `/komisi`, {
       method: "GET",
       headers: { access_token, "Content-Type": "application/json" },
     });
@@ -291,7 +293,7 @@ export const ContextProvider = (props) => {
 
   const fetchUserData = async () => {
     const access_token = localStorage.getItem("access_token");
-    let data = await fetch(`http://localhost:3000/customerData`, {
+    let data = await fetch(baseUrl + `/customerData`, {
       method: "GET",
       headers: { access_token, "Content-Type": "application/json" },
     });
@@ -301,7 +303,7 @@ export const ContextProvider = (props) => {
 
   const fetchTransaksiKomisi = async () => {
     const access_token = localStorage.getItem("access_token");
-    let data = await fetch(`http://localhost:3000/transaksiKomisi`, {
+    let data = await fetch(baseUrl + `/transaksiKomisi`, {
       method: "GET",
       headers: { access_token, "Content-Type": "application/json" },
     });
@@ -311,7 +313,7 @@ export const ContextProvider = (props) => {
 
   const pesananSelesai = async (newData) => {
     const access_token = localStorage.getItem("access_token");
-    let data = await fetch(`http://localhost:3000/pesanan-selesai`, {
+    let data = await fetch(baseUrl + `/pesanan-selesai`, {
       method: "POST",
       headers: { access_token, "Content-Type": "application/json" },
       body: JSON.stringify(newData),
@@ -364,6 +366,7 @@ export const ContextProvider = (props) => {
         register,
         resetLocal,
         resetServices,
+        resetAddress,
         logout,
         pesananSelesai,
       }}

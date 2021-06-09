@@ -128,6 +128,11 @@ export default (state, action) => {
         ...state,
         services: null,
       };
+    case "RESET_ADDRESS":
+      return {
+        ...state,
+        address: {},
+      };
     case "LOGOUT":
       return {
         ...state,

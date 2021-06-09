@@ -32,6 +32,7 @@ const CartPage = () => {
     setOngkir,
     refCode,
     resetServices,
+    resetAddress,
   } = useContext(Context);
   const [check, setCheck] = useState(true);
   const [nama, setNama] = useState("");
@@ -95,7 +96,7 @@ const CartPage = () => {
         nama,
       },
       transaksiData: {
-        invoice: "INV/300421/01",
+        invoice: `INV/${new Date().getFullYear()}${new Date().getMonth()}${new Date().getDate()}/${new Date().getMinutes()}${new Date().getSeconds()}`,
         totalHarga: totalPrice + ongkosKirim,
         ongkosKirim: ongkosKirim,
         kurir: courierPicked,
@@ -132,6 +133,8 @@ const CartPage = () => {
       history.push(!refCode ? "/pembayaran" : `/pembayaran?ref=${refCode}`);
     } else if (response.message === "go to login page") {
       history.push(!refCode ? "/login" : `/login?ref=${refCode}`);
+      resetServices();
+      resetAddress();
     }
   };
 
@@ -250,7 +253,7 @@ const CartPage = () => {
           {services &&
             services.map((service) => (
               <>
-                <Grid item xs={9}>
+                <Grid item xs={9} key={service.service}>
                   <FormControlLabel
                     control={
                       <Checkbox
