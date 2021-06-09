@@ -110,6 +110,7 @@ const CartPage = () => {
         statusPengiriman: "menunggu pembayaran",
         expiredAt: newDate,
         createdAt: created,
+        referralCode: refCode ? refCode : null,
       },
       value: [],
     };
