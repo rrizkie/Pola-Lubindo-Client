@@ -10,7 +10,7 @@ import allBrand from "../../assets/allBrand.png";
 import { useLocation } from "react-router-dom";
 import ShareIcon from "@material-ui/icons/Share";
 
-import Carousel from "../carousel";
+import PremierModal from "../premierModal";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -18,13 +18,13 @@ const useQuery = () => {
 
 const HomePage = () => {
   const [selectedBrand, setSelectedBrand] = useState(null);
+  const [visible, setVisible] = useState(false);
   const query = useQuery();
   const classes = useStyles();
   const {
     fetchBrands,
     fetchProduct,
     fetchCityListAPI,
-    fetchUserData,
     brands,
     products,
     setRefCode,
@@ -42,7 +42,6 @@ const HomePage = () => {
     fetchBrands();
     fetchProduct();
     fetchCityListAPI();
-    fetchUserData();
     const queryParams = query.get("ref");
     if (queryParams !== null) {
       setRefCode(queryParams);
@@ -52,7 +51,7 @@ const HomePage = () => {
   return (
     <>
       <Navbar />
-      <Carousel />
+
       <div className={classes.root}>
         <div className={classes.brandBox}>
           <Fab className={classes.Fab} onClick={() => setSelectedBrand("")}>
@@ -61,24 +60,61 @@ const HomePage = () => {
           <Typography className={classes.brandText}>Semua Produk</Typography>
         </div>
         {localStorage.getItem("access_token") &&
-          userData?.totalPembelian > premier && (
-            <div className={classes.share} style={{ verticalAlign: "middle" }}>
-              <Typography style={{ fontSize: 15, fontWeight: "bold" }}>
-                Dapatkan komisi tambahan
-              </Typography>
-              <Button
-                style={{
-                  color: "#fff",
-                  border: "2px solid #fff",
-                  fontSize: 12,
-                  fontWeight: "bold",
-                }}
-                onClick={handleCopy}
-              >
-                upgrade premiere
-              </Button>
+        userData?.totalPembelian > premier &&
+        userData?.statusPremier === null ? (
+          <div className={classes.share} style={{ verticalAlign: "middle" }}>
+            <Typography style={{ fontSize: 12, fontWeight: "bold" }}>
+              Dapatkan komisi tambahan
+            </Typography>
+            <Button
+              style={{
+                color: "#fff",
+                border: "2px solid #fff",
+                fontSize: 10,
+                fontWeight: "bold",
+              }}
+              onClick={() => setVisible(!visible)}
+            >
+              upgrade premiere
+            </Button>
+          </div>
+        ) : userData?.statusPremier === "menunggu approval" ? (
+          <div className={classes.share} style={{ verticalAlign: "middle" }}>
+            <Typography style={{ fontSize: 12, fontWeight: "bold" }}>
+              Status: Menunggu Proses persetujuan premiere
+            </Typography>
+          </div>
+        ) : userData?.statusPremier === "aktif" ? (
+          <div className={classes.share} style={{ verticalAlign: "middle" }}>
+            <Typography style={{ fontSize: 12, fontWeight: "bold" }}>
+              Bagikan link untuk komisi
+            </Typography>
+            <div style={{ display: "flex", justifyContent: "space-around" }}>
+              <div style={{ marginRight: "0.5rem", marginTop: "0.2rem" }}>
+                <ShareIcon />
+              </div>
+              <div>
+                <Button
+                  style={{
+                    color: "#fff",
+                    border: "2px solid #fff",
+                    fontSize: 10,
+                    fontWeight: "bold",
+                  }}
+                  onClick={handleCopy}
+                >
+                  bagikan
+                </Button>
+              </div>
             </div>
-          )}
+          </div>
+        ) : (
+          ""
+        )}
+        <PremierModal
+          visible={visible}
+          handleClose={() => setVisible(!visible)}
+        />
         <div className={classes.produkCard}>
           {!selectedBrand
             ? products.map((product) => (

@@ -2,13 +2,14 @@ import React, { useEffect } from "react";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import { Typography } from "@material-ui/core";
+import { Typography, Avatar } from "@material-ui/core";
 import { ArrowBack } from "@material-ui/icons";
 import { useHistory } from "react-router";
 import useStyles from "./styles";
 import komisiLogo from "./asset/komisi.png";
 import { useContext } from "react";
 import { Context } from "../../context/globalState";
+import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
 
 export default function CenteredGrid() {
   const classes = useStyles();
@@ -20,18 +21,19 @@ export default function CenteredGrid() {
     refCode,
     resetLocal,
     setRefCode,
+    logout,
   } = useContext(Context);
 
   const history = useHistory();
   const back = () => {
     history.push(refCode ? `/?ref=${refCode}` : "/");
   };
-  const logout = () => {
+  const handleLogout = () => {
     history.push("/login");
     localStorage.removeItem("access_token");
     localStorage.removeItem("carts");
     localStorage.removeItem("totalPrice");
-    resetLocal();
+    logout();
     setRefCode(null);
   };
 
@@ -57,6 +59,58 @@ export default function CenteredGrid() {
           justify="center"
           alignItems="center"
         >
+          {userData && (
+            <>
+              <Paper className={classes.profileBox} elevation={3}>
+                <Grid container style={{ margin: "1.5rem" }}>
+                  <Grid xs={6}>
+                    <Avatar style={{ width: "5rem", height: "5rem" }}>
+                      {userData.nama[0]}
+                    </Avatar>
+                  </Grid>
+                  <Grid
+                    xs={6}
+                    style={{ marginLeft: "-75px", marginTop: "1rem" }}
+                  >
+                    <Grid>{userData.nama}</Grid>
+                    <Grid style={{ margin: "0.2rem 0" }}>{userData.email}</Grid>
+                    <Grid>{userData.phone}</Grid>
+                  </Grid>
+                  <Grid xs={12} style={{ margin: "2rem 0 " }}>
+                    <Grid style={{ fontWeight: "bold" }}>Alamat : </Grid>
+                    <Grid>{userData.alamat}</Grid>
+                  </Grid>
+                </Grid>
+              </Paper>
+              <Grid item xs={12}>
+                <Paper className={classes.paper}>
+                  <Grid
+                    container
+                    spacing={3}
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                    style={{ color: "#000" }}
+                  >
+                    <Grid item xs={2}>
+                      <AccountBalanceWalletIcon />
+                    </Grid>
+                    <Grid item xs={6}>
+                      Total Pembelian
+                    </Grid>
+                    {komisi && (
+                      <Grid item xs={4}>
+                        Rp.{" "}
+                        {new Number(userData.totalPembelian).toLocaleString(
+                          "id-ID"
+                        )}
+                      </Grid>
+                    )}
+                  </Grid>
+                </Paper>
+              </Grid>
+            </>
+          )}
           <Grid item xs={12}>
             <Paper className={classes.paper}>
               <Grid
@@ -80,7 +134,7 @@ export default function CenteredGrid() {
                 )}
               </Grid>
 
-              <Button
+              {/* <Button
                 variant="outlined"
                 fullWidth
                 style={{ borderColor: "green", color: "green" }}
@@ -103,72 +157,16 @@ export default function CenteredGrid() {
                 style={{ backgroundColor: "green" }}
               >
                 Transaksi Komisi
-              </Button>
+              </Button> */}
             </Paper>
           </Grid>
-          {userData && (
-            <>
-              {" "}
-              <Grid item xs={4}>
-                Nama
-              </Grid>
-              <Grid item xs={5}>
-                {userData.nama}
-              </Grid>
-              <Grid item xs={3}>
-                ubah
-              </Grid>
-              <Grid item xs={4}>
-                Email
-              </Grid>
-              <Grid item xs={5}>
-                {userData.email}
-              </Grid>
-              <Grid item xs={3}>
-                ubah
-              </Grid>
-              <Grid item xs={4}>
-                Nomor Tel.
-              </Grid>
-              <Grid item xs={5}>
-                {userData.phone}
-              </Grid>
-              <Grid item xs={3}>
-                ubah
-              </Grid>
-              <Grid item xs={4}>
-                No. Rekening
-              </Grid>
-              <Grid item xs={5}>
-                {userData.noRekening}
-              </Grid>
-              <Grid item xs={3}>
-                ubah
-              </Grid>
-              <Grid item xs={4}>
-                Alamat
-              </Grid>
-              <Grid item xs={5}>
-                Alamat
-              </Grid>
-              <Grid item xs={3}>
-                ubah
-              </Grid>
-              <Grid item xs={4}>
-                Total Transaksi
-              </Grid>
-              <Grid item xs={5}></Grid>
-              <Grid item xs={3}>
-                Rp. {userData.totalPembelian}
-              </Grid>
-            </>
-          )}
         </Grid>
+
         <div className={classes.logoutBtn}>
           <Button
             fullWidth
             style={{ backgroundColor: "green", color: "#fff" }}
-            onClick={logout}
+            onClick={handleLogout}
           >
             Log Out
           </Button>

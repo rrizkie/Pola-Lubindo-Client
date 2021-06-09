@@ -83,7 +83,7 @@ export const BottomNav = () => {
       >
         {allBottomActions.map((item) => (
           <BottomNavigationAction
-            key={item.id}
+            key={item.value}
             label={item.label}
             icon={item.icon}
             onClick={item.onClick}

@@ -11,6 +11,7 @@ const Pembayaran = () => {
   const classes = useStyles();
   const history = useHistory();
   const { totalPrice, ongkosKirim, refCode, resetLocal } = useContext(Context);
+  let dataTransaksi = JSON.parse(localStorage.getItem("transaksi"));
 
   const handleBackToHome = () => {
     history.push(refCode ? `/?ref=${refCode}` : "/");
@@ -47,7 +48,7 @@ const Pembayaran = () => {
             Rp.{totalPrice + ongkosKirim}
           </Typography>
           <Typography>Bayar Sebelum</Typography>
-          <Typography>23/03/2021</Typography>
+          <Typography>{dataTransaksi.expiredAt.split("T")[0]} - {dataTransaksi.expiredAt.split("T")[1].split(".")[0]}</Typography>
         </div>
       </Paper>
       <div

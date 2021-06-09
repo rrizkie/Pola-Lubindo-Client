@@ -111,7 +111,7 @@ export default (state, action) => {
     case "LOGIN":
       return {
         ...state,
-        isLogin: action.payload,
+        userData: action.payload,
       };
     case "RESET":
       return {
@@ -122,6 +122,27 @@ export default (state, action) => {
         courier: "",
         ongkosKirim: 0,
         services: null,
+      };
+    case "RESET_SERVICES":
+      return {
+        ...state,
+        services: null,
+      };
+    case "RESET_ADDRESS":
+      return {
+        ...state,
+        address: {},
+      };
+    case "LOGOUT":
+      return {
+        ...state,
+        carts: [],
+        totalPrice: 0,
+        address: {},
+        courier: "",
+        ongkosKirim: 0,
+        services: null,
+        userData: null,
       };
     default:
       return state;

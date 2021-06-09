@@ -3,6 +3,8 @@ import { useHistory, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import appReducers from "./appReducers";
 
+const baseUrl = "http://localhost:3000";
+
 const initialState = {
   isLogin: false,
   refCode: null,
@@ -37,7 +39,7 @@ export const ContextProvider = (props) => {
 
   // actions
   const fetchBrands = () => {
-    fetch(`http://localhost:3000/brand`)
+    fetch(baseUrl + `/brand`)
       .then((res) => res.json())
       .then((data) => {
         dispatch({ type: "FETCH_BRAND", payload: data });
@@ -45,7 +47,7 @@ export const ContextProvider = (props) => {
   };
 
   const fetchProduct = () => {
-    fetch(`http://localhost:3000/produk`)
+    fetch(baseUrl + `/produk`)
       .then((res) => res.json())
       .then((data) => {
         dispatch({ type: "FETCH_PRODUCT", payload: data });
@@ -53,7 +55,7 @@ export const ContextProvider = (props) => {
   };
 
   const fetchCityListAPI = () => {
-    fetch(`http://localhost:3000/city`)
+    fetch(baseUrl + `/city`)
       .then((res) => res.json())
       .then((data) => {
         dispatch({ type: "FETCH_CITY", payload: data });
@@ -84,10 +86,28 @@ export const ContextProvider = (props) => {
     dispatch({ type: "SET_ADDRESS", payload: address });
   };
 
+  const addKtpAndNPWP = async (newdata) => {
+    const access_token = localStorage.getItem("access_token");
+    let data = await fetch(baseUrl + "/add-ktp-npwp", {
+      method: "POST",
+      headers: { access_token, "Content-Type": "application/json" },
+      body: JSON.stringify(newdata),
+    });
+    data = await data.json();
+    return data;
+  };
+
+  const addAlamat = async (newdata) => {
+    const access_token = localStorage.getItem("access_token");
+    const data = await fetch(baseUrl + "/add-alamat", {
+      method: "POST",
+      headers: { access_token, "Content-Type": "application/json" },
+      body: JSON.stringify(newdata),
+    });
+  };
+
   const getOngkir = (data) => {
-    fetch(
-      `http://localhost:3000/cost/${data.destination}/${data.courier}/${data.weight}`
-    )
+    fetch(baseUrl + `/cost/${data.destination}/${data.courier}/${data.weight}`)
       .then((res) => res.json())
       .then((data) => {
         dispatch({ type: "SERVICES", payload: data });
@@ -110,9 +130,21 @@ export const ContextProvider = (props) => {
     dispatch({ type: "RESET" });
   };
 
+  const resetServices = () => {
+    dispatch({ type: "RESET_SERVICES" });
+  };
+
+  const resetAddress = () => {
+    dispatch({ type: "RESET_ADDRESS" });
+  };
+
+  const logout = () => {
+    dispatch({ type: "LOGOUT" });
+  };
+
   const checkoutCart = async (itemData) => {
     try {
-      let data = await fetch(`http://localhost:3000/checkout`, {
+      let data = await fetch(baseUrl + `/checkout`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(itemData),
@@ -129,20 +161,32 @@ export const ContextProvider = (props) => {
         return { message: "Success" };
       }
     } catch (error) {
-      Swal.fire({
-        title: `${error.errMessage}`,
-        icon: "error",
-      });
-      return { message: "Failed" };
       console.log(error);
+      if (
+        error.errMessage === "email address already in use" ||
+        error.errMessage === "phone number already in use"
+      ) {
+        Swal.fire({
+          title: `${error.errMessage}`,
+          text: "Try to login with your email or phone number",
+          icon: "error",
+        });
+        return { message: "go to login page" };
+      } else {
+        Swal.fire({
+          title: `${error.errMessage}`,
+          icon: "error",
+        });
+        return { message: "Failed" };
+      }
     }
   };
 
   const confirmPayment = async (data, transaksiId, access_token, refferal) => {
     try {
       let url = refferal
-        ? `http://localhost:3000/cart/${transaksiId}?ref=${refferal}`
-        : `http://localhost:3000/cart/${transaksiId}`;
+        ? baseUrl + `/cart/${transaksiId}?ref=${refferal}`
+        : baseUrl + `/cart/${transaksiId}`;
       let responseData = await fetch(url, {
         method: "POST",
         headers: { access_token, "Content-Type": "application/json" },
@@ -165,18 +209,17 @@ export const ContextProvider = (props) => {
 
   const login = async (inputData) => {
     try {
-      let data = await fetch(`http://localhost:3000/login`, {
+      let data = await fetch(baseUrl + `/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(inputData),
       });
       data = await data.json();
-      console.log(data);
       if (!data.access_token) {
         throw data;
       } else {
         localStorage.setItem("access_token", data.access_token);
-        dispatch({ type: "LOGIN", payload: true });
+        dispatch({ type: "LOGIN", payload: data.data });
         return { message: "success" };
       }
     } catch (error) {
@@ -190,7 +233,7 @@ export const ContextProvider = (props) => {
 
   const register = async (inputData) => {
     try {
-      let data = await fetch(`http://localhost:3000/register`, {
+      let data = await fetch(baseUrl + `/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(inputData),
@@ -212,7 +255,7 @@ export const ContextProvider = (props) => {
 
   const getRefcode = async () => {
     let data = await fetch(
-      `http://localhost:3000/refcode/${localStorage.getItem("access_token")}`
+      baseUrl + `/refcode/${localStorage.getItem("access_token")}`
     );
     data = await data.json();
     return data;
@@ -220,7 +263,7 @@ export const ContextProvider = (props) => {
 
   const fetchTransaksiBeforePayment = async () => {
     const access_token = localStorage.getItem("access_token");
-    let data = await fetch(`http://localhost:3000/transaksiBeforePayment`, {
+    let data = await fetch(baseUrl + `/transaksiBeforePayment`, {
       method: "GET",
       headers: { access_token, "Content-Type": "application/json" },
     });
@@ -230,7 +273,7 @@ export const ContextProvider = (props) => {
 
   const fetchTransaksiAfterPayment = async () => {
     const access_token = localStorage.getItem("access_token");
-    let data = await fetch(`http://localhost:3000/transaksiAfterPayment`, {
+    let data = await fetch(baseUrl + `/transaksiAfterPayment`, {
       method: "GET",
       headers: { access_token, "Content-Type": "application/json" },
     });
@@ -240,7 +283,7 @@ export const ContextProvider = (props) => {
 
   const fetchKomisiData = async () => {
     const access_token = localStorage.getItem("access_token");
-    let data = await fetch(`http://localhost:3000/komisi`, {
+    let data = await fetch(baseUrl + `/komisi`, {
       method: "GET",
       headers: { access_token, "Content-Type": "application/json" },
     });
@@ -250,7 +293,7 @@ export const ContextProvider = (props) => {
 
   const fetchUserData = async () => {
     const access_token = localStorage.getItem("access_token");
-    let data = await fetch(`http://localhost:3000/customerData`, {
+    let data = await fetch(baseUrl + `/customerData`, {
       method: "GET",
       headers: { access_token, "Content-Type": "application/json" },
     });
@@ -260,12 +303,23 @@ export const ContextProvider = (props) => {
 
   const fetchTransaksiKomisi = async () => {
     const access_token = localStorage.getItem("access_token");
-    let data = await fetch(`http://localhost:3000/transaksiKomisi`, {
+    let data = await fetch(baseUrl + `/transaksiKomisi`, {
       method: "GET",
       headers: { access_token, "Content-Type": "application/json" },
     });
     data = await data.json();
     dispatch({ type: "FETCH_TRANSAKSI_KOMISI", payload: data });
+  };
+
+  const pesananSelesai = async (newData) => {
+    const access_token = localStorage.getItem("access_token");
+    let data = await fetch(baseUrl + `/pesanan-selesai`, {
+      method: "POST",
+      headers: { access_token, "Content-Type": "application/json" },
+      body: JSON.stringify(newData),
+    });
+    data = await data.json();
+    return data;
   };
   return (
     <Context.Provider
@@ -293,6 +347,8 @@ export const ContextProvider = (props) => {
         fetchKomisiData,
         fetchTransaksiKomisi,
         fetchUserData,
+        addKtpAndNPWP,
+        addAlamat,
         setRefCode,
         addTocart,
         editTotalprice,
@@ -309,6 +365,10 @@ export const ContextProvider = (props) => {
         login,
         register,
         resetLocal,
+        resetServices,
+        resetAddress,
+        logout,
+        pesananSelesai,
       }}
     >
       {props.children}

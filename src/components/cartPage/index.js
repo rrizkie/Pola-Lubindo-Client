@@ -31,17 +31,26 @@ const CartPage = () => {
     ongkosKirim,
     setOngkir,
     refCode,
+    resetServices,
+    resetAddress,
   } = useContext(Context);
   const [check, setCheck] = useState(true);
   const [nama, setNama] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [courierPicked, setCourierPicked] = useState("");
+  const [servicePicked, setServicePicked] = useState("");
   const [checked, setCheked] = useState(ongkosKirim);
   function back() {
     history.push("/");
+    resetServices();
     addAddress("");
   }
+
+  const handleGantiAlamat = () => {
+    history.push(!refCode ? "/shipping" : `/shipping?ref=${refCode}`);
+    resetServices();
+  };
 
   const selected = (e) => {
     setCourierPicked(e.target.value);
@@ -52,12 +61,34 @@ const CartPage = () => {
     });
   };
 
-  const handleChecked = (price) => {
-    setCheked(price);
-    setOngkir(price);
+  const handleChecked = (kurir) => {
+    setCheked(kurir.cost[0].value);
+    setOngkir(kurir.cost[0].value);
+    setServicePicked(kurir.service);
   };
 
   const checkout = async () => {
+    let created = new Date(
+      Date.UTC(
+        2021,
+        new Date().getMonth(),
+        new Date().getDate(),
+        new Date().getHours(),
+        new Date().getMinutes(),
+        new Date().getSeconds()
+      )
+    );
+    let newDate = new Date(
+      Date.UTC(
+        2021,
+        new Date().getMonth(),
+        new Date().getDate() + 1,
+        new Date().getHours(),
+        new Date().getMinutes(),
+        new Date().getSeconds()
+      )
+    );
+
     let data = {
       userData: {
         email,
@@ -65,10 +96,11 @@ const CartPage = () => {
         nama,
       },
       transaksiData: {
-        invoice: "INV/300421/01",
+        invoice: `INV/${new Date().getFullYear()}${new Date().getMonth()}${new Date().getDate()}/${new Date().getMinutes()}${new Date().getSeconds()}`,
         totalHarga: totalPrice + ongkosKirim,
         ongkosKirim: ongkosKirim,
         kurir: courierPicked,
+        serviceKurir: servicePicked,
         namaPenerima: nama,
         alamatPengiriman: `${address?.jalan},${address?.kecamatan},${address?.kabupaten},
         ${address?.detail}`,
@@ -76,6 +108,8 @@ const CartPage = () => {
         statusPesanan: "menunggu pembayaran",
         statusPembayaran: "menunggu pembayaran",
         statusPengiriman: "menunggu pembayaran",
+        expiredAt: newDate,
+        createdAt: created,
       },
       value: [],
     };
@@ -95,8 +129,13 @@ const CartPage = () => {
     setCourierPicked("");
     setCheked(ongkosKirim);
     const response = await checkoutCart(data);
-    if (response.message === "Success")
+    if (response.message === "Success") {
       history.push(!refCode ? "/pembayaran" : `/pembayaran?ref=${refCode}`);
+    } else if (response.message === "go to login page") {
+      history.push(!refCode ? "/login" : `/login?ref=${refCode}`);
+      resetServices();
+      resetAddress();
+    }
   };
 
   useEffect(() => {
@@ -151,13 +190,25 @@ const CartPage = () => {
             <Typography className={classes.formText}>
               Alamat Pengiriman
             </Typography>
-            <Typography
-              style={{ margin: "0.5rem 0 1rem 0.5rem" }}
-              className={classes.innerBoxText}
-            >
-              {address.jalan},{address.kecamatan},{address.kabupaten},
-              {address.detail}
-            </Typography>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <Typography
+                style={{ margin: "0.5rem 0 1rem 0.5rem" }}
+                className={classes.innerBoxText}
+              >
+                {address.jalan},{address.kecamatan},{address.kabupaten},
+                {address.detail}
+              </Typography>
+              <Button
+                style={{
+                  background: "#f4e8e9",
+                  color: "red",
+                  fontSize: "0.6rem",
+                }}
+                onClick={handleGantiAlamat}
+              >
+                Ubah Alamat Pengiriman
+              </Button>
+            </div>
           </div>
         ) : (
           <>
@@ -195,17 +246,22 @@ const CartPage = () => {
           <option className={classes.option}>jne</option>
         </select>
         <Grid container alignItems="center">
+          {services === null && courierPicked !== "" && (
+            <CircularProgress
+              style={{ marginLeft: "40%", marginTop: "1rem" }}
+            />
+          )}
           {services &&
             services.map((service) => (
               <>
-                <Grid item xs={9}>
+                <Grid item xs={9} key={service.service}>
                   <FormControlLabel
                     control={
                       <Checkbox
                         checked={
                           checked === service.cost[0].value ? true : false
                         }
-                        onChange={() => handleChecked(service.cost[0].value)}
+                        onChange={() => handleChecked(service)}
                         key={service.service}
                       />
                     }

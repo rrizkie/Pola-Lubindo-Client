@@ -60,6 +60,7 @@ const KonfirmasiPembayaran = () => {
     transaksiData.jumlahBayar = total;
     transaksiData.bankAsal = bankAsal;
     transaksiData.bankTujuan = bankTujuan;
+    transaksiData.expiredAt = null;
     const response = await confirmPayment(
       transaksiData,
       localStorage.getItem("transaksi id"),

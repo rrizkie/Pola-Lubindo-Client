@@ -19,6 +19,7 @@ const Transaksi = () => {
     transaksiBeforePayment,
     transaksiAfterPayment,
     refCode,
+    pesananSelesai,
   } = useContext(Context);
 
   const [transaksiType, setTransaksiType] = useState("Menunggu Pembayaran");
@@ -49,6 +50,19 @@ const Transaksi = () => {
         ? `/konfirmasi-pembayaran?ref=${refCode}`
         : `/konfirmasi-pembayaran`
     );
+  };
+
+  const handlePesananSampai = async (data) => {
+    data.statusPengiriman = "pesanan selesai";
+    data.statusPesanan = "pesanan selesai";
+    const response = await pesananSelesai({
+      id: data.id,
+      statusPengiriman: data.statusPengiriman,
+      statusPesanan: data.statusPesanan,
+    });
+    if (response.message) {
+      fetchTransaksiAfterPayment();
+    }
   };
 
   useEffect(() => {
@@ -120,7 +134,8 @@ const Transaksi = () => {
                     <Grid item xs={4}>
                       <Typography variant="body2">
                         konfirmasi sebelum <br />
-                        22/03/2021 23:00
+                        {item.expiredAt.split("T")[0]}-
+                        {item.expiredAt.split("T")[1].split(".")[0]}
                       </Typography>
                     </Grid>
 
@@ -195,20 +210,19 @@ const Transaksi = () => {
                         height="50"
                       />
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={9}>
                       <Typography variant="body2">
                         <b> {item.Carts[0].Produk.namaProduk}</b>
                         <br />
                         {item.Carts[0].qty} barang
                       </Typography>
                     </Grid>
-                    <Grid item xs={4}>
+                    {/* <Grid item xs={4}>
                       <Typography variant="body2">
                         konfirmasi sebelum <br />
                         22/03/2021 23:00
                       </Typography>
-                    </Grid>
-
+                    </Grid> */}
                     <Grid item xs={6}>
                       <Typography variant="body2">
                         +{item.Carts.length} barang lainnya
@@ -219,15 +233,21 @@ const Transaksi = () => {
                       </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                      <Button
-                        style={{
-                          backgroundColor: "green",
-                          color: "white",
-                          fontSize: "0.7rem",
-                        }}
-                      >
-                        Cek Resi
-                      </Button>
+                      {item.statusPengiriman === "dalam pengiriman" ? (
+                        <Button
+                          style={{
+                            backgroundColor: "green",
+                            color: "white",
+                            fontSize: "0.7rem",
+                            marginLeft: "4rem",
+                          }}
+                          onClick={() => handlePesananSampai(item)}
+                        >
+                          Pesanan sudah sampai
+                        </Button>
+                      ) : (
+                        ""
+                      )}
                     </Grid>
                   </Grid>
                 </Paper>

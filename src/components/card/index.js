@@ -31,7 +31,7 @@ export const CardProduct = ({ product }) => {
   return (
     <>
       <Grid item xs={5} style={{ margin: "0.2rem" }}>
-        <Card>
+        <Card style={{ height: "auto" }}>
           <CardMedia
             className={classes.media}
             image={product.fotoProduk}
