@@ -15,6 +15,7 @@ import { useStyles } from "./styles";
 import { useHistory } from "react-router";
 import CartItem from "../cartItem";
 import { Context } from "../../context/globalState";
+import Swal from "sweetalert2";
 
 const CartPage = () => {
   const classes = useStyles();
@@ -75,70 +76,87 @@ const CartPage = () => {
   };
 
   const checkout = async () => {
-    let created = new Date(
-      Date.UTC(
-        2021,
-        new Date().getMonth(),
-        new Date().getDate(),
-        new Date().getHours(),
-        new Date().getMinutes(),
-        new Date().getSeconds()
-      )
-    );
-    let newDate = new Date(
-      Date.UTC(
-        2021,
-        new Date().getMonth(),
-        new Date().getDate() + 1,
-        new Date().getHours(),
-        new Date().getMinutes(),
-        new Date().getSeconds()
-      )
-    );
-
-    let data = {
-      userData: informasiPembeli,
-      transaksiData: {
-        invoice: `INV/${new Date().getFullYear()}${new Date().getMonth()}${new Date().getDate()}/${new Date().getMinutes()}${new Date().getSeconds()}`,
-        totalHarga: totalPrice + ongkosKirim,
-        ongkosKirim: ongkosKirim,
-        kurir: courierPicked,
-        serviceKurir: servicePicked,
-        namaPenerima: informasiPembeli.nama,
-        alamatPengiriman: `${address?.jalan},${address?.kecamatan},${address?.kabupaten},
-        ${address?.detail}`,
-        telfonPenerima: informasiPembeli.phone,
-        statusPesanan: "menunggu pembayaran",
-        statusPembayaran: "menunggu pembayaran",
-        statusPengiriman: "menunggu pembayaran",
-        expiredAt: newDate,
-        createdAt: created,
-        referralCode: refCode ? refCode : null,
-      },
-      value: [],
-    };
-    if (localStorage.getItem("access_token")) {
-      data.access_token = localStorage.getItem("access_token");
-    }
-    const chekedItem = carts.filter((item) => item.checked);
-    chekedItem.map((item) => {
-      item.product.stock -= item.qty;
-      data.value.push({
-        produk: item.product,
-        ProdukId: item.product.id,
-        qty: item.qty,
+    if (
+      informasiPembeli.nama === "" ||
+      informasiPembeli.phone === "" ||
+      informasiPembeli.email === ""
+    ) {
+      Swal.fire({
+        title: "Informasi Pembeli belum lengkap",
+        icon: "error",
       });
-    });
-    localStorage.setItem("transaksi", JSON.stringify(data.transaksiData));
-    setCourierPicked("");
-    setCheked(ongkosKirim);
-    const response = await checkoutCart(data);
-    if (response.message === "Success") {
-      history.push(!refCode ? "/pembayaran" : `/pembayaran?ref=${refCode}`);
-    } else if (response.message === "go to login page") {
-      history.push(!refCode ? "/login" : `/login?ref=${refCode}`);
-      resetServices();
-      resetAddress();
+    } else if (courierPicked === "" || servicePicked === ""){
+      Swal.fire({
+        title: "Pilih Kurir untuk pengiriman",
+        icon: "error",
+      });
+    } else {
+      let created = new Date(
+        Date.UTC(
+          2021,
+          new Date().getMonth(),
+          new Date().getDate(),
+          new Date().getHours(),
+          new Date().getMinutes(),
+          new Date().getSeconds()
+        )
+      );
+      let newDate = new Date(
+        Date.UTC(
+          2021,
+          new Date().getMonth(),
+          new Date().getDate() + 1,
+          new Date().getHours(),
+          new Date().getMinutes(),
+          new Date().getSeconds()
+        )
+      );
+
+      let data = {
+        userData: informasiPembeli,
+        transaksiData: {
+          invoice: `INV/${new Date().getFullYear()}${new Date().getMonth()}${new Date().getDate()}/${new Date().getMinutes()}${new Date().getSeconds()}`,
+          totalHarga: totalPrice + ongkosKirim,
+          ongkosKirim: ongkosKirim,
+          kurir: courierPicked,
+          serviceKurir: servicePicked,
+          namaPenerima: informasiPembeli.nama,
+          alamatPengiriman: `${address?.jalan},${address?.kecamatan},${address?.kabupaten},
+          ${address?.detail}`,
+          telfonPenerima: informasiPembeli.phone,
+          statusPesanan: "menunggu pembayaran",
+          statusPembayaran: "menunggu pembayaran",
+          statusPengiriman: "menunggu pembayaran",
+          expiredAt: newDate,
+          createdAt: created,
+          referralCode: refCode ? refCode : null,
+        },
+        value: [],
+      };
+      if (localStorage.getItem("access_token")) {
+        data.access_token = localStorage.getItem("access_token");
+      }
+      const chekedItem = carts.filter((item) => item.checked);
+      chekedItem.map((item) => {
+        item.product.stock -= item.qty;
+        data.value.push({
+          produk: item.product,
+          ProdukId: item.product.id,
+          qty: item.qty,
+        });
+      });
+      localStorage.setItem("transaksi", JSON.stringify(data.transaksiData));
+      setCourierPicked("");
+      setCheked(ongkosKirim);
+      const response = await checkoutCart(data);
+      if (response.message === "Success") {
+        history.push(!refCode ? "/pembayaran" : `/pembayaran?ref=${refCode}`);
+        setInformasiPembeli({ nama: "", email: "", phone: "" });
+      } else if (response.message === "go to login page") {
+        history.push(!refCode ? "/login" : `/login?ref=${refCode}`);
+        resetServices();
+        resetAddress();
+      }
     }
   };
 

@@ -55,11 +55,7 @@ const Transaksi = () => {
   const handlePesananSampai = async (data) => {
     data.statusPengiriman = "pesanan selesai";
     data.statusPesanan = "pesanan selesai";
-    const response = await pesananSelesai({
-      id: data.id,
-      statusPengiriman: data.statusPengiriman,
-      statusPesanan: data.statusPesanan,
-    });
+    const response = await pesananSelesai(data);
     if (response.message) {
       fetchTransaksiAfterPayment();
     }

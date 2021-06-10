@@ -25,6 +25,7 @@ const HomePage = () => {
     fetchBrands,
     fetchProduct,
     fetchCityListAPI,
+    fetchUserData,
     brands,
     products,
     setRefCode,
@@ -42,6 +43,7 @@ const HomePage = () => {
     fetchBrands();
     fetchProduct();
     fetchCityListAPI();
+    fetchUserData();
     const queryParams = query.get("ref");
     if (queryParams !== null) {
       setRefCode(queryParams);

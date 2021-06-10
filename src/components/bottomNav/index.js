@@ -45,7 +45,7 @@ export const BottomNav = () => {
       value: 3,
       label: "Bantuan",
       icon: <HelpIcon />,
-      onClick: null,
+      link: "https://api.whatsapp.com/send?phone=+6281806152968&text=hi",
     },
   ];
   const [value, setValue] = React.useState(0);
@@ -87,6 +87,8 @@ export const BottomNav = () => {
             label={item.label}
             icon={item.icon}
             onClick={item.onClick}
+            href={item.link}
+            target="_blank"
             style={{
               color: item.value === value && item.onClick ? "red" : null,
             }}

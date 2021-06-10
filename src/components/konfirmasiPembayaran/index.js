@@ -17,6 +17,7 @@ import InfoIcon from "@material-ui/icons/Info";
 import { useHistory } from "react-router-dom";
 import { useStyle } from "./styles";
 import { Context } from "../../context/globalState";
+import Swal from "sweetalert2";
 
 const KonfirmasiPembayaran = () => {
   const classes = useStyle();
@@ -52,23 +53,42 @@ const KonfirmasiPembayaran = () => {
   };
 
   const handleKonfirm = async () => {
-    transaksiData.statusPembayaran = "menunggu konfirmasi";
-    transaksiData.statusPesanan = "menunggu konfirmasi";
-    transaksiData.statusPengiriman = "menunggu konfirmasi";
-    transaksiData.metodePembayaran = "transfer";
-    transaksiData.namaRekening = namaRek;
-    transaksiData.jumlahBayar = total;
-    transaksiData.bankAsal = bankAsal;
-    transaksiData.bankTujuan = bankTujuan;
-    transaksiData.expiredAt = null;
-    const response = await confirmPayment(
-      transaksiData,
-      localStorage.getItem("transaksi id"),
-      localStorage.getItem("access_token"),
-      refCode ? refCode : null
-    );
-    if (response.message === "Success")
-      history.push(refCode ? `/?ref=${refCode}` : "/");
+    if (
+      tanggal === "" ||
+      namaRek === "" ||
+      bankAsal === "Bank Asal" ||
+      bankTujuan === "Bank Tujuan"
+    ) {
+      Swal.fire({
+        title: "data belum lengkap",
+        icon: "error",
+      });
+    } else {
+      if (total != transaksiData.totalHarga) {
+        Swal.fire({
+          title: `nominal transfer tidak sesuai dengan nominal total harga`,
+          icon: "error",
+        });
+      } else {
+        transaksiData.statusPembayaran = "menunggu konfirmasi";
+        transaksiData.statusPesanan = "menunggu konfirmasi";
+        transaksiData.statusPengiriman = "menunggu konfirmasi";
+        transaksiData.metodePembayaran = "transfer";
+        transaksiData.namaRekening = namaRek;
+        transaksiData.jumlahBayar = total;
+        transaksiData.bankAsal = bankAsal;
+        transaksiData.bankTujuan = bankTujuan;
+        transaksiData.expiredAt = null;
+        const response = await confirmPayment(
+          transaksiData,
+          localStorage.getItem("transaksi id"),
+          localStorage.getItem("access_token"),
+          refCode ? refCode : null
+        );
+        if (response.message === "Success")
+          history.push(refCode ? `/?ref=${refCode}` : "/");
+      }
+    }
   };
   return (
     <div>
