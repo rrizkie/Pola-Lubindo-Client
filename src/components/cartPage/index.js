@@ -33,19 +33,26 @@ const CartPage = () => {
     refCode,
     resetServices,
     resetAddress,
+    informasiPembeli,
+    setInformasiPembeli,
   } = useContext(Context);
   const [check, setCheck] = useState(true);
-  const [nama, setNama] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
   const [courierPicked, setCourierPicked] = useState("");
   const [servicePicked, setServicePicked] = useState("");
   const [checked, setCheked] = useState(ongkosKirim);
   function back() {
     history.push("/");
     resetServices();
+    setInformasiPembeli({ nama: "", email: "", phone: "" });
     addAddress("");
   }
+
+  const handleInput = (e) => {
+    setInformasiPembeli({
+      ...informasiPembeli,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleGantiAlamat = () => {
     history.push(!refCode ? "/shipping" : `/shipping?ref=${refCode}`);
@@ -90,21 +97,17 @@ const CartPage = () => {
     );
 
     let data = {
-      userData: {
-        email,
-        phone,
-        nama,
-      },
+      userData: informasiPembeli,
       transaksiData: {
         invoice: `INV/${new Date().getFullYear()}${new Date().getMonth()}${new Date().getDate()}/${new Date().getMinutes()}${new Date().getSeconds()}`,
         totalHarga: totalPrice + ongkosKirim,
         ongkosKirim: ongkosKirim,
         kurir: courierPicked,
         serviceKurir: servicePicked,
-        namaPenerima: nama,
+        namaPenerima: informasiPembeli.nama,
         alamatPengiriman: `${address?.jalan},${address?.kecamatan},${address?.kabupaten},
         ${address?.detail}`,
-        telfonPenerima: phone,
+        telfonPenerima: informasiPembeli.phone,
         statusPesanan: "menunggu pembayaran",
         statusPembayaran: "menunggu pembayaran",
         statusPengiriman: "menunggu pembayaran",
@@ -162,8 +165,8 @@ const CartPage = () => {
           <InputBase
             className={classes.form}
             name="nama"
-            value={nama}
-            onChange={(e) => setNama(e.target.value)}
+            value={informasiPembeli.nama}
+            onChange={handleInput}
           />
         </div>
         <div className={classes.formBox}>
@@ -171,8 +174,8 @@ const CartPage = () => {
           <InputBase
             className={classes.form}
             name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={informasiPembeli.email}
+            onChange={handleInput}
           />
         </div>
         <div className={classes.formBox}>
@@ -182,8 +185,8 @@ const CartPage = () => {
           <InputBase
             className={classes.form}
             name="phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            value={informasiPembeli.phone}
+            onChange={handleInput}
           />
         </div>
         {address.kabupaten ? (

@@ -103,6 +103,11 @@ export default (state, action) => {
         ...state,
         address: action.payload,
       };
+    case "SET_INFORMASI_PEMBELI":
+      return {
+        ...state,
+        informasiPembeli: action.payload,
+      };
     case "SERVICES":
       return {
         ...state,

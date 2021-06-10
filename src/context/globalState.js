@@ -17,6 +17,7 @@ const initialState = {
   transaksiKomisi: null,
   userData: null,
   address: {},
+  informasiPembeli: { nama: "", email: "", phone: "" },
   services: null,
   courier: "",
   ongkosKirim: 0,
@@ -80,6 +81,10 @@ export const ContextProvider = (props) => {
 
   const deleteCart = (id) => {
     dispatch({ type: "DELETE_CART", payload: id });
+  };
+
+  const setInformasiPembeli = (data) => {
+    dispatch({ type: "SET_INFORMASI_PEMBELI", payload: data });
   };
 
   const addAddress = (address) => {
@@ -339,6 +344,7 @@ export const ContextProvider = (props) => {
         komisi: state.komisi,
         userData: state.userData,
         transaksiKomisi: state.transaksiKomisi,
+        informasiPembeli: state.informasiPembeli,
         fetchBrands,
         fetchProduct,
         fetchCityListAPI,
@@ -349,6 +355,7 @@ export const ContextProvider = (props) => {
         fetchUserData,
         addKtpAndNPWP,
         addAlamat,
+        setInformasiPembeli,
         setRefCode,
         addTocart,
         editTotalprice,
