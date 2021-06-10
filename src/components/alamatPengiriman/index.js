@@ -61,11 +61,9 @@ const AlamatPengiriman = () => {
             getOptionLabel={(option) => option.city_name}
             onChange={(event, newValue) => setKabupaten(newValue?.city_name)}
             renderInput={(params) => (
-              <TextField
-                variant="outlined"
-                style={{ borderRadius: "20px" }}
-                {...params}
-              />
+              <div ref={params.InputProps.ref} className={classes.form}>
+                <InputBase {...params.inputProps} />
+              </div>
             )}
           />
         </div>
