@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
 import useStyles from "./styles";
+import banner_1 from "./assets/Banner1-280.jpg";
+import banner_2 from "./assets/Banner2-280.jpg";
+import banner_3 from "./assets/Banner3-280.jpg";
 
 export default function SimpleSlider() {
   const settings = {
@@ -17,22 +20,13 @@ export default function SimpleSlider() {
     <>
       <Slider {...settings} arrows={false}>
         <div style={{ margin: 15 }}>
-          <img
-            src="https://cms.sehatq.com/cdn-cgi/image/f=auto,width=480,fit=pad,background=white,quality=100/public/img/article_img/carrier-oil-teman-setia-minyak-atsiri-untuk-kesehatan-kulit-1615191167.jpg"
-            className={classes.img}
-          />
+          <img src={banner_1} className={classes.img} />
         </div>
         <div>
-          <img
-            src="https://cms.sehatq.com/cdn-cgi/image/f=auto,width=480,fit=pad,background=white,quality=100/public/img/article_img/carrier-oil-teman-setia-minyak-atsiri-untuk-kesehatan-kulit-1615191167.jpg"
-            className={classes.img}
-          />
+          <img src={banner_2} className={classes.img} />
         </div>
         <div>
-          <img
-            src="https://cms.sehatq.com/cdn-cgi/image/f=auto,width=480,fit=pad,background=white,quality=100/public/img/article_img/carrier-oil-teman-setia-minyak-atsiri-untuk-kesehatan-kulit-1615191167.jpg"
-            className={classes.img}
-          />
+          <img src={banner_3} className={classes.img} />
         </div>
       </Slider>
     </>
