@@ -25,7 +25,7 @@ const Pembayaran = () => {
         <div className={classes.content}>
           <Typography>Bank Pembayaran</Typography>
           <Typography style={{ fontSize: "0.8rem" }}>
-            Pemnbayaran Hanya melalui rekening
+            Pembayaran Hanya melalui rekening
           </Typography>
         </div>
         <div className={classes.content}>

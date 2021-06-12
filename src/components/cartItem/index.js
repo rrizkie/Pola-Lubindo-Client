@@ -7,10 +7,20 @@ import { Context } from "../../context/globalState";
 
 const CartItem = ({ nama, weight, price, qty, id }) => {
   const classes = useStyles();
-  const { carts, editCart, deleteCart, checkedItem, products, editTotalprice } =
-    useContext(Context);
+  const {
+    carts,
+    editCart,
+    deleteCart,
+    checkedItem,
+    products,
+    editTotalprice,
+    fetchCarts,
+    fetchCityListAPI,
+    cityLists,
+  } = useContext(Context);
   const filtered = carts.filter((cart) => cart.product.id === id);
   const filterQty = products.filter((product) => product.id === id);
+
   const addOne = () => {
     filtered[0].qty += 1;
     editCart(filtered[0]);
@@ -37,6 +47,13 @@ const CartItem = ({ nama, weight, price, qty, id }) => {
       editTotalprice({ status: "increment", price: price * qty });
     }
   };
+
+  useEffect(() => {
+    fetchCarts();
+    if (cityLists.length < 1) {
+      fetchCityListAPI();
+    }
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -82,15 +99,27 @@ const CartItem = ({ nama, weight, price, qty, id }) => {
         )
       ) : (
         <div className={classes.counter}>
-          <Button className={classes.btn} onClick={minusOne}>
-            <RemoveCircleIcon />
-          </Button>
-          <Typography style={{ fontSize: 12, fontWeight: "bold" }}>
-            {qty}
-          </Typography>
-          <Button className={classes.btn} onClick={addOne}>
-            <AddCircleSharpIcon />
-          </Button>
+          {filterQty[0]?.stock === 0 ? (
+            <Typography style={{ fontSize: 12, fontWeight: "bold" }}>
+              Stock Habis
+            </Typography>
+          ) : (
+            <>
+              <Button className={classes.btn} onClick={minusOne}>
+                <RemoveCircleIcon />
+              </Button>
+              <Typography style={{ fontSize: 12, fontWeight: "bold" }}>
+                {qty}
+              </Typography>
+              <Button className={classes.btn} onClick={addOne}>
+                {filtered[0]?.qty >= filterQty[0]?.stock ? (
+                  ""
+                ) : (
+                  <AddCircleSharpIcon />
+                )}
+              </Button>
+            </>
+          )}
         </div>
       )}
     </div>

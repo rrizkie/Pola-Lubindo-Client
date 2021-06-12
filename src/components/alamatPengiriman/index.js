@@ -11,6 +11,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { useHistory } from "react-router";
 import { Context } from "../../context/globalState";
+import Swal from "sweetalert2";
 
 const AlamatPengiriman = () => {
   const classes = useStyles();
@@ -23,11 +24,18 @@ const AlamatPengiriman = () => {
 
   function onSubmit(e) {
     e.preventDefault();
-    addAddress({ kabupaten, kecamatan, jalan, detail });
-    if (localStorage.getItem("access_token")) {
-      addAlamat({ alamat: `${jalan} ${detail},${kecamatan},${kabupaten}` });
+    if (kabupaten === "" || kecamatan === "" || jalan === "") {
+      Swal.fire({
+        title: "data belum lengkap",
+        icon: "error",
+      });
+    } else {
+      addAddress({ kabupaten, kecamatan, jalan, detail });
+      if (localStorage.getItem("access_token")) {
+        addAlamat({ alamat: `${jalan} ${detail},${kecamatan},${kabupaten}` });
+      }
+      history.push(!refCode ? "/cart" : `/cart?ref=${refCode}`);
     }
-    history.push(!refCode ? "/cart" : `/cart?ref=${refCode}`);
   }
 
   return (

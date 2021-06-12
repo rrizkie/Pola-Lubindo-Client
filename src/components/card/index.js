@@ -46,13 +46,19 @@ export const CardProduct = ({ product }) => {
             </Typography>
           </CardContent>
           <CardActions disableSpacing>
-            <Button
-              fullWidth
-              className={classes.beli}
-              onClick={() => addCart(product)}
-            >
-              Beli
-            </Button>
+            {product.stock === 0 ? (
+              <Typography variant="body2" color="textSecondary" component="p">
+                Stock habis
+              </Typography>
+            ) : (
+              <Button
+                fullWidth
+                className={classes.beli}
+                onClick={() => addCart(product)}
+              >
+                Beli
+              </Button>
+            )}
           </CardActions>
         </Card>
       </Grid>

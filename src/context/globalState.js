@@ -2,8 +2,13 @@ import React, { createContext, useEffect, useReducer } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import appReducers from "./appReducers";
+import Axios from "axios";
 
-const baseUrl = "http://localhost:3000";
+const baseUrl = "http://157.230.248.17";
+// const baseUrl = 'http://localhost:80'
+const instance = Axios.create({
+  baseURL: baseUrl,
+});
 
 const initialState = {
   isLogin: false,
@@ -39,7 +44,7 @@ export const ContextProvider = (props) => {
   }, [state]);
 
   // actions
-  const fetchBrands = () => {
+  const fetchBrands = async () => {
     fetch(baseUrl + `/brand`)
       .then((res) => res.json())
       .then((data) => {
@@ -61,6 +66,10 @@ export const ContextProvider = (props) => {
       .then((data) => {
         dispatch({ type: "FETCH_CITY", payload: data });
       });
+  };
+
+  const fetchCarts = () => {
+    localStorage.setItem("carts", JSON.stringify(state.carts));
   };
 
   const setRefCode = (refcode) => {
@@ -353,6 +362,7 @@ export const ContextProvider = (props) => {
         fetchKomisiData,
         fetchTransaksiKomisi,
         fetchUserData,
+        fetchCarts,
         addKtpAndNPWP,
         addAlamat,
         setInformasiPembeli,
