@@ -37,11 +37,11 @@ const HomePage = () => {
 
   const handleCopy = async () => {
     const refCode = await getRefcode();
-    const copyText = async () => {
-      try {
-        await navigator.clipboard.writeText(
-          `http://157.230.35.207/?ref=${refCode}`
-        );
+    console.log(refCode);
+    function copyToClipboard(textToCopy) {
+      // navigator clipboard api needs a secure context (https)
+      if (navigator.clipboard && window.isSecureContext) {
+        // navigator clipboard api method'
         Swal.fire({
           title: "Link Copied",
           text: `http://157.230.35.207/?ref=${refCode}`,
@@ -49,11 +49,33 @@ const HomePage = () => {
           timer: 1000,
           showConfirmButton: false,
         });
-        console.log("Page URL copied to clipboard");
-      } catch (error) {
-        console.log(error);
+        return navigator.clipboard.writeText(textToCopy);
+      } else {
+        // text area method
+        let textArea = document.createElement("textarea");
+        textArea.value = textToCopy;
+        // make the textarea out of viewport
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        Swal.fire({
+          title: "Link Copied",
+          text: `http://157.230.35.207/?ref=${refCode}`,
+          icon: "success",
+          timer: 1000,
+          showConfirmButton: false,
+        });
+        return new Promise((res, rej) => {
+          // here the magic happens
+          document.execCommand("copy") ? res() : rej();
+          textArea.remove();
+        });
       }
-    };
+    }
+    copyToClipboard(`http://157.230.35.207/?ref=${refCode}`);
   };
 
   useEffect(() => {
