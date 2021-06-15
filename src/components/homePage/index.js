@@ -37,16 +37,23 @@ const HomePage = () => {
 
   const handleCopy = async () => {
     const refCode = await getRefcode();
-    if (navigator.clipboard !== undefined) {
-      navigator.clipboard.writeText(`http://157.230.35.207/?ref=${refCode}`);
-      Swal.fire({
-        title: "Link Copied",
-        text: `http://157.230.35.207/?ref=${refCode}`,
-        icon: "success",
-        timer: 1000,
-        showConfirmButton: false,
-      });
-    }
+    const copyText = async () => {
+      try {
+        await navigator.clipboard.writeText(
+          `http://157.230.35.207/?ref=${refCode}`
+        );
+        Swal.fire({
+          title: "Link Copied",
+          text: `http://157.230.35.207/?ref=${refCode}`,
+          icon: "success",
+          timer: 1000,
+          showConfirmButton: false,
+        });
+        console.log("Page URL copied to clipboard");
+      } catch (error) {
+        console.log(error);
+      }
+    };
   };
 
   useEffect(() => {
