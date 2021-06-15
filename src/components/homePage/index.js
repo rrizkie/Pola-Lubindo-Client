@@ -11,6 +11,7 @@ import { useLocation } from "react-router-dom";
 import ShareIcon from "@material-ui/icons/Share";
 
 import PremierModal from "../premierModal";
+import Swal from "sweetalert2";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -36,10 +37,16 @@ const HomePage = () => {
 
   const handleCopy = async () => {
     const refCode = await getRefcode();
-    // navigator.clipboard.writeText(
-    //   `http://http://157.230.35.207/?ref=${refCode}`
-    // );
-    document.execCommand(`http://157.230.35.207/?ref=${refCode}`)
+    if (navigator.clipboard !== undefined) {
+      navigator.clipboard.writeText(`http://157.230.35.207/?ref=${refCode}`);
+      Swal.fire({
+        title: "Link Copied",
+        text: `http://157.230.35.207/?ref=${refCode}`,
+        icon: "success",
+        timer: 1000,
+        showConfirmButton: false,
+      });
+    }
   };
 
   useEffect(() => {
