@@ -76,6 +76,7 @@ const CartPage = () => {
   };
 
   const checkout = async () => {
+    const chekedItem = carts.filter((item) => item.checked);
     if (
       informasiPembeli.nama === "" ||
       informasiPembeli.phone === "" ||
@@ -85,9 +86,22 @@ const CartPage = () => {
         title: "Informasi Pembeli belum lengkap",
         icon: "error",
       });
-    } else if (courierPicked === "" || servicePicked === ""){
+    } else if (
+      informasiPembeli.phone.length < 10 ||
+      informasiPembeli.phone.length > 13
+    ) {
+      Swal.fire({
+        title: "nomor hp minimum 10 digit dan maksimum 13 digit",
+        icon: "error",
+      });
+    } else if (courierPicked === "" || servicePicked === "") {
       Swal.fire({
         title: "Pilih Kurir untuk pengiriman",
+        icon: "error",
+      });
+    } else if (chekedItem.length === 0) {
+      Swal.fire({
+        title: "Tidak ada barang di cart",
         icon: "error",
       });
     } else {
@@ -136,7 +150,7 @@ const CartPage = () => {
       if (localStorage.getItem("access_token")) {
         data.access_token = localStorage.getItem("access_token");
       }
-      const chekedItem = carts.filter((item) => item.checked);
+
       chekedItem.map((item) => {
         item.product.stock -= item.qty;
         data.value.push({

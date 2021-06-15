@@ -36,7 +36,10 @@ const HomePage = () => {
 
   const handleCopy = async () => {
     const refCode = await getRefcode();
-    navigator.clipboard.writeText(`localhost:3001/?ref=${refCode}`);
+    // navigator.clipboard.writeText(
+    //   `http://http://157.230.35.207/?ref=${refCode}`
+    // );
+    document.execCommand(`http://157.230.35.207/?ref=${refCode}`)
   };
 
   useEffect(() => {
@@ -76,7 +79,7 @@ const HomePage = () => {
           ))}
         </div>
         {localStorage.getItem("access_token") &&
-        userData?.totalPembelian > premier &&
+        userData?.totalPembelian >= premier &&
         userData?.statusPremier === null ? (
           <div className={classes.share} style={{ verticalAlign: "middle" }}>
             <Typography style={{ fontSize: 12, fontWeight: "bold" }}>

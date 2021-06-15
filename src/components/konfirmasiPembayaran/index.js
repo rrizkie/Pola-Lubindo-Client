@@ -42,6 +42,30 @@ const KonfirmasiPembayaran = () => {
     {
       value: "BNI",
     },
+    {
+      value: "Mandiri",
+    },
+    {
+      value: "BRI",
+    },
+    {
+      value: "Permata",
+    },
+    {
+      value: "CIMB",
+    },
+    {
+      value: "BNI",
+    },
+  ];
+
+  const BankPola = [
+    {
+      value: "BCA",
+    },
+    {
+      value: "BNI",
+    },
   ];
 
   const handleBankAsal = (event) => {
@@ -169,7 +193,7 @@ const KonfirmasiPembayaran = () => {
               onChange={handleBankTujuan}
             >
               <MenuItem value="Bank Tujuan">Bank Tujuan</MenuItem>
-              {allBank.map((option) => (
+              {BankPola.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.value}
                 </MenuItem>
