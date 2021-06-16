@@ -4,6 +4,7 @@ import useStyles from "./styles";
 import banner_1 from "./assets/Banner1-280.jpg";
 import banner_2 from "./assets/Banner2-280.jpg";
 import banner_3 from "./assets/Banner3-280.jpg";
+import { useHistory } from "react-router-dom";
 
 export default function SimpleSlider() {
   const settings = {
@@ -16,6 +17,7 @@ export default function SimpleSlider() {
   };
 
   const classes = useStyles();
+  const history = useHistory();
   return (
     <>
       <Slider {...settings} arrows={false}>
@@ -26,7 +28,11 @@ export default function SimpleSlider() {
           <img src={banner_2} className={classes.img} />
         </div>
         <div>
-          <img src={banner_3} className={classes.img} />
+          <img
+            src={banner_3}
+            className={classes.img}
+            onClick={() => history.push("/s&k")}
+          />
         </div>
       </Slider>
     </>

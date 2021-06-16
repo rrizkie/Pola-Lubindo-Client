@@ -54,9 +54,6 @@ const KonfirmasiPembayaran = () => {
     {
       value: "CIMB",
     },
-    {
-      value: "BNI",
-    },
   ];
 
   const BankPola = [
@@ -77,6 +74,13 @@ const KonfirmasiPembayaran = () => {
   };
 
   const handleKonfirm = async () => {
+    const yearNow = new Date().getFullYear();
+    let monthNow = new Date().getMonth();
+    if (monthNow < 10) {
+      monthNow = `0${monthNow + 1}`;
+    }
+    const dateNow = new Date().getDate();
+
     if (
       tanggal === "" ||
       namaRek === "" ||
@@ -85,6 +89,12 @@ const KonfirmasiPembayaran = () => {
     ) {
       Swal.fire({
         title: "data belum lengkap",
+        icon: "error",
+      });
+    } else if (`${yearNow}-${monthNow}-${dateNow}` > tanggal) {
+      console.log("masuk");
+      Swal.fire({
+        title: "tanggal pembayaran tidak sesuai",
         icon: "error",
       });
     } else {

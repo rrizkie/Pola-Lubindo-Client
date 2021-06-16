@@ -2,10 +2,13 @@ import React, { useContext, useState } from "react";
 import { Modal, Grid, InputBase, Checkbox, Button } from "@material-ui/core";
 import { useStyles } from "./styles";
 import { Context } from "../../context/globalState";
+import { useHistory } from "react-router-dom";
 
 const PremierModal = ({ visible, handleClose }) => {
   const classes = useStyles();
+  const history = useHistory();
   const { addKtpAndNPWP } = useContext(Context);
+  const [cheked, setCheked] = useState(false);
   const [input, setInput] = useState({
     noKtp: "",
     noNPWP: "",
@@ -19,6 +22,7 @@ const PremierModal = ({ visible, handleClose }) => {
     const response = await addKtpAndNPWP(input);
     if (response.message) {
       handleClose();
+      history.push("/s&k");
       setInput({ ...input, noKtp: "", noNPWP: "" });
     }
   };
@@ -51,12 +55,8 @@ const PremierModal = ({ visible, handleClose }) => {
           />
         </Grid>
         <Grid xs={12}>
-          <Checkbox />
-          saya menyetujui <b>S&K</b>
-        </Grid>
-        <Grid xs={12}>
           <Button className={classes.button} onClick={handleSubmit}>
-            Upgrade Premier
+            Lanjut
           </Button>
         </Grid>
       </Grid>
