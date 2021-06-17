@@ -29,39 +29,37 @@ export const CardProduct = ({ product }) => {
   }
 
   return (
-    <>
-      <Grid item xs={5} style={{ margin: "0.2rem" }}>
-        <Card style={{ height: "auto" }}>
-          <CardMedia
-            className={classes.media}
-            image={product.fotoProduk}
-            title={product.namaProduk}
-          />
-          <CardContent>
-            <Typography className={classes.produkTitle} component="h6">
-              {product.namaProduk}
-            </Typography>
+    <Grid item xs={5} style={{ margin: "0.2rem" }}>
+      <Card style={{ height: "auto" }}>
+        <CardMedia
+          className={classes.media}
+          image={product.fotoProduk}
+          title={product.namaProduk}
+        />
+        <CardContent>
+          <Typography className={classes.produkTitle} component="h6">
+            {product.namaProduk}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            Rp. {product.hargaSatuan.toLocaleString("id-ID")},-
+          </Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+          {product.stock === 0 ? (
             <Typography variant="body2" color="textSecondary" component="p">
-              Rp. {product.hargaSatuan.toLocaleString("id-ID")},-
+              Stock habis
             </Typography>
-          </CardContent>
-          <CardActions disableSpacing>
-            {product.stock === 0 ? (
-              <Typography variant="body2" color="textSecondary" component="p">
-                Stock habis
-              </Typography>
-            ) : (
-              <Button
-                fullWidth
-                className={classes.beli}
-                onClick={() => addCart(product)}
-              >
-                Beli
-              </Button>
-            )}
-          </CardActions>
-        </Card>
-      </Grid>
-    </>
+          ) : (
+            <Button
+              fullWidth
+              className={classes.beli}
+              onClick={() => addCart(product)}
+            >
+              Beli
+            </Button>
+          )}
+        </CardActions>
+      </Card>
+    </Grid>
   );
 };

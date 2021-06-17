@@ -14,6 +14,8 @@ export default function SimpleSlider() {
     centerPadding: "60px",
     slidesToShow: 1,
     speed: 500,
+    autoplay: true,
+    autoplaySpeed: 3500,
   };
 
   const classes = useStyles();

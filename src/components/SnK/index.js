@@ -7,8 +7,6 @@ import logo from "./logo.png";
 const Syaratketentuan = () => {
   const classes = useStyles();
   const history = useHistory();
-  const [checked, setCheked] = useState(false);
-  console.log(checked);
   return (
     <div>
       <div
@@ -22,55 +20,63 @@ const Syaratketentuan = () => {
       </div>
       <Paper className={classes.box}>
         <div style={{ padding: "0.5rem", marginTop: "-2rem" }}>
-          <h3 style={{ textAlign: "center" }}>S&K Member Premier</h3>
+          <h3 style={{ textAlign: "center" }}>
+            Pertanyaan Seputar Member Premier
+          </h3>
           <ol>
             <li style={{ padding: "1rem 0" }}>
-              Akun pelanggan dapat diupgrade menjadi premier dengan melakukan
+              Q: Apa itu Member Premier?
+              <br />
+              Member Premier adalah peningkatan dari member biasa yang dapat
+              membagikan kode referral untuk kesempatan mendapatkan komisi dari
+              pembelian member lain melalui kode tersebut.
+            </li>
+            <li style={{ padding: "1rem 0" }}>
+              Q: Keuntungan apa ya didapatkan menjadi Member Premier?
+              <br />
+              Member Premier dapat memperoleh komisi sebesar 10% dari pembelian
+              member lain yang menggunakan kode referral pada seluruh produk
+              Virus Keeper.
+            </li>
+            <li style={{ padding: "1rem 0" }}>
+              Q: Bagaimana cara bergabung menjadi Member Premier?
+              <br />
+              1. Akun member dapat diupgrade menjadi premier dengan melakukan
               minimum total transaksi sejumlah Rp.100.000,-
-            </li>
-            <li style={{ padding: "1rem 0" }}>
-              Pendaftaran untuk menjadi pelanggan premier akan otomatis muncul
-              di halaman utama setelah menyelesaikan minimum total transaksi.
-            </li>
-            <li style={{ padding: "1rem 0" }}>
-              Pelanggan diwajibkan untuk mengisi data diri dan nomor npwp pada
-              bagian pendaftaran.
-            </li>
-            <li style={{ padding: "1rem 0" }}>
-              Customer service kami akan menghubungi via Whatsapp untuk
+              <br />
+              2. Pendaftaran akan otomatis muncul di halaman utama setelah
+              menyelesaikan minimum total transaksi.
+              <br />
+              3. Pelanggan diwajibkan untuk mengisi data diri dan nomor npwp
+              pada bagian pendaftaran.
+              <br />
+              4. Customer service kami akan menghubungi via Whatsapp untuk
               melakukan verifikasi data diri.
+              <br />
+              5. Jika data sudah sesuai maka akun akan langsung menjadi
+              pelanggan premier dan dapat menggunakan kode referall.
             </li>
             <li style={{ padding: "1rem 0" }}>
-              Jika data sudah sesuai maka akun akan langsung menjadi pelanggan
-              premier dan dapat menggunakan kode referall.
+              Q: Bagaimana saya mendapatkan komisi dari Member Premier?
+              <br />
+              Komisi akan didapatkan bila ada member lain yang sudah
+              menyelesaikan pembelian menggunakan kode referral-mu.
             </li>
             <li style={{ padding: "1rem 0" }}>
-              Jika ditemukan adanya ketidaksesuaian data maka pihak customer
-              service akan melakukan konfirmasi ulang.
-            </li>
-            <li style={{ padding: "1rem 0" }}>
-              Pihak perusahaan berhak untuk menolak pengajuan premier apabila
-              data yang diberikan tidak sesuai dan atau tidak benar.
+              Q: Kenapa saya tidak mendapatkan link untuk menjadi Member
+              Premier?
+              <br />
+              Apabila tidak terdapat link pendaftaran Member Premier, artinya
+              kamu belum menyelesaikan transaksi dengan minimum Rp.100, 000.
             </li>
           </ol>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <span>
-              <Checkbox
-                checked={checked}
-                onChange={() => setCheked(!checked)}
-              />{" "}
-              Menyetujui <b>S&K</b>
-            </span>
-          </div>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            {checked && (
-              <Button
-                style={{ background: "#f4e8e9", width: "100%" }}
-                onClick={() => history.push("/")}
-              >
-                Selesai
-              </Button>
-            )}
+            <Button
+              style={{ background: "#f4e8e9", width: "100%" }}
+              onClick={() => history.push("/")}
+            >
+              Kembali
+            </Button>
           </div>
         </div>
       </Paper>
