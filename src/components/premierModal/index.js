@@ -39,6 +39,7 @@ const PremierModal = ({ visible, handleClose }) => {
         <Grid xs={12}>
           <InputBase
             name="noKtp"
+            type="number"
             value={input.noKtp}
             className={classes.input}
             placeholder="KTP"
@@ -48,6 +49,7 @@ const PremierModal = ({ visible, handleClose }) => {
         <Grid xs={12} style={{ margin: "0.5rem 0" }}>
           <InputBase
             name="noNPWP"
+            type="number"
             value={input.noNPWP}
             className={classes.input}
             placeholder="NPWP"

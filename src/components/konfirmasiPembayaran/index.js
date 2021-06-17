@@ -54,6 +54,9 @@ const KonfirmasiPembayaran = () => {
     {
       value: "CIMB",
     },
+    {
+      value: "Bank Lainnya"
+    }
   ];
 
   const BankPola = [
@@ -173,6 +176,7 @@ const KonfirmasiPembayaran = () => {
           <Grid item xs={10}>
             <InputBase
               value={total}
+              type="number"
               onChange={(e) => setTotal(e.target.value)}
               placeholder="Jumlah"
               className={classes.inputBase}

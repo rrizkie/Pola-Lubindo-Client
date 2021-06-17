@@ -216,6 +216,7 @@ const CartPage = () => {
           </Typography>
           <InputBase
             className={classes.form}
+            type="number"
             name="phone"
             value={informasiPembeli.phone}
             onChange={handleInput}

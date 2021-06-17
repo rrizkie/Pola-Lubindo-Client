@@ -4,11 +4,12 @@ import { useStyles } from "./styles";
 import { useHistory } from "react-router-dom";
 import { Paper, Typography, InputBase, Button } from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import Swal from "sweetalert2";
 
 const RegisterPage = () => {
   const classes = useStyles();
   const history = useHistory();
-  const { register,refCode } = useContext(Context);
+  const { register, refCode } = useContext(Context);
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [nama, setNama] = useState("");
@@ -17,9 +18,20 @@ const RegisterPage = () => {
 
   const submitForm = async (e) => {
     e.preventDefault();
-    if (password === konfirmasiPassword) {
+    if (phone.length < 10 || phone.length > 13) {
+      Swal.fire({
+        title: "nomor hp minimum 10 digit dan maksimum 13 digit",
+        icon: "error",
+      });
+    } else if (konfirmasiPassword !== password) {
+      Swal.fire({
+        title: "password dan konfirmasi password harus sesuai",
+        icon: "error",
+      });
+    } else if (password === konfirmasiPassword) {
       const response = await register({ email, phone, nama, password });
-      if (response.message === "Success") history.push(refCode ? `/login?ref=${refCode}` :"/login");
+      if (response.message === "Success")
+        history.push(refCode ? `/login?ref=${refCode}` : "/login");
     } else {
       setEmail("");
       setPhone("");
@@ -35,7 +47,7 @@ const RegisterPage = () => {
           <Typography className={classes.leftContent}>
             <ArrowBackIcon
               style={{ cursor: "pointer" }}
-              onClick={() => history.push(refCode ? `/?ref=${refCode}` :"/")}
+              onClick={() => history.push(refCode ? `/?ref=${refCode}` : "/")}
             />
           </Typography>
           <Typography className={classes.leftContent}>Daftar</Typography>
@@ -56,6 +68,7 @@ const RegisterPage = () => {
           <InputBase
             className={classes.form}
             name="phone"
+            type="number"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
