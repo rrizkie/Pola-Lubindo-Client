@@ -23,23 +23,23 @@ const Syaratketentuan = () => {
           <h3 style={{ textAlign: "center" }}>
             Pertanyaan Seputar Member Premier
           </h3>
-          <ol>
+          <ol style={{ listStyle: "none" }}>
             <li style={{ padding: "1rem 0" }}>
-              Q: Apa itu Member Premier?
+              <b>Q: Apa itu Member Premier?</b>
               <br />
               Member Premier adalah peningkatan dari member biasa yang dapat
               membagikan kode referral untuk kesempatan mendapatkan komisi dari
               pembelian member lain melalui kode tersebut.
             </li>
             <li style={{ padding: "1rem 0" }}>
-              Q: Keuntungan apa ya didapatkan menjadi Member Premier?
+              <b>Q: Keuntungan apa ya didapatkan menjadi Member Premier?</b>
               <br />
               Member Premier dapat memperoleh komisi sebesar 10% dari pembelian
               member lain yang menggunakan kode referral pada seluruh produk
               Virus Keeper.
             </li>
             <li style={{ padding: "1rem 0" }}>
-              Q: Bagaimana cara bergabung menjadi Member Premier?
+              <b>Q: Bagaimana cara bergabung menjadi Member Premier?</b>
               <br />
               1. Akun member dapat diupgrade menjadi premier dengan melakukan
               minimum total transaksi sejumlah Rp.100.000,-
@@ -57,14 +57,16 @@ const Syaratketentuan = () => {
               pelanggan premier dan dapat menggunakan kode referall.
             </li>
             <li style={{ padding: "1rem 0" }}>
-              Q: Bagaimana saya mendapatkan komisi dari Member Premier?
+              <b>Q: Bagaimana saya mendapatkan komisi dari Member Premier?</b>
               <br />
               Komisi akan didapatkan bila ada member lain yang sudah
               menyelesaikan pembelian menggunakan kode referral-mu.
             </li>
             <li style={{ padding: "1rem 0" }}>
-              Q: Kenapa saya tidak mendapatkan link untuk menjadi Member
-              Premier?
+              <b>
+                Q: Kenapa saya tidak mendapatkan link untuk menjadi Member
+                Premier?
+              </b>
               <br />
               Apabila tidak terdapat link pendaftaran Member Premier, artinya
               kamu belum menyelesaikan transaksi dengan minimum Rp.100, 000.
