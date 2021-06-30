@@ -17,6 +17,7 @@ import InfoIcon from "@material-ui/icons/Info";
 import { useHistory } from "react-router-dom";
 import { useStyle } from "./styles";
 import { Context } from "../../context/globalState";
+import Swal from "sweetalert2";
 
 const KonfirmasiPembayaran = () => {
   const classes = useStyle();
@@ -41,6 +42,30 @@ const KonfirmasiPembayaran = () => {
     {
       value: "BNI",
     },
+    {
+      value: "Mandiri",
+    },
+    {
+      value: "BRI",
+    },
+    {
+      value: "Permata",
+    },
+    {
+      value: "CIMB",
+    },
+    {
+      value: "Bank Lainnya"
+    }
+  ];
+
+  const BankPola = [
+    {
+      value: "BCA",
+    },
+    {
+      value: "BNI",
+    },
   ];
 
   const handleBankAsal = (event) => {
@@ -52,23 +77,55 @@ const KonfirmasiPembayaran = () => {
   };
 
   const handleKonfirm = async () => {
-    transaksiData.statusPembayaran = "menunggu konfirmasi";
-    transaksiData.statusPesanan = "menunggu konfirmasi";
-    transaksiData.statusPengiriman = "menunggu konfirmasi";
-    transaksiData.metodePembayaran = "transfer";
-    transaksiData.namaRekening = namaRek;
-    transaksiData.jumlahBayar = total;
-    transaksiData.bankAsal = bankAsal;
-    transaksiData.bankTujuan = bankTujuan;
-    transaksiData.expiredAt = null;
-    const response = await confirmPayment(
-      transaksiData,
-      localStorage.getItem("transaksi id"),
-      localStorage.getItem("access_token"),
-      refCode ? refCode : null
-    );
-    if (response.message === "Success")
-      history.push(refCode ? `/?ref=${refCode}` : "/");
+    const yearNow = new Date().getFullYear();
+    let monthNow = new Date().getMonth();
+    if (monthNow < 10) {
+      monthNow = `0${monthNow + 1}`;
+    }
+    const dateNow = new Date().getDate();
+
+    if (
+      tanggal === "" ||
+      namaRek === "" ||
+      bankAsal === "Bank Asal" ||
+      bankTujuan === "Bank Tujuan"
+    ) {
+      Swal.fire({
+        title: "data belum lengkap",
+        icon: "error",
+      });
+    } else if (`${yearNow}-${monthNow}-${dateNow}` > tanggal) {
+      console.log("masuk");
+      Swal.fire({
+        title: "tanggal pembayaran tidak sesuai",
+        icon: "error",
+      });
+    } else {
+      if (total != transaksiData.totalHarga) {
+        Swal.fire({
+          title: `nominal transfer tidak sesuai dengan nominal total harga`,
+          icon: "error",
+        });
+      } else {
+        transaksiData.statusPembayaran = "menunggu konfirmasi";
+        transaksiData.statusPesanan = "menunggu konfirmasi";
+        transaksiData.statusPengiriman = "menunggu konfirmasi";
+        transaksiData.metodePembayaran = "transfer";
+        transaksiData.namaRekening = namaRek;
+        transaksiData.jumlahBayar = total;
+        transaksiData.bankAsal = bankAsal;
+        transaksiData.bankTujuan = bankTujuan;
+        transaksiData.expiredAt = null;
+        const response = await confirmPayment(
+          transaksiData,
+          localStorage.getItem("transaksi id"),
+          localStorage.getItem("access_token"),
+          refCode ? refCode : null
+        );
+        if (response.message === "Success")
+          history.push(refCode ? `/?ref=${refCode}` : "/");
+      }
+    }
   };
   return (
     <div>
@@ -119,6 +176,7 @@ const KonfirmasiPembayaran = () => {
           <Grid item xs={10}>
             <InputBase
               value={total}
+              type="number"
               onChange={(e) => setTotal(e.target.value)}
               placeholder="Jumlah"
               className={classes.inputBase}
@@ -149,7 +207,7 @@ const KonfirmasiPembayaran = () => {
               onChange={handleBankTujuan}
             >
               <MenuItem value="Bank Tujuan">Bank Tujuan</MenuItem>
-              {allBank.map((option) => (
+              {BankPola.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.value}
                 </MenuItem>

@@ -23,6 +23,13 @@ const LoginPage = () => {
     }
   };
 
+  const handleLupaPassword = () => {
+    window.open(
+      "https://api.whatsapp.com/send?phone=+6281806152968&text=hi",
+      "_blank"
+    );
+  };
+
   return (
     <div>
       <div>
@@ -72,7 +79,10 @@ const LoginPage = () => {
             />
           </div>
           <div className={classes.forget}>
-            <Typography style={{ fontSize: "0.8rem" }}>
+            <Typography
+              style={{ fontSize: "0.8rem" }}
+              onClick={handleLupaPassword}
+            >
               Lupa Kata Sandi?
             </Typography>
           </div>

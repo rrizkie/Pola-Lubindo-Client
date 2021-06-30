@@ -34,6 +34,39 @@ const Transaksi = () => {
     },
   ];
 
+  const handleKonfirmasi = (data) => {
+    let transaksiData = {
+      invoice: "INV/300421/01",
+      totalHarga: data.totalHarga,
+      ongkosKirim: data.ongkosKirim,
+      namaPenerima: data.namaPenerima,
+      alamatPengiriman: data.alamatPengiriman,
+      statusPembayaran: data.statusPembayaran,
+    };
+    localStorage.setItem("transaksi", JSON.stringify(transaksiData));
+    localStorage.setItem("transaksi id", data.id);
+    history.push(
+      refCode
+        ? `/konfirmasi-pembayaran?ref=${refCode}`
+        : `/konfirmasi-pembayaran`
+    );
+  };
+
+  const handlePesananSampai = async (data) => {
+    data.statusPengiriman = "pesanan selesai";
+    data.statusPesanan = "pesanan selesai";
+    const response = await pesananSelesai(data);
+    if (response.message) {
+      fetchTransaksiAfterPayment();
+    }
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("access_token")) {
+      fetchTransaksiBeforePayment();
+      fetchTransaksiAfterPayment();
+    }
+  }, []);
   return (
     <>
       <div className={classes.transaksiPage}>

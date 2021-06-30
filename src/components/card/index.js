@@ -29,23 +29,27 @@ export const CardProduct = ({ product }) => {
   }
 
   return (
-    <>
-      <Grid item xs={6}>
-        <Card>
-          <CardMedia
-            className={classes.media}
-            image={product.fotoProduk}
-            title="Contemplative Reptile"
-          />
-          <CardContent>
-            <Typography className={classes.produkTitle} component="h6">
-              {product.namaProduk}
-            </Typography>
+    <Grid item xs={5} style={{ margin: "0.2rem" }}>
+      <Card style={{ height: "auto" }}>
+        <CardMedia
+          className={classes.media}
+          image={product.fotoProduk}
+          title={product.namaProduk}
+        />
+        <CardContent>
+          <Typography className={classes.produkTitle} component="h6">
+            {product.namaProduk}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            Rp. {product.hargaSatuan.toLocaleString("id-ID")},-
+          </Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+          {product.stock === 0 ? (
             <Typography variant="body2" color="textSecondary" component="p">
-              Rp. {product.price.toLocaleString("id-ID")},-
+              Stock habis
             </Typography>
-          </CardContent>
-          <CardActions disableSpacing>
+          ) : (
             <Button
               fullWidth
               className={classes.beli}
@@ -53,9 +57,9 @@ export const CardProduct = ({ product }) => {
             >
               Beli
             </Button>
-          </CardActions>
-        </Card>
-      </Grid>
-    </>
+          )}
+        </CardActions>
+      </Card>
+    </Grid>
   );
 };

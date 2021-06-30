@@ -16,6 +16,7 @@ import { useStyles } from "./styles";
 import { useHistory } from "react-router";
 import CartItem from "../cartItem";
 import { Context } from "../../context/globalState";
+import Swal from "sweetalert2";
 
 const CartPage = () => {
   const classes = useStyles();
@@ -34,19 +35,26 @@ const CartPage = () => {
     refCode,
     resetServices,
     resetAddress,
+    informasiPembeli,
+    setInformasiPembeli,
   } = useContext(Context);
   const [check, setCheck] = useState(true);
-  const [nama, setNama] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
   const [courierPicked, setCourierPicked] = useState("");
   const [servicePicked, setServicePicked] = useState("");
   const [checked, setCheked] = useState(ongkosKirim);
   function back() {
     history.push("/");
     resetServices();
+    setInformasiPembeli({ nama: "", email: "", phone: "" });
     addAddress("");
   }
+
+  const handleInput = (e) => {
+    setInformasiPembeli({
+      ...informasiPembeli,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleGantiAlamat = () => {
     history.push(!refCode ? "/shipping" : `/shipping?ref=${refCode}`);
@@ -69,74 +77,101 @@ const CartPage = () => {
   };
 
   const checkout = async () => {
-    let created = new Date(
-      Date.UTC(
-        2021,
-        new Date().getMonth(),
-        new Date().getDate(),
-        new Date().getHours(),
-        new Date().getMinutes(),
-        new Date().getSeconds()
-      )
-    );
-    let newDate = new Date(
-      Date.UTC(
-        2021,
-        new Date().getMonth(),
-        new Date().getDate() + 1,
-        new Date().getHours(),
-        new Date().getMinutes(),
-        new Date().getSeconds()
-      )
-    );
-
-    let data = {
-      userData: {
-        email,
-        phone,
-        nama,
-      },
-      transaksiData: {
-        invoice: `INV/${new Date().getFullYear()}${new Date().getMonth()}${new Date().getDate()}/${new Date().getMinutes()}${new Date().getSeconds()}`,
-        totalHarga: totalPrice + ongkosKirim,
-        ongkosKirim: ongkosKirim,
-        kurir: courierPicked,
-        serviceKurir: servicePicked,
-        namaPenerima: nama,
-        alamatPengiriman: `${address?.jalan},${address?.kecamatan},${address?.kabupaten},
-        ${address?.detail}`,
-        telfonPenerima: phone,
-        statusPesanan: "menunggu pembayaran",
-        statusPembayaran: "menunggu pembayaran",
-        statusPengiriman: "menunggu pembayaran",
-        expiredAt: newDate,
-        createdAt: created,
-        referralCode: refCode ? refCode : null,
-      },
-      value: [],
-    };
-    if (localStorage.getItem("access_token")) {
-      data.access_token = localStorage.getItem("access_token");
-    }
     const chekedItem = carts.filter((item) => item.checked);
-    chekedItem.map((item) => {
-      item.product.stock -= item.qty;
-      data.value.push({
-        produk: item.product,
-        ProdukId: item.product.id,
-        qty: item.qty,
+    if (
+      informasiPembeli.nama === "" ||
+      informasiPembeli.phone === "" ||
+      informasiPembeli.email === ""
+    ) {
+      Swal.fire({
+        title: "Informasi Pembeli belum lengkap",
+        icon: "error",
       });
-    });
-    localStorage.setItem("transaksi", JSON.stringify(data.transaksiData));
-    setCourierPicked("");
-    setCheked(ongkosKirim);
-    const response = await checkoutCart(data);
-    if (response.message === "Success") {
-      history.push(!refCode ? "/pembayaran" : `/pembayaran?ref=${refCode}`);
-    } else if (response.message === "go to login page") {
-      history.push(!refCode ? "/login" : `/login?ref=${refCode}`);
-      resetServices();
-      resetAddress();
+    } else if (
+      informasiPembeli.phone.length < 10 ||
+      informasiPembeli.phone.length > 13
+    ) {
+      Swal.fire({
+        title: "nomor hp minimum 10 digit dan maksimum 13 digit",
+        icon: "error",
+      });
+    } else if (courierPicked === "" || servicePicked === "") {
+      Swal.fire({
+        title: "Pilih Kurir untuk pengiriman",
+        icon: "error",
+      });
+    } else if (chekedItem.length === 0) {
+      Swal.fire({
+        title: "Tidak ada barang di cart",
+        icon: "error",
+      });
+    } else {
+      let created = new Date(
+        Date.UTC(
+          2021,
+          new Date().getMonth(),
+          new Date().getDate(),
+          new Date().getHours(),
+          new Date().getMinutes(),
+          new Date().getSeconds()
+        )
+      );
+      let newDate = new Date(
+        Date.UTC(
+          2021,
+          new Date().getMonth(),
+          new Date().getDate() + 1,
+          new Date().getHours(),
+          new Date().getMinutes(),
+          new Date().getSeconds()
+        )
+      );
+
+      let data = {
+        userData: informasiPembeli,
+        transaksiData: {
+          invoice: `INV/${new Date().getFullYear()}${new Date().getMonth()}${new Date().getDate()}/${new Date().getMinutes()}${new Date().getSeconds()}`,
+          totalHarga: totalPrice + ongkosKirim,
+          ongkosKirim: ongkosKirim,
+          kurir: courierPicked,
+          serviceKurir: servicePicked,
+          namaPenerima: informasiPembeli.nama,
+          alamatPengiriman: `${address?.jalan},${address?.kecamatan},${address?.kabupaten},
+          ${address?.detail}`,
+          telfonPenerima: informasiPembeli.phone,
+          statusPesanan: "menunggu pembayaran",
+          statusPembayaran: "menunggu pembayaran",
+          statusPengiriman: "menunggu pembayaran",
+          expiredAt: newDate,
+          createdAt: created,
+          referralCode: refCode ? refCode : null,
+        },
+        value: [],
+      };
+      if (localStorage.getItem("access_token")) {
+        data.access_token = localStorage.getItem("access_token");
+      }
+
+      chekedItem.map((item) => {
+        item.product.stock -= item.qty;
+        data.value.push({
+          produk: item.product,
+          ProdukId: item.product.id,
+          qty: item.qty,
+        });
+      });
+      localStorage.setItem("transaksi", JSON.stringify(data.transaksiData));
+      setCourierPicked("");
+      setCheked(ongkosKirim);
+      const response = await checkoutCart(data);
+      if (response.message === "Success") {
+        history.push(!refCode ? "/pembayaran" : `/pembayaran?ref=${refCode}`);
+        setInformasiPembeli({ nama: "", email: "", phone: "" });
+      } else if (response.message === "go to login page") {
+        history.push(!refCode ? "/login" : `/login?ref=${refCode}`);
+        resetServices();
+        resetAddress();
+      }
     }
   };
 
@@ -163,8 +198,8 @@ const CartPage = () => {
           <InputBase
             className={classes.form}
             name="nama"
-            value={nama}
-            onChange={(e) => setNama(e.target.value)}
+            value={informasiPembeli.nama}
+            onChange={handleInput}
           />
         </div>
         <div className={classes.formBox}>
@@ -172,8 +207,8 @@ const CartPage = () => {
           <InputBase
             className={classes.form}
             name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={informasiPembeli.email}
+            onChange={handleInput}
           />
         </div>
         <div className={classes.formBox}>
@@ -182,9 +217,10 @@ const CartPage = () => {
           </Typography>
           <InputBase
             className={classes.form}
+            type="number"
             name="phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            value={informasiPembeli.phone}
+            onChange={handleInput}
           />
         </div>
         {address.kabupaten ? (

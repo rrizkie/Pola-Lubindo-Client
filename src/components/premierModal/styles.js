@@ -8,6 +8,10 @@ export const useStyles = makeStyles({
     alignItems: "center",
     marginLeft: "5%",
   },
+  boxText: {
+    background: "#f6f7fb",
+    padding: "0 1rem",
+  },
   box: {
     background: "#fff",
     padding: "1rem",

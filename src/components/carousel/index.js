@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
 import useStyles from "./styles";
+import banner_1 from "./assets/Banner1-280.jpg";
+import banner_2 from "./assets/Banner2-280.jpg";
+import banner_3 from "./assets/Banner3-280.jpg";
+import { useHistory } from "react-router-dom";
 
 export default function SimpleSlider() {
   const settings = {
@@ -10,28 +14,26 @@ export default function SimpleSlider() {
     centerPadding: "60px",
     slidesToShow: 1,
     speed: 500,
+    autoplay: true,
+    autoplaySpeed: 3500,
   };
 
   const classes = useStyles();
+  const history = useHistory();
   return (
     <>
       <Slider {...settings} arrows={false}>
         <div style={{ margin: 15 }}>
-          <img
-            src="https://s3-ap-southeast-1.amazonaws.com/assets.segari.id/banners/Web-Banner_Sehat-Bersama-Segari.png"
-            className={classes.img}
-          />
+          <img src={banner_1} className={classes.img} />
+        </div>
+        <div>
+          <img src={banner_2} className={classes.img} />
         </div>
         <div>
           <img
-            src="https://s3-ap-southeast-1.amazonaws.com/assets.segari.id/banners/Web-Banner_Sehat-Bersama-Segari.png"
+            src={banner_3}
             className={classes.img}
-          />
-        </div>
-        <div>
-          <img
-            src="https://s3-ap-southeast-1.amazonaws.com/assets.segari.id/banners/Web-Banner_Sehat-Bersama-Segari.png"
-            className={classes.img}
+            onClick={() => history.push("/s&k")}
           />
         </div>
       </Slider>

@@ -25,20 +25,20 @@ const Pembayaran = () => {
         <div className={classes.content}>
           <Typography>Bank Pembayaran</Typography>
           <Typography style={{ fontSize: "0.8rem" }}>
-            Pemnbayaran Hanya melalui rekening
+            Pembayaran Hanya melalui rekening
           </Typography>
         </div>
         <div className={classes.content}>
           <img src={bca} alt="BCA" width="100px" />
           <Typography>Bank BCA, Jakarta</Typography>
-          <Typography>541.5859.888</Typography>
-          <Typography>PT.Pola Megafit Prima</Typography>
+          <Typography>1113017876</Typography>
+          <Typography>PT. POLA LUBINDO</Typography>
         </div>
         <div className={classes.content}>
           <img src={bni} alt="BNI" width="100px" />
           <Typography>Bank BNI, Jakarta</Typography>
-          <Typography>258.258.1995</Typography>
-          <Typography>PT.Pola Megafit Prima</Typography>
+          <Typography>0208398743</Typography>
+          <Typography>PT. POLA LUBINDO</Typography>
         </div>
         <div className={classes.content}>
           <Typography style={{ fontWeight: "bold" }}>Total Belanja</Typography>

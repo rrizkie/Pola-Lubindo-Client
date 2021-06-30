@@ -13,6 +13,7 @@ const LoginPage = lazy(() => import("./components/loginPage"));
 const HomePage = lazy(() => import("./components/homePage"));
 const RegisterPage = lazy(() => import("./components/registerPage"));
 const CartPage = lazy(() => import("./components/cartPage"));
+const SnKPage = lazy(() => import("./components/SnK"));
 const AlamatPengiriman = lazy(() => import("./components/alamatPengiriman"));
 const RiwayatTransaksi = lazy(() => import("./components/riwayatTransaksi"));
 const Profile = lazy(() => import("./components/profile"));
@@ -43,6 +44,7 @@ function App() {
               <Route path="/shipping" component={AlamatPengiriman} />
               <Route path="/profile" component={Profile} />
               <Route path="/riwayat-transaksi" component={RiwayatTransaksi} />
+              <Route path="/s&k" component={SnKPage} />
               <Route path="/" component={HomePage} />
             </Switch>
           </div>

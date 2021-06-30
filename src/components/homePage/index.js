@@ -11,6 +11,7 @@ import { useLocation } from "react-router-dom";
 import ShareIcon from "@material-ui/icons/Share";
 
 import PremierModal from "../premierModal";
+import Swal from "sweetalert2";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -25,6 +26,7 @@ const HomePage = () => {
     fetchBrands,
     fetchProduct,
     fetchCityListAPI,
+    fetchUserData,
     brands,
     products,
     setRefCode,
@@ -35,13 +37,52 @@ const HomePage = () => {
 
   const handleCopy = async () => {
     const refCode = await getRefcode();
-    navigator.clipboard.writeText(`localhost:3001/?ref=${refCode}`);
+    console.log(refCode);
+    function copyToClipboard(textToCopy) {
+      // navigator clipboard api needs a secure context (https)
+      if (navigator.clipboard && window.isSecureContext) {
+        // navigator clipboard api method'
+        Swal.fire({
+          title: "Link Copied",
+          text: `http://157.230.35.207/?ref=${refCode}`,
+          icon: "success",
+          timer: 1000,
+          showConfirmButton: false,
+        });
+        return navigator.clipboard.writeText(textToCopy);
+      } else {
+        // text area method
+        let textArea = document.createElement("textarea");
+        textArea.value = textToCopy;
+        // make the textarea out of viewport
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        Swal.fire({
+          title: "Link Copied",
+          text: `http://157.230.35.207/?ref=${refCode}`,
+          icon: "success",
+          timer: 1000,
+          showConfirmButton: false,
+        });
+        return new Promise((res, rej) => {
+          // here the magic happens
+          document.execCommand("copy") ? res() : rej();
+          textArea.remove();
+        });
+      }
+    }
+    copyToClipboard(`http://157.230.35.207/?ref=${refCode}`);
   };
 
   useEffect(() => {
     fetchBrands();
     fetchProduct();
     fetchCityListAPI();
+    fetchUserData();
     const queryParams = query.get("ref");
     if (queryParams !== null) {
       setRefCode(queryParams);
