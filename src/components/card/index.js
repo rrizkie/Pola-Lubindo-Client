@@ -10,6 +10,8 @@ import {
   Button,
   Grid,
 } from "@material-ui/core";
+import komisiLogo from "../../assets/komisi.png";
+
 import AddCircleSharpIcon from "@material-ui/icons/AddCircleSharp";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 
@@ -35,7 +37,26 @@ export const CardProduct = ({ product }) => {
           className={classes.media}
           image={product.fotoProduk}
           title={product.namaProduk}
-        />
+        >
+          <img
+            src={komisiLogo}
+            alt="logo komisi"
+            width="50"
+            height="50"
+            style={{ position: "absolute", top: 0, right: 0 }}
+          />
+          <Typography
+            variant="subtitle2"
+            style={{
+              position: "absolute",
+              top: 16,
+              right: 17,
+            }}
+          >
+            {product.komisi}
+          </Typography>
+        </CardMedia>
+
         <CardContent>
           <Typography className={classes.produkTitle} component="h6">
             {product.namaProduk}
